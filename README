@@ -1,0 +1,17 @@
+=====================================
+Mongo shell commands:
+=====================================
+Start server:
+$ mongod --bind_ip 127.0.0.1 --port 27017 --dbpath .
+
+Connect to local mongo server:
+$ mongo --port 27017
+
+Export your database (make sure server is running): 
+$ mongodump -d <database name> -o <path to export to>
+
+To restore / import database:
+mongorestore -d <database_name> <directory_backup>
+Taken from: https://stackoverflow.com/a/16605781/5854499
+
+===============================================================================================================
