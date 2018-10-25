@@ -10,7 +10,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mongo_network mongo_network = new mongo_network();
+        MyTask mongo_network = new MyTask(getApplicationContext());
         mongo_network.execute();
     }
 }
