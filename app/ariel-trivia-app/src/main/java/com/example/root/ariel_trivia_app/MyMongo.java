@@ -22,6 +22,7 @@ public class MyMongo {
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
             MongoCollection<Document> d = database.getCollection("test");
+            d.insertOne(new Document("arye document", "rooor"));
             mongoClient.close();
         } catch (Exception e) {
             e.printStackTrace();
