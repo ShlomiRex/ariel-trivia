@@ -1,6 +1,22 @@
 =====================================
+Folders:
+=====================================
+
+dev: This is tmp folder for developing and putting common files.
+app: This is the android application: Android Studio project. Open it with Android Studio.
+libs used: This folder contains .jar librarys instead of gradle dependencies, for convinience.
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+
+=====================================
 Git commands:
 =====================================
+
+$ git status
+This is the best tool for checking staging / conflicts / commits / pulls ect.
+I personally use it a lot (~Shlomi)
 
 $ git add .
 This adds all files (the '.' is path of the project) to a stage.
