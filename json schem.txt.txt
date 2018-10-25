@@ -1,16 +1,12 @@
 users:
-	next id: (positive integer)
 	user: (array of)[
-		id: (positive integer)
-		name: (unique string)
+		user name: (unique string)
 		password: (string)
 		is admin: (boolean)
 	]
 trivia question:
-	next id: (positive integer)
 	question: (array of)[
-		id: (positive integer)
-		question: (string)
+		question: (unique string)
 		true question: (string)
 		false question 1: (string)
 		false question 2: (string)
@@ -22,3 +18,7 @@ trivia question:
 			comment: (string)
 		]
 	]
+	
+the user name and question are unique so they are the primary key
+when adding comment of Unregistered user check that his name not equal to register user name
+the mixing of the questions will be on the phone
