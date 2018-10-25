@@ -1,0 +1,24 @@
+{
+    "trivia_name":"Test trivia",
+    "question":"How much is 2+2?",
+    "answers":["25","4","I don't know", "3.14"],
+    "correct_answer_index":1,
+    "creator_id":345,
+    "difficulty":[0,0,0,0,2],
+    "likes":1,
+    "comments":[
+        {
+            "id":0,
+            "member_id":123,
+            "member_name":"Shlomi",
+            "message":"I like this trivia question"
+        }, 
+        {
+            "id":1,
+            "member_id":9999,
+            "member_name":"Not Shlomi",
+            "message":"Hey Shlomi, stop spamming!"
+        }
+    ]
+
+}
