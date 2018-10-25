@@ -22,7 +22,7 @@ public class mongo_network extends AsyncTask {
             //MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
             MongoCollection<Document> d = database.getCollection("test");
-            d.insertOne(new Document("Test key", "Test value 3"));
+            d.insertOne(new Document("arye document", "rooor"));
             mongoClient.close();
         } catch (Exception e) {
             e.printStackTrace();
