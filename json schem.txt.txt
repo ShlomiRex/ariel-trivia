@@ -1,0 +1,24 @@
+users:
+	next id: (positive integer)
+	user: (array of)[
+		id: (positive integer)
+		name: (unique string)
+		password: (string)
+		is admin: (boolean)
+	]
+trivia question:
+	next id: (positive integer)
+	question: (array of)[
+		id: (positive integer)
+		question: (string)
+		true question: (string)
+		false question 1: (string)
+		false question 2: (string)
+		false question 3: (string)
+		difficulty: (integer between 1-5)
+		like: (non negetive integer)
+		comments: (array of)[
+			user name: (string)
+			comment: (string)
+		]
+	]
