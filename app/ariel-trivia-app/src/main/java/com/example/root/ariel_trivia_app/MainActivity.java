@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends Activity {
 
@@ -14,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        //Check if server is up
+        //Check if server is up (Works)
         /*
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -36,7 +41,8 @@ public class MainActivity extends Activity {
         */
 
 
-        //In testing
+        //Get all trivias (works)
+        /*
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -44,5 +50,42 @@ public class MainActivity extends Activity {
                 return null;
             }
         }.execute();
+        */
+
+
+        final Button btn_register = (Button)findViewById(R.id.btn_register);
+        final EditText etxt_username = (EditText)findViewById(R.id.etxt_username);
+        final EditText etxt_password = (EditText)findViewById(R.id.etxt_password);
+
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... voids) {
+                        String username = etxt_username.getText().toString();
+                        String password = etxt_password.getText().toString();
+                        //TODO: Can  restrict password length, check email is valid and so on.
+                        return new Boolean(MyMongo.register_user(username, password));
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean aBoolean) {
+                        super.onPostExecute(aBoolean);
+                        boolean res = aBoolean.booleanValue();
+                        if(res) {
+                            //If true
+                            Toast.makeText(getApplicationContext(), "Successfuly registered!",Toast.LENGTH_LONG).show();
+                        } else {
+                            //Failed...
+                            Toast.makeText(getApplicationContext(), "Registeration failed!! OH NO!!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+
+                }.execute();
+            }
+        });
     }
 }
