@@ -1,0 +1,45 @@
+
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "trivia_name": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "answers": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "correct_answer_index": {
+      "type": "integer"
+    },
+    "creator_id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "trivia_name",
+    "question",
+    "answers",
+    "correct_answer_index",
+    "creator_id"
+  ]
+}
+
