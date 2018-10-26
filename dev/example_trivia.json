@@ -3,12 +3,11 @@
     "question":"How much is 2+2?",
     "answers":["25","4","I don't know", "3.14"],
     "correct_answer_index":1,
-    "creator_id":345,
-    "difficulty":,
+    "creator_username":"dane@ariel.ac.il",
   	"difficulty":{
   		"votes":[0,4,0,123,2],
   		"rated": 3.95
-    }
+    },
     "likes":5,
     "comments":[
         {

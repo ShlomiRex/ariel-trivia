@@ -30,8 +30,78 @@
     "correct_answer_index": {
       "type": "integer"
     },
-    "creator_id": {
+    "creator_username": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "object",
+      "properties": {
+        "votes": {
+          "type": "array",
+          "items": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "rated": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "votes",
+        "rated"
+      ]
+    },
+    "likes": {
       "type": "integer"
+    },
+    "comments": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "username",
+            "message"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "username",
+            "message"
+          ]
+        }
+      ]
     }
   },
   "required": [
@@ -39,7 +109,10 @@
     "question",
     "answers",
     "correct_answer_index",
-    "creator_id"
+    "creator_username",
+    "difficulty",
+    "likes",
+    "comments"
   ]
 }
 
