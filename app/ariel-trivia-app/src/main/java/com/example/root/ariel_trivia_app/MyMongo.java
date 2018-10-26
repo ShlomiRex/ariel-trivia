@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static com.mongodb.client.model.Filters.eq;
+
 /**
  * All public functions in this class are static AND are network tasks.
  */
@@ -123,6 +125,38 @@ public class MyMongo {
     }
 
     /**
+     *
+     * @param username The email of the user. (The email = username)
+     * @param password The password of the user. Unencrypted.
+     * @return True if successful. False is failed.
+     */
+    public static boolean login_user(String username, String password) {
+        String enc_pass = sha256(password);
+
+        try {
+            MongoClientURI mongoClientURI = new MongoClientURI(uri);
+            MongoClient mongoClient = new MongoClient(mongoClientURI);
+            MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
+            MongoCollection<Document> users_col = database.getCollection("users");
+
+            Document doc = users_col.find(eq("username",username)).first();
+            String pass_sha256 = (String) doc.get("password");
+            if(pass_sha256.equals(enc_pass)) {
+                mongoClient.close();
+                return true;
+            } else{
+                mongoClient.close();
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+        }
+
+
+    }
+
+    /**
      * Encrpy message using SHA 256 hashing algorithem
      * @param message The message to encrypt
      * @return Returns 256 byte encrypted message. Returns String for ease of use.
@@ -132,6 +166,5 @@ public class MyMongo {
                 .hashString(message, StandardCharsets.UTF_8)
                 .toString();
     }
-
 
 }

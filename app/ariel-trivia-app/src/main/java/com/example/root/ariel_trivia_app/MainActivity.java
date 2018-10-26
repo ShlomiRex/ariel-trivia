@@ -1,9 +1,11 @@
 package com.example.root.ariel_trivia_app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +18,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login);
 
 
         //Check if server is up (Works)
@@ -53,6 +55,8 @@ public class MainActivity extends Activity {
         */
 
 
+        //Register (Works)
+        /*
         final Button btn_register = (Button)findViewById(R.id.btn_register);
         final EditText etxt_username = (EditText)findViewById(R.id.etxt_username);
         final EditText etxt_password = (EditText)findViewById(R.id.etxt_password);
@@ -80,6 +84,43 @@ public class MainActivity extends Activity {
                         } else {
                             //Failed...
                             Toast.makeText(getApplicationContext(), "Registeration failed!! OH NO!!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+
+                }.execute();
+            }
+        });
+        */
+
+        //Login (Works)
+        final Button btn_register = (Button)findViewById(R.id.login_btn_login);
+        final EditText etxt_username = (EditText)findViewById(R.id.login_etxt_username);
+        final EditText etxt_password = (EditText)findViewById(R.id.login_etxt_password);
+
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... voids) {
+                        String username = etxt_username.getText().toString();
+                        String password = etxt_password.getText().toString();
+                        //TODO: Can  restrict password length, check email is valid and so on.
+                        return new Boolean(MyMongo.login_user(username, password));
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean aBoolean) {
+                        super.onPostExecute(aBoolean);
+                        boolean res = aBoolean.booleanValue();
+                        if(res) {
+                            //If true
+                            Toast.makeText(getApplicationContext(), "Successfuly Login!",Toast.LENGTH_LONG).show();
+                        } else {
+                            //Failed...
+                            Toast.makeText(getApplicationContext(), "Login failed!! OH NO!!",Toast.LENGTH_LONG).show();
                         }
                     }
 
