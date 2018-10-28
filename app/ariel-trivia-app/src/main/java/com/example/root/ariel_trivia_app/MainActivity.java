@@ -3,6 +3,7 @@ package com.example.root.ariel_trivia_app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Layout;
@@ -19,7 +20,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
 
         //Check if server is up (Works)
         /*
@@ -128,5 +128,12 @@ public class MainActivity extends Activity {
                 }.execute();
             }
         });
+
+        findViewById(R.id.guest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, trivia_question.class);
+                startActivity(i);
+            };});
     }
 }
