@@ -42,12 +42,19 @@ public class MyMongo {
      */
     public static boolean isUp() {
         try {
+            long before = System.currentTimeMillis();
+
             MongoClientURI mongoClientURI = new MongoClientURI(uri);
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
             MongoCollection<Document> d = database.getCollection("test");
-            d.insertOne(new Document("arye document", "rooor"));
+            d.count();
             mongoClient.close();
+
+            long after = System.currentTimeMillis();
+            double delta = (after-before)/1000;
+            Log.d(TAG, "isUp - Query time: " + delta);
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             return false;
@@ -60,7 +67,10 @@ public class MyMongo {
      * @return Array of JSONObjects that represents trivias. null if error occured.
      */
     public static List<Document> getAllTrivias() {
+
         try {
+            long before = System.currentTimeMillis();
+
             MongoClientURI mongoClientURI = new MongoClientURI(uri);
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
@@ -72,23 +82,15 @@ public class MyMongo {
 
             mongoClient.close();
 
+            long after = System.currentTimeMillis();
+            double delta = (after-before)/1000;
+            Log.d(TAG, "getAllTrivias - Query time: " + delta);
+
             return lst;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             return null;
-        }
-    }
-
-    /**
-     * In testing.
-     * @param collection
-     */
-    public static void selectAllRecordsFromACollection(DBCollection collection)
-    {
-        DBCursor cursor = collection.find();
-        while(cursor.hasNext())
-        {
-            System.out.println(cursor.next());
         }
     }
 
@@ -102,6 +104,7 @@ public class MyMongo {
         String enc_pass = sha256(password);
 
         try {
+            long before = System.currentTimeMillis();
             MongoClientURI mongoClientURI = new MongoClientURI(uri);
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
@@ -115,7 +118,13 @@ public class MyMongo {
             users_col.insertOne(Document.parse(doc.toString()));
 
             mongoClient.close();
+
+            long after = System.currentTimeMillis();
+            double delta = (after-before)/1000;
+            Log.d(TAG, "register_user - Query time: " + delta);
+
             return true;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             return false;
@@ -134,6 +143,7 @@ public class MyMongo {
         String enc_pass = sha256(password);
 
         try {
+            long before = System.currentTimeMillis();
             MongoClientURI mongoClientURI = new MongoClientURI(uri);
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
@@ -143,9 +153,15 @@ public class MyMongo {
             String pass_sha256 = (String) doc.get("password");
             if(pass_sha256.equals(enc_pass)) {
                 mongoClient.close();
+                long after = System.currentTimeMillis();
+                double delta = (after-before)/1000;
+                Log.d(TAG, "register_user - Query time: " + delta);
                 return true;
             } else{
                 mongoClient.close();
+                long after = System.currentTimeMillis();
+                double delta = (after-before)/1000;
+                Log.d(TAG, "register_user - Query time: " + delta);
                 return false;
             }
         } catch (Exception e) {
