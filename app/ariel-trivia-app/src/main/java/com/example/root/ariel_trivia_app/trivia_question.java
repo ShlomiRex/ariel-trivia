@@ -13,7 +13,7 @@ public class trivia_question extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia_question);
-        final question q = question.getQuestion();
+        final question q = ((question)getIntent().getExtras().get("question"));
         TextView question = (TextView)findViewById(R.id.question);
         question.setText(q._question);
         Button ans1 = (Button)findViewById(R.id.ans1);

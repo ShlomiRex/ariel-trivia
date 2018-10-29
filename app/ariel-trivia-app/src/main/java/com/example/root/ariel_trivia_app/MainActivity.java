@@ -132,7 +132,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.guest).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, trivia_question.class);
+                Intent i = new Intent(MainActivity.this, select_trivia.class);
                 startActivity(i);
             };});
     }
