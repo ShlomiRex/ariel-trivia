@@ -4,7 +4,8 @@ Folders:
 
 dev: This is tmp folder for developing and putting common files.
 app: This is the android application: Android Studio project. Open it with Android Studio.
-libs used: This folder contains .jar librarys instead of gradle dependencies, for convinience.
+server: This is the main middleware server that links the android app to the mongodb server.
+server/sketches: This folder contains useful sketches that describe the flow of events.
 
 ===============================================================================================================
 ===============================================================================================================

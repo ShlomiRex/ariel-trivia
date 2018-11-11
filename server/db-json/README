@@ -1,0 +1,6 @@
+To import to database:
+$ db.<collection>.insert([ <copy file content here> ])
+
+Note: The '[]' is important for inserting multiple documents in 1 go.
+
+Note: The user's password is encrypted in SHA256 , but the actual password is the username itself.
