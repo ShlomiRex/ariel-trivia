@@ -1,25 +1,20 @@
 package Handlers;
 
 
-import com.google.common.hash.Hashing;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class SignupHandler extends MyMongoHandler implements HttpHandler {
+public class SignupHandler extends Query implements HttpHandler {
     private static String uri;
     private enum rCode {
         usernameOrPasswordNull(1), alreadyRegistered(2), unknown(3), OK(200);
@@ -49,7 +44,8 @@ public class SignupHandler extends MyMongoHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        Map<String, Object> p = parseBodyQuery(he);
+        System.out.println("=== SignupHandler ===");
+        Map<String, Object> p = parseBodyQuery(he.getRequestBody());
         String username = (String) p.get("username");
         String password = (String) p.get("password"); //Already encrypted
 

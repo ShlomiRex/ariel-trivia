@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class SigninHandler extends MyMongoHandler implements HttpHandler {
+public class SigninHandler extends Query implements HttpHandler {
     private String uri;
     public SigninHandler(String uri) {
         this.uri = uri;
@@ -43,13 +43,13 @@ public class SigninHandler extends MyMongoHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        System.out.println("signin()");
-        Map<String, Object> p = parseBodyQuery(he);
+        System.out.println("=== SigninHandler ===");
+        Map<String, Object> p = parseBodyQuery(he.getRequestBody());
         String username = (String) p.get("username");
         String password = (String) p.get("password"); //Already encrypted
 
         if(username == null || password == null) {
-            sendResponse(he, null, rCode.usernameOrPasswordNull.getValue());
+            sendResponse(he, "Username or password are null", rCode.usernameOrPasswordNull.getValue());
             return;
         }
 
@@ -60,16 +60,22 @@ public class SigninHandler extends MyMongoHandler implements HttpHandler {
 
         Document doc = users_col.find(eq("username",username)).first();
         if(doc == null) {
-            sendResponse(he, null, rCode.noSuchUsername.getValue());
+            sendResponse(he, "No such username", rCode.noSuchUsername.getValue());
             return;
         }
         String db_pass = (String) doc.get("password");
         mongoClient.close();
         if(db_pass.equals(password)) {
-            sendResponse(he, null, rCode.OK.getValue());
+            System.out.println("Successful signin, " + username);
+            Cookie.removeCookie(uri, username); //Remove from db
+            String cookie = Cookie.getCookie();
+            sendResponse(he, cookie, rCode.OK.getValue());
+            Cookie.insertCookieDocument(uri, cookie, username);
         } else {
-            sendResponse(he, null, rCode.passwordIncorrect.getValue());
+            sendResponse(he, "Password incorrect", rCode.passwordIncorrect.getValue());
         }
-        System.out.println("signin() end");
     }
+
+
+
 }

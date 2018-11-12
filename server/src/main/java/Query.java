@@ -3,26 +3,23 @@ package Handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyMongoHandler {
+public abstract class Query {
     /**
      * Parses the query of request BODY. Not parameters.
-     * @param he
+     * @param reqBody - HttpExchange.getRequestBody()
      * @return
      * @throws IOException
      */
-    public static Map<String, Object> parseBodyQuery(HttpExchange he) throws IOException {
+    public static Map<String, Object> parseBodyQuery(InputStream reqBody) throws IOException {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        InputStreamReader isr = new InputStreamReader(he.getRequestBody(), "utf-8");
+        InputStreamReader isr = new InputStreamReader(reqBody, "utf-8");
         BufferedReader br = new BufferedReader(isr);
         String query = br.readLine();
 
@@ -77,6 +74,7 @@ public class MyMongoHandler {
             len = 0;
             response = "";
         }
+        System.out.println("Response: (" + response + ")\nStatus code: (" + responseCode + ")\nEnd response.");
         he.sendResponseHeaders(responseCode, len);
         OutputStream os = he.getResponseBody();
         os.write(response.getBytes());
@@ -100,4 +98,5 @@ public class MyMongoHandler {
         }
         return result;
     }
+
 }

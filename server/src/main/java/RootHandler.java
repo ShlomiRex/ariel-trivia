@@ -38,19 +38,12 @@ public class RootHandler implements HttpHandler {
      */
     public static boolean isUp(String uri) {
         try {
-            long before = System.currentTimeMillis();
-
             MongoClientURI mongoClientURI = new MongoClientURI(uri);
             MongoClient mongoClient = new MongoClient(mongoClientURI);
             MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
             MongoCollection<Document> d = database.getCollection("test");
             d.count();
             mongoClient.close();
-
-            long after = System.currentTimeMillis();
-            double delta = (after-before)/1000;
-            System.out.println("isUp() - Query time: " + delta);
-
         } catch (Exception e) {
             e.printStackTrace();
             return false;

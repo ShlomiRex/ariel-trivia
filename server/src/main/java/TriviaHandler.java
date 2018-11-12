@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TriviaHandler extends MyMongoHandler implements HttpHandler {
+public class TriviaHandler extends Query implements HttpHandler {
     private String uri;
 
     public TriviaHandler(String uri) {
         this.uri = uri;
     }
-
 
 
     /**
@@ -34,7 +33,25 @@ public class TriviaHandler extends MyMongoHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        Map<String, Object> map = parseBodyQuery(he);
+        System.out.println("=== TriviaHandler ===");
+
+        //Clone inputstream of request body
+        //When reading InputStream, after finishing reading all, the next function that needs that inputstream, can't read,
+        //because the inputstream reached the end.
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write(he.getRequestBody().readAllBytes()); //he.getRequestBody() inputstream is now eof => useless
+        baos.flush();
+
+        InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
+        InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
+
+        //Validate cookie
+        if(Cookie.validateCookie(he, uri) == false)
+            return;
+
+
+        Map<String, Object> map = Query.parseBodyQuery(he.getRequestBody());
+
         for(String s : map.keySet()) {
             if(map.get(s) instanceof String)
                 System.out.println(s + " , " + (String) map.get(s));
