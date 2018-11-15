@@ -32,24 +32,24 @@ public class select_trivia extends Activity {
         findViewById(R.id.selectDif).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                question q;
+                int difficulty;
                 if (dif1.isChecked()) {
-                    q = question.getQuestion(1);
+                    difficulty = 1;
                 }
                 else if (dif2.isChecked()) {
-                    q = question.getQuestion(2);
+                    difficulty = 2;
                 }
                 else if (dif3.isChecked()) {
-                    q = question.getQuestion(3);
+                    difficulty = 3;
                 }
                 else if (dif4.isChecked()) {
-                    q = question.getQuestion(4);
+                    difficulty = 4;
                 }
                 else {
-                    q = question.getQuestion(5);
+                    difficulty = 5;
                 }
                 Intent i = new Intent(select_trivia.this, trivia_question.class);
-                i.putExtra("question", q);
+                i.putExtra("difficulty", difficulty);
                 startActivity(i);
             }
         });
