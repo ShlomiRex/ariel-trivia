@@ -1,7 +1,3 @@
-import Handlers.RootHandler;
-import Handlers.SigninHandler;
-import Handlers.SignupHandler;
-import Handlers.TriviaHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -15,6 +11,7 @@ public class main {
         try {
             server = HttpServer.create(new InetSocketAddress(port), 0);
             System.out.println("server started at " + server.getAddress());
+            System.out.println("Server is paired with " + uri);
             server.createContext("/trivias",new TriviaHandler(uri));
             server.createContext("/signin", new SigninHandler(uri));
             server.createContext("/signup", new SignupHandler(uri));

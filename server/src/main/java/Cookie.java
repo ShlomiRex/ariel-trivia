@@ -1,17 +1,14 @@
-package Handlers;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.sun.net.httpserver.HttpExchange;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.and;
@@ -143,35 +140,43 @@ public class Cookie {
 
     /**
      * Validates cookie, sends response to client if not valid, saves duplicate code for each handler.
-     * @param he
+     * @param he - For sending response
      * @param db_uri
      * @return True - if cookie is valid and the user is auth OK, False - if the cookie is invalid / invalid request / i dont know :(
      * @throws IOException
      */
     public static boolean validateCookie(HttpExchange he, String db_uri) throws IOException {
+        try {
+            String q = he.getRequestURI().getQuery();
+            if(q == null) {
+                Response.sendResponse(he, "Invalid cookie request", rCode.invalidCookieRequest.getValue());
+                return false;
+            }
+            Map<String, List<String>> map = Query.parseParametersQuery(q);
 
-        Map<String, Object> map = Query.parseBodyQuery(he.getRequestBody());
-
-        //Validate cookie
-        String cookie = (String) map.get("cookie");
-        String username = (String) map.get("username");
-        int code = Cookie.validateCookie(db_uri, cookie, username);
-        if(code != 1) {
-            if(code == 0) {
-                System.out.println("Username " + username + " entered wrong cookie!");
-                Query.sendResponse(he, "Wrong cookie", rCode.wrongCookie.getValue());
+            //Validate cookie
+            String cookie = (String) map.get("cookie").get(0);
+            String username = (String) map.get("username").get(0);
+            int code = Cookie.validateCookie(db_uri, cookie, username);
+            if (code != 1) {
+                if (code == 0) {
+                    System.out.println("Username " + username + " entered wrong cookie!");
+                    Response.sendResponse(he, "Wrong cookie", rCode.wrongCookie.getValue());
+                } else if (code == 2) {
+                    System.out.println("Username " + username + " expired cookie");
+                    Response.sendResponse(he, "No such cookie / expired cookie", rCode.noSuchCookieOrExpiredCookie.getValue());
+                } else if (code == 3) {
+                    System.out.println("Username " + username + " invalid cookie request: " + username + " , " + cookie);
+                    Response.sendResponse(he, "Invalid cookie request", rCode.invalidCookieRequest.getValue());
+                }
+                return false;
             }
-            else if(code == 2) {
-                System.out.println("Username " + username + " expired cookie");
-                Query.sendResponse(he, "No such cookie / expired cookie", rCode.noSuchCookieOrExpiredCookie.getValue());
-            }
-            else if(code == 3) {
-                System.out.println("Username " + username + " invalid cookie request: " + username + " , " + cookie);
-                Query.sendResponse(he, "Invalid cookie request", rCode.invalidCookieRequest.getValue());
-            }
+            System.out.println("Cookie is valid");
+            return true;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            System.err.println("Cookie validating run time exception - continue to run");
             return false;
         }
-        System.out.println("Cookie is valid");
-        return true;
     }
 }

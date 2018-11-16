@@ -1,5 +1,3 @@
-package Handlers;
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TriviaHandler extends Query implements HttpHandler {
+public class TriviaHandler implements HttpHandler {
     private String uri;
 
     public TriviaHandler(String uri) {
@@ -33,39 +31,36 @@ public class TriviaHandler extends Query implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        System.out.println("=== TriviaHandler ===");
 
-        //Clone inputstream of request body
-        //When reading InputStream, after finishing reading all, the next function that needs that inputstream, can't read,
-        //because the inputstream reached the end.
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //Need multiple inputstream if we read multiple times the same stream!
+        //Read MyUtils.cloneInputStream
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(he.getRequestBody().readAllBytes()); //he.getRequestBody() inputstream is now eof => useless
         baos.flush();
 
-        InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
-        InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
-
-        //Validate cookie
-        if(Cookie.validateCookie(he, uri) == false)
-            return;
+        System.out.println("=== TriviaHandler ===");
 
 
-        Map<String, Object> map = Query.parseBodyQuery(he.getRequestBody());
 
-        for(String s : map.keySet()) {
-            if(map.get(s) instanceof String)
-                System.out.println(s + " , " + (String) map.get(s));
-            else
-                System.out.println(s + " , " + (List<String>) map.get(s));
+
+        if(he.getRequestMethod().equals("GET")) {
+            System.out.println("=== METHOD: GET ===");
+            //Validate cookie
+            if (Cookie.validateCookie(he, uri) == false) {
+                System.out.println("Validate cookie = false, terminating");
+                return;
+            }
+            ArrayList<Document> trivias = getAllTrivias(uri);
+
+            String response = "";
+            for (Document d : trivias) {
+                response += d.toJson() + "\n";
+            }
+
+            Response.sendResponse(he, response, 200);
+        } else {
+            System.out.println("=== METHOD: POST ===");
         }
-        ArrayList<Document> trivias = getAllTrivias(uri);
-
-        String response = "";
-        for(Document d : trivias) {
-            response += d.toJson() + "\n";
-        }
-
-        sendResponse(he, response, 200);
     }
     /**
      *

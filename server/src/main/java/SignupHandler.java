@@ -1,6 +1,3 @@
-package Handlers;
-
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -44,28 +41,32 @@ public class SignupHandler extends Query implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
+        if(he.getRequestMethod().equals("GET")) {
+            return;
+        }
         System.out.println("=== SignupHandler ===");
-        Map<String, Object> p = parseBodyQuery(he.getRequestBody());
-        String username = (String) p.get("username");
-        String password = (String) p.get("password"); //Already encrypted
+        Map<String, List<String>> p = parseBodyQuery(he.getRequestBody());
+        String username = (String) p.get("username").get(0);
+        String password = (String) p.get("password").get(0); //Already encrypted
 
         if(username == null || password == null) {
-            sendResponse(he, "Username or password is null", rCode.usernameOrPasswordNull.getValue());
+            Response.sendResponse(he, "Username or password is null", rCode.usernameOrPasswordNull.getValue());
             return;
         }
 
         if(isUserAlreadyRegistered(username)) {
-            sendResponse(he, "Username already registered", rCode.alreadyRegistered.getValue());
+            Response.sendResponse(he, "Username already registered", rCode.alreadyRegistered.getValue());
             return;
         }
 
         Document doc = register_user(username, password);
         if(doc == null) {
-            sendResponse(he, "Unknown error: insertion failed", rCode.unknown.getValue());
+            Response.sendResponse(he, "Unknown error: insertion failed", rCode.unknown.getValue());
             return;
         }
         String user_id = (String) doc.get( "_id" );
-        sendResponse(he, user_id, rCode.OK.getValue());
+        System.out.println("User " + username + " has registered successfuly! Sending id: " + user_id);
+        Response.sendResponse(he, user_id, rCode.OK.getValue());
     }
 
     private boolean isUserAlreadyRegistered(String username) {

@@ -1,3 +1,7 @@
 This folder is for the actual database server AND the database itself.
 The app will connect to laptop / computer that has the server running and also working mongodb server. That way,
 we don't need to write middleware server in Nodejs, but Java!
+
+To start mongo in linux:
+$ mongod --dbpath ~/Desktop/ariel-trivia/db/
+

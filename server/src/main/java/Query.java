@@ -1,14 +1,10 @@
-package Handlers;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
+import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Query {
     /**
@@ -17,8 +13,8 @@ public abstract class Query {
      * @return
      * @throws IOException
      */
-    public static Map<String, Object> parseBodyQuery(InputStream reqBody) throws IOException {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+    public static Map<String, List<String>> parseBodyQuery(InputStream reqBody) throws IOException {
+        Map<String, Object> parameters = new HashMap<>();
         InputStreamReader isr = new InputStreamReader(reqBody, "utf-8");
         BufferedReader br = new BufferedReader(isr);
         String query = br.readLine();
@@ -56,47 +52,40 @@ public abstract class Query {
                 }
             }
         }
-        return parameters;
-    }
-
-    /**
-     * Sends response with response message and status code.
-     * @param he Musn't be null.
-     * @param response Can be null.
-     * @param responseCode
-     * @throws IOException
-     */
-    public static void sendResponse(HttpExchange he, String response, int responseCode) throws IOException {
-        int len;
-        if(response != null) {
-            len = response.length();
-        } else {
-            len = 0;
-            response = "";
-        }
-        System.out.println("Response: (" + response + ")\nStatus code: (" + responseCode + ")\nEnd response.");
-        he.sendResponseHeaders(responseCode, len);
-        OutputStream os = he.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
-    }
-
-    /**
-     *
-     * @param query Query inside URI (e.g. a=b&c=d)
-     * @return
-     */
-    public static Map<String, String> queryToMap(String query) {
-        Map<String, String> result = new HashMap<>();
-        for (String param : query.split("&")) {
-            String[] entry = param.split("=");
-            if (entry.length > 1) {
-                result.put(entry[0], entry[1]);
-            }else{
-                result.put(entry[0], "");
+        Map<String, List<String>> result = new HashMap<>();
+        for(String key : parameters.keySet()) {
+            Object o = parameters.get(key);
+            if(o instanceof List<?>) {
+                result.put(key, (List<String>) o);
+            } else if(o instanceof String) {
+                List<String> lst = new ArrayList<>();
+                lst.add((String) o);
+                result.put(key, lst);
             }
         }
         return result;
     }
 
+
+    /**
+     * @param query Query inside URI (e.g. a=b&c=d)
+     * @return
+     */
+    public static Map<String, List<String>> parseParametersQuery(String query) {
+        Map<String, List<String>> result = new HashMap<>();
+        for (String param : query.split("&")) {
+            String[] entry = param.split("=");
+            if (entry.length > 1) {
+                if (result.containsKey(entry[0])) {
+                    List<String> val = result.get(entry[0]);
+                    val.add(entry[1]);
+                } else {
+                    ArrayList<String> arr = new ArrayList<>(); //on heap
+                    arr.add(entry[1]);
+                    result.put(entry[0], arr);
+                }
+            }
+        }
+        return result;
+    }
 }

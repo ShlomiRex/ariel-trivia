@@ -1,5 +1,3 @@
-package Handlers;
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -9,11 +7,12 @@ import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class SigninHandler extends Query implements HttpHandler {
+public class SigninHandler implements HttpHandler {
     private String uri;
     public SigninHandler(String uri) {
         this.uri = uri;
@@ -44,12 +43,16 @@ public class SigninHandler extends Query implements HttpHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         System.out.println("=== SigninHandler ===");
-        Map<String, Object> p = parseBodyQuery(he.getRequestBody());
-        String username = (String) p.get("username");
-        String password = (String) p.get("password"); //Already encrypted
+        if(he.getRequestMethod().equals("GET")) {
+            Response.sendResponse(he, "Method must be POST", 1);
+            return;
+        }
+        Map<String, List<String>> p = Query.parseBodyQuery(he.getRequestBody());
+        String username = (String) p.get("username").get(0);
+        String password = (String) p.get("password").get(0); //Already encrypted
 
         if(username == null || password == null) {
-            sendResponse(he, "Username or password are null", rCode.usernameOrPasswordNull.getValue());
+            Response.sendResponse(he, "Username or password are null", rCode.usernameOrPasswordNull.getValue());
             return;
         }
 
@@ -60,7 +63,7 @@ public class SigninHandler extends Query implements HttpHandler {
 
         Document doc = users_col.find(eq("username",username)).first();
         if(doc == null) {
-            sendResponse(he, "No such username", rCode.noSuchUsername.getValue());
+            Response.sendResponse(he, "No such username", rCode.noSuchUsername.getValue());
             return;
         }
         String db_pass = (String) doc.get("password");
@@ -69,10 +72,10 @@ public class SigninHandler extends Query implements HttpHandler {
             System.out.println("Successful signin, " + username);
             Cookie.removeCookie(uri, username); //Remove from db
             String cookie = Cookie.getCookie();
-            sendResponse(he, cookie, rCode.OK.getValue());
+            Response.sendResponse(he, cookie, rCode.OK.getValue());
             Cookie.insertCookieDocument(uri, cookie, username);
         } else {
-            sendResponse(he, "Password incorrect", rCode.passwordIncorrect.getValue());
+            Response.sendResponse(he, "Password incorrect", rCode.passwordIncorrect.getValue());
         }
     }
 
