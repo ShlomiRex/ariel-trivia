@@ -3,14 +3,18 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.mongodb.client.model.Filters.*;
 
 public class TriviaHandler implements HttpHandler {
     private String uri;
@@ -18,6 +22,20 @@ public class TriviaHandler implements HttpHandler {
     public TriviaHandler(String uri) {
         this.uri = uri;
     }
+
+
+    private enum rCode {
+        errParsingQuery(1),OK(200);
+
+        private final int value;
+        private rCode(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    };
 
 
     /**
@@ -41,8 +59,6 @@ public class TriviaHandler implements HttpHandler {
         System.out.println("=== TriviaHandler ===");
 
 
-
-
         if(he.getRequestMethod().equals("GET")) {
             System.out.println("=== METHOD: GET ===");
             //Validate cookie
@@ -50,12 +66,137 @@ public class TriviaHandler implements HttpHandler {
                 System.out.println("Validate cookie = false, terminating");
                 return;
             }
-            ArrayList<Document> trivias = getAllTrivias(uri);
-
             String response = "";
-            for (Document d : trivias) {
-                response += d.toJson() + "\n";
+
+            String query = he.getRequestURI().getQuery();
+            try {
+                Map<String, List<String>> map = Query.parseParametersQuery(query);
+
+                String errbuf = "";
+
+                Bson likes_filter = null;
+                proccess_likes: //Very useful
+                {
+                    //Check likes number
+                    if(map.containsKey("likes") == false) {
+                        break proccess_likes;
+                    }
+
+                    int likes = Integer.parseInt(map.get("likes").get(0));
+                    if (likes < 0) {
+                        errbuf += "likes less than 0";
+                        break proccess_likes;
+                    }
+
+                    //Check likes operator
+                    if (map.containsKey("likes_o") == false) {
+                        errbuf += "Missing likes_o";
+                        break proccess_likes;
+                    }
+
+                    String likes_o = map.get("likes_o").get(0);
+                    if(likes_o.equals("gt") == false && likes_o.equals("lt") == false) {
+                        errbuf += "likes operator '" + likes_o + " is not gt or lt";
+                        break proccess_likes;
+                    }
+
+
+                    if(likes_o.equals("lt")) {
+                        likes_filter = lte("likes", likes);
+                    } else {
+                        likes_filter = gte("likes", likes);
+                    }
+
+                }
+
+
+                if(errbuf.length() != 0) {
+                    System.err.println("Processing likes Errors: \n" + errbuf);
+                }
+                errbuf = "";
+
+                Bson difficulty_filter = null;
+                process_difficulty:
+                {
+                    //Check difficulty number
+                    if (map.containsKey("difficulty") == false) {
+                        break process_difficulty;
+                    }
+
+                    double difficulty = Double.parseDouble((map.get("difficulty").get(0)));
+                    if (difficulty < 0) {
+                        errbuf += "difficulty less than 0";
+                        break process_difficulty;
+                    }
+
+                    //Check difficulty operator
+                    if (map.containsKey("difficulty_o") == false) {
+                        errbuf += "Missing difficulty_o";
+                        break process_difficulty;
+                    }
+
+                    String difficulty_o = map.get("difficulty_o").get(0);
+                    if (difficulty_o.equals("gt") == false && difficulty_o.equals("lt") == false) {
+                        errbuf += "difficulty operator '" + difficulty_o + " is not gt or lt";
+                        break process_difficulty;
+                    }
+
+
+                    if (difficulty_o.equals("lt")) {
+                        difficulty_filter = lte("difficulty", difficulty);
+                    } else {
+                        difficulty_filter = gte("difficulty", difficulty);
+                    }
+
+                }
+
+                if(errbuf.length() != 0) {
+                    System.err.println("Processing difficulty Errors: \n" + errbuf);
+                }
+                errbuf = "";
+
+                Bson trivias_filter = null;
+                process_filters: {
+                    if(difficulty_filter != null && likes_filter != null) {
+                        trivias_filter = and(likes_filter, difficulty_filter);
+                    } else if(difficulty_filter != null && likes_filter == null) {
+                        trivias_filter = difficulty_filter;
+                    } else if(difficulty_filter == null && likes_filter != null) {
+                        trivias_filter = likes_filter;
+                    } else {
+                        trivias_filter = null;
+                    }
+                }
+
+
+                MongoClientURI mongoClientURI = new MongoClientURI(uri);
+                MongoClient mongoClient = new MongoClient(mongoClientURI);
+                MongoDatabase database = mongoClient.getDatabase("ariel-trivia");
+                MongoCollection<Document> d = database.getCollection("trivias");
+
+                FindIterable<Document> itr;
+                if(trivias_filter != null)
+                    itr = d.find(trivias_filter);
+                else
+                    itr = d.find();
+                ArrayList<Document> lst = new ArrayList<>();
+                itr.into(lst);
+                mongoClient.close();
+
+                for(Document d2 : lst) {
+                    response += d2.toJson() + "\n";
+                }
+
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                Response.sendResponse(he, "Error processing query", rCode.errParsingQuery.getValue());
+                return;
             }
+
+
+
+
+
 
             Response.sendResponse(he, response, 200);
         } else {
