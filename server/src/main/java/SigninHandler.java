@@ -47,9 +47,26 @@ public class SigninHandler implements HttpHandler {
             Response.sendResponse(he, "Method must be POST", 1);
             return;
         }
+
+
         Map<String, List<String>> p = Query.parseBodyQuery(he.getRequestBody());
-        String username = (String) p.get("username").get(0);
-        String password = (String) p.get("password").get(0); //Already encrypted
+
+
+        List<String> tmp;
+
+        tmp = p.get("username");
+        if(tmp == null) {
+            Response.sendResponse(he, "Username is missing", 1);
+            return;
+        }
+        String username = (String) tmp.get(0);
+        tmp = p.get("password");
+        if(tmp == null) {
+            Response.sendResponse(he, "Password is missing", 1);
+            return;
+        }
+        String password = (String) tmp.get(0); //Already encrypted
+
 
         if(username == null || password == null) {
             Response.sendResponse(he, "Username or password are null", rCode.usernameOrPasswordNull.getValue());
