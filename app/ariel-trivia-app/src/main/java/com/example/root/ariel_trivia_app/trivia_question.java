@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 public class trivia_question extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,10 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(0)){
-                    Toast.makeText(getApplicationContext(), "you are right!!",Toast.LENGTH_LONG).show();
-                }
+                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    i.putExtra("questin", q);
+                    i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
+                    startActivity(i);                }
                 else{
                     Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_LONG).show();
                 }
@@ -41,8 +45,10 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(1)){
-                    Toast.makeText(getApplicationContext(), "you are right!!",Toast.LENGTH_LONG).show();
-                }
+                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    i.putExtra("questin", q);
+                    i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
+                    startActivity(i);                 }
                 else{
                     Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_LONG).show();
                 }
@@ -52,8 +58,10 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(2)){
-                    Toast.makeText(getApplicationContext(), "you are right!!",Toast.LENGTH_LONG).show();
-                }
+                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    i.putExtra("questin", q);
+                    i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
+                    startActivity(i);                 }
                 else{
                     Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_LONG).show();
                 }
@@ -63,8 +71,10 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(3)){
-                    Toast.makeText(getApplicationContext(), "you are right!!",Toast.LENGTH_LONG).show();
-                }
+                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    i.putExtra("questin", q);
+                    i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
+                    startActivity(i);                 }
                 else{
                     Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_LONG).show();
                 }

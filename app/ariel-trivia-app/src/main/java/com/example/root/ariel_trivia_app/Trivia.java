@@ -9,13 +9,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Trivia {
+public class Trivia implements Serializable {
     private String question = "";
     private final String[] answers = new String[4];
     private final List<Comment> comments = new ArrayList<>();
@@ -73,6 +74,13 @@ public class Trivia {
             return false;
     }
 
+    public void addLike(){
+        //TODO implementation
+    }
+
+    public void rate(int difficulty){
+        //TODO implementation
+    }
 
     @Override
     public String toString() {

@@ -1,6 +1,8 @@
 package com.example.root.ariel_trivia_app;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private final String username, message;
 
     public Comment(String username, String message) {
