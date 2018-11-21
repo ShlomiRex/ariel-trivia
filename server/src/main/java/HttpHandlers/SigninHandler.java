@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -42,14 +44,31 @@ public class SigninHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        System.out.println("=== SigninHandler ===");
+        System.out.println("=== HttpHandlers.SigninHandler ===");
         if(he.getRequestMethod().equals("GET")) {
             Response.sendResponse(he, "Method must be POST", 1);
             return;
         }
+
+
         Map<String, List<String>> p = Query.parseBodyQuery(he.getRequestBody());
-        String username = (String) p.get("username").get(0);
-        String password = (String) p.get("password").get(0); //Already encrypted
+
+
+        List<String> tmp;
+
+        tmp = p.get("username");
+        if(tmp == null) {
+            Response.sendResponse(he, "Username is missing", 1);
+            return;
+        }
+        String username = (String) tmp.get(0);
+        tmp = p.get("password");
+        if(tmp == null) {
+            Response.sendResponse(he, "Password is missing", 1);
+            return;
+        }
+        String password = (String) tmp.get(0); //Already encrypted
+
 
         if(username == null || password == null) {
             Response.sendResponse(he, "Username or password are null", rCode.usernameOrPasswordNull.getValue());

@@ -1,8 +1,6 @@
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+package HttpHandlers;
 
 import java.io.*;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
 
@@ -68,7 +66,7 @@ public abstract class Query {
 
 
     /**
-     * @param query Query inside URI (e.g. a=b&c=d)
+     * @param query HttpHandlers.Query inside URI (e.g. a=b&c=d)
      * @return
      */
     public static Map<String, List<String>> parseParametersQuery(String query) {
