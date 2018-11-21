@@ -1,9 +1,10 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
@@ -56,7 +57,7 @@ public class TriviaHandler implements HttpHandler {
         baos.write(he.getRequestBody().readAllBytes()); //he.getRequestBody() inputstream is now eof => useless
         baos.flush();
 
-        System.out.println("=== TriviaHandler ===");
+        System.out.println("=== HttpHandlers.TriviaHandler ===");
 
 
         if(he.getRequestMethod().equals("GET")) {

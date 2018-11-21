@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -5,15 +7,10 @@ import com.mongodb.client.MongoDatabase;
 import com.sun.net.httpserver.*;
 import org.bson.Document;
 
-import javax.net.ssl.SSLParameters;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 public class RootHandler implements HttpHandler {
     private String uri;
@@ -22,7 +19,7 @@ public class RootHandler implements HttpHandler {
     }
     @Override
     public void handle(HttpExchange he) throws IOException {
-        System.out.println(" === RootHandler ===");
+        System.out.println(" === HttpHandlers.RootHandler ===");
         boolean res = isUp(uri);
         String response;
         if(res) {

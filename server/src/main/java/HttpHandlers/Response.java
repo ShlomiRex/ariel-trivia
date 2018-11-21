@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ public abstract class Response {
             len = 0;
             response = "";
         }
-        System.out.println("Response: (" + response + ")\nStatus code: (" + responseCode + ")\nEnd response.");
+        System.out.println("HttpHandlers.Response: (" + response + ")\nStatus code: (" + responseCode + ")\nEnd response.");
         he.sendResponseHeaders(responseCode, len);
         OutputStream os = he.getResponseBody();
         os.write(response.getBytes());

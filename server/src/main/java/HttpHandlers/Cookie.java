@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -6,7 +8,6 @@ import com.sun.net.httpserver.HttpExchange;
 import org.bson.Document;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class Cookie {
         MongoCollection<Document> cookies_col = database.getCollection(DB_COLLECTION_NAME);
         Document doc = cookies_col.find(eq("username",username)).first();
         if(doc == null) {
-            System.out.println("Cookie already removed for username: " + username);
+            System.out.println("HttpHandlers.Cookie already removed for username: " + username);
             mongoClient.close();
             return;
         }
@@ -70,7 +71,7 @@ public class Cookie {
      * @param db_uri
      * @param cookie
      * @param username
-     * @return 0 - Cookie invalid, 1 - Cookie valid, 2 - No such cookie / expired, 3 - Invalid request
+     * @return 0 - HttpHandlers.Cookie invalid, 1 - HttpHandlers.Cookie valid, 2 - No such cookie / expired, 3 - Invalid request
      */
     public static int validateCookie(String db_uri, String cookie, String username) {
         System.out.println("Validating cookie...");
@@ -95,10 +96,10 @@ public class Cookie {
         Long expire = doc.getLong("expire");
         long curr_unix_time = System.currentTimeMillis();
         if(curr_unix_time > expire.longValue()) {
-            //Cookie expired
+            //HttpHandlers.Cookie expired
             //Remove from db!
             long delta = (curr_unix_time - expire.longValue()) / 1000;
-            System.out.println("Cookie is expired! Delta seconds:" + delta);
+            System.out.println("HttpHandlers.Cookie is expired! Delta seconds:" + delta);
             System.out.println("Removed cookie: " + doc.toJson());
             cookies_col.deleteOne(doc);
             mongoClient.close();
@@ -171,11 +172,11 @@ public class Cookie {
                 }
                 return false;
             }
-            System.out.println("Cookie is valid");
+            System.out.println("HttpHandlers.Cookie is valid");
             return true;
         } catch (RuntimeException e) {
             e.printStackTrace();
-            System.err.println("Cookie validating run time exception - continue to run");
+            System.err.println("HttpHandlers.Cookie validating run time exception - continue to run");
             return false;
         }
     }

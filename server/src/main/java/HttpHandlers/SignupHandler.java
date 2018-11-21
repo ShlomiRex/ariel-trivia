@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -44,8 +46,8 @@ public class SignupHandler extends Query implements HttpHandler {
         if(he.getRequestMethod().equals("GET")) {
             return;
         }
-        System.out.println("=== SignupHandler ===");
-        Map<String, List<String>> p = parseBodyQuery(he.getRequestBody());
+        System.out.println("=== HttpHandlers.SignupHandler ===");
+        Map<String, List<String>> p = Query.parseBodyQuery(he.getRequestBody());
         String username = (String) p.get("username").get(0);
         String password = (String) p.get("password").get(0); //Already encrypted
 

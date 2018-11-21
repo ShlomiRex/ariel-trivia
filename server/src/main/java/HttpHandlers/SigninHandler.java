@@ -1,3 +1,5 @@
+package HttpHandlers;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -42,7 +44,7 @@ public class SigninHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange he) throws IOException {
-        System.out.println("=== SigninHandler ===");
+        System.out.println("=== HttpHandlers.SigninHandler ===");
         if(he.getRequestMethod().equals("GET")) {
             Response.sendResponse(he, "Method must be POST", 1);
             return;

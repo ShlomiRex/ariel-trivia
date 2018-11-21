@@ -1,3 +1,7 @@
+import HttpHandlers.RootHandler;
+import HttpHandlers.SigninHandler;
+import HttpHandlers.SignupHandler;
+import HttpHandlers.TriviaHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;

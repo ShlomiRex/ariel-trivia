@@ -4,12 +4,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connects to Java server that handle ariel-trivia mongodb requests
  */
 public class ServerConnector {
-    private HttpURLConnection connection;
 
     private enum HttpMethod {
         GET("GET"), POST("POST");
@@ -19,16 +19,6 @@ public class ServerConnector {
         }
     };
 
-    public static void main(String[] args) {
-        try {
-            new ServerConnector("localhost", 80);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      *
      * @param url URL to connect to
@@ -36,7 +26,7 @@ public class ServerConnector {
      * @return
      * @throws IOException
      */
-    private HttpURLConnection getDefaultConnection(URL url,  HttpMethod method) throws IOException {
+    private static HttpURLConnection getDefaultConnection(URL url,  HttpMethod method) throws IOException {
         HttpURLConnection connection;
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(method.name);
@@ -61,11 +51,13 @@ public class ServerConnector {
 
     /**
      * Writes form data to outputstream. Does <b>NOT</b> flush.
-     * @param @NotNull form_data
+     * @param form_data
      * @param writer The body of Http POST packet
      * @throws IOException
      */
-    private void writeBody(HashMap<String, List<String>> form_data, OutputStreamWriter writer) throws IOException {
+    private static void writeBody(Map<String, List<String>> form_data, OutputStreamWriter writer) throws IOException {
+        if(form_data == null || writer == null)
+                return;
         String buff = "";
         for(String key : form_data.keySet()) {
             List<String> vals = form_data.get(key);
@@ -75,48 +67,95 @@ public class ServerConnector {
         }
 
         if(buff.length() >= 2) {
+            //Mote: Substring is EXLUCISVE at endIndex.
             String without_uppercent = buff.substring(0, buff.length()-1);
             writer.write("" +without_uppercent);
         }
     }
 
 
-    public ServerConnector(String hostname, int port) throws IOException, InterruptedException {
-        URL url = new URL("http://"+hostname+":"+port+"/?a=b&c=d");
-        connection = getDefaultConnection(url, HttpMethod.POST);
+    /**
+     *
+     * @param hostname The hostname (Usually localhost)
+     * @param port The port (Usually 80)
+     * @param param_data The param data (basically the URI after route)
+     * @param form_data The form data (basically body of POST)
+     * @param out Writes the response to this
+     * @return Status code that depends on the request
+     * @throws IOException Error io in networking
+     */
+    public static int POST(String hostname, int port, String route, Map<String, List<String>> param_data, Map<String, List<String>> form_data, OutputStream out) throws IOException {
+        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?";
+        if(param_data != null) {
+            for (String param_key : param_data.keySet()) {
+                List<String> param_key_values = param_data.get(param_key);
+                for (String v : param_key_values) {
+                    urlbuf += param_key + "=" + v + "&";
+                }
+            }
+        }
+        urlbuf = urlbuf.substring(0, urlbuf.length()-1);
 
-        HashMap<String, List<String>> map = new HashMap<>();
-
-        List<String> vals1 = new ArrayList<>();
-        vals1.add("Value 1");
-        vals1.add("Value 2");
-        map.put("Key1", vals1);
-
-
-        List<String> vals2 = new ArrayList<>();
-        vals2.add("ABC");
-        map.put("Key2", vals2);
+        URL url = new URL(urlbuf);
+        HttpURLConnection connection = getDefaultConnection(url, HttpMethod.POST);
 
         //Write to body (POST only)
-        OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
-        writeBody(map, osw);
+        OutputStream os = connection.getOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(os);
+        writeBody(form_data, osw);
 
         osw.flush();
 
 
+        //READ
         InputStreamReader isr = new InputStreamReader(connection.getInputStream(), "utf-8");
         BufferedReader reader = new BufferedReader(isr);
-
+        OutputStreamWriter a = new OutputStreamWriter(out);
         String line;
-
-        //TimeUnit.MILLISECONDS.sleep(1);
-
         while((line=reader.readLine()) != null) {
-            System.out.println(line);
+            a.write(line);
         }
+        a.flush();
+        int code = connection.getResponseCode();
 
+        connection.disconnect();
 
+        return code;
     }
 
+    /**
+     *
+     * @param hostname The hostname (Usually localhost)
+     * @param port The port (Usually 80)
+     * @param param_data The param data (basically the URI after route)
+     * @param out Writes the response to this
+     * @return Status code that depends on the request
+     * @throws IOException Error io in networking
+     */
+    public static int GET(String hostname, int port, String route, Map<String, List<String>> param_data, OutputStream out) throws IOException {
+        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?";
+        for(String param_key : param_data.keySet()) {
+            List<String> param_key_values = param_data.get(param_key);
+            for (String v : param_key_values) {
+                urlbuf += param_key + "=" + v + "&";
+            }
+        }
+        urlbuf = urlbuf.substring(0, urlbuf.length()-1);
+
+        URL url = new URL(urlbuf);
+        HttpURLConnection connection = getDefaultConnection(url, HttpMethod.GET);
+
+        //READ
+        InputStreamReader isr = new InputStreamReader(connection.getInputStream(), "utf-8");
+        BufferedReader reader = new BufferedReader(isr);
+        OutputStreamWriter a = new OutputStreamWriter(out);
+        String line;
+        while((line=reader.readLine()) != null) {
+            a.write(line);
+        }
+        a.flush();
+        int code = connection.getResponseCode();
+        return code;
+    }
 
 }
