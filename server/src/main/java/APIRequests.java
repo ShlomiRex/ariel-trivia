@@ -27,6 +27,7 @@ public class APIRequests {
         TriviaFilter filter = new TriviaFilter();
         filter.setDifficulty(4);
         filter.setDifficulty_o(TriviaFilter.Operator.gt);
+        
         APIRequests apiRequests = new APIRequests("localhost", 80, "abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
         apiRequests.signin();
         apiRequests.requestTrivias(filter);
