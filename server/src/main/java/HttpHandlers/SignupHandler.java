@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.io.*;
 import java.util.*;
@@ -16,10 +17,10 @@ import static com.mongodb.client.model.Filters.eq;
 public class SignupHandler extends Query implements HttpHandler {
     private static String uri;
     private enum rCode {
-        usernameOrPasswordNull(1), alreadyRegistered(2), unknown(3), OK(200);
+        usernameOrPasswordNull(1), alreadyRegistered(2), unknown(3), incorrectMethod(4) ,OK(200);
 
-        private final int value;
-        private rCode(int value) {
+        public final int value;
+        rCode(int value) {
             this.value = value;
         }
 
@@ -44,6 +45,7 @@ public class SignupHandler extends Query implements HttpHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         if(he.getRequestMethod().equals("GET")) {
+            Response.sendResponse(he, "Only POST method to signup!", rCode.incorrectMethod.getValue());
             return;
         }
         System.out.println("=== HttpHandlers.SignupHandler ===");
@@ -66,9 +68,11 @@ public class SignupHandler extends Query implements HttpHandler {
             Response.sendResponse(he, "Unknown error: insertion failed", rCode.unknown.getValue());
             return;
         }
-        String user_id = (String) doc.get( "_id" );
+        ObjectId user_id = (ObjectId) doc.get("_id");
+
         System.out.println("User " + username + " has registered successfuly! Sending id: " + user_id);
-        Response.sendResponse(he, user_id, rCode.OK.getValue());
+        Response.sendResponse(he, user_id.toHexString(), rCode.OK.getValue());
+
     }
 
     private boolean isUserAlreadyRegistered(String username) {
@@ -102,7 +106,7 @@ public class SignupHandler extends Query implements HttpHandler {
 
             Document doc = new Document();
             doc.put("username", username);
-            doc.put("password", password_sha256);
+            doc.put("password", password_sha256.toUpperCase());
             users_col.insertOne(doc);
             mongoClient.close();
             return doc;

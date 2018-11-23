@@ -1,9 +1,13 @@
 import HttpHandlers.APICode;
+import HttpHandlers.Response;
+import com.google.common.hash.Hashing;
 import com.mongodb.connection.Server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class APIRequests {
@@ -25,11 +29,21 @@ public class APIRequests {
     }
 
     public static void main(String[] args) {
+
+    }
+
+    public static void Test2() {
+        String pass_sha256 = Hashing.sha256().hashString("ShlomiABC", StandardCharsets.UTF_8).toString();
+        APIRequests.signup("localhost", 80, "ShlomiABC", pass_sha256);
+    }
+
+    //Works
+    public static void Test1() {
         TriviaFilter filter = new TriviaFilter();
-        //filter.setDifficulty(4);
-        //filter.setDifficulty_o(TriviaFilter.Operator.gt);
+        filter.setDifficulty(4);
+        filter.setDifficulty_o(TriviaFilter.Operator.gt);
         filter.setLabels(Arrays.asList("unix","maths"));
-        
+
         APIRequests apiRequests = new APIRequests("localhost", 80, "abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
         apiRequests.signin();
         apiRequests.requestTrivias(filter);
@@ -39,8 +53,6 @@ public class APIRequests {
      * Signs in and sets the cookie
      */
     public void signin() {
-
-
         Map<String, List<String>> form_data = new HashMap<>();
 
         form_data.put("username", Arrays.asList(username));
@@ -65,6 +77,32 @@ public class APIRequests {
         } catch (IOException e) {
             e.printStackTrace();
             return;
+        }
+    }
+
+    /**
+     * Singup.
+     * @param hostname
+     * @param port
+     * @param username
+     * @param password The password in SHA256.
+     */
+    public static void signup(String hostname, int port, String username, String password) {
+
+        Map<String, List<String>> form_data = new HashMap<>();
+        form_data.put("username", Arrays.asList(username));
+        form_data.put("password", Arrays.asList(password));
+        OutputStream out = new ByteArrayOutputStream();
+        try {
+            int status_code = ServerConnector.POST(hostname, port, "signup", null, form_data, out, APICode.signup);
+
+            System.out.println("=== Signup Response Start ===");
+            System.out.println(out.toString());
+
+            System.out.println("Status code: " + status_code);
+            System.out.println("=== Signup Response End ===");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
