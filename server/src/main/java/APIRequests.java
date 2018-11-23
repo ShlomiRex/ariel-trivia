@@ -1,3 +1,4 @@
+import HttpHandlers.APICode;
 import com.mongodb.connection.Server;
 
 import java.io.ByteArrayOutputStream;
@@ -25,8 +26,9 @@ public class APIRequests {
 
     public static void main(String[] args) {
         TriviaFilter filter = new TriviaFilter();
-        filter.setDifficulty(4);
-        filter.setDifficulty_o(TriviaFilter.Operator.gt);
+        //filter.setDifficulty(4);
+        //filter.setDifficulty_o(TriviaFilter.Operator.gt);
+        filter.setLabels(Arrays.asList("unix","maths"));
         
         APIRequests apiRequests = new APIRequests("localhost", 80, "abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
         apiRequests.signin();
@@ -47,7 +49,7 @@ public class APIRequests {
         OutputStream response = new ByteArrayOutputStream();
 
         try {
-            int status_code = ServerConnector.POST(hostname, port,"signin", null, form_data, response);
+            int status_code = ServerConnector.POST(hostname, port,"signin", null, form_data, response, APICode.signin);
             String response_str = response.toString();
             System.out.println("=== signin Response Start ===");
             System.out.println(response_str);
@@ -109,10 +111,11 @@ public class APIRequests {
             }
 
             OutputStream response = new ByteArrayOutputStream();
-            int status_code = ServerConnector.GET(hostname, port, "trivias", param_data, response);
+            int status_code = ServerConnector.GET(hostname, port, "trivias", param_data, response, APICode.getTrivias);
 
             System.out.println("=== requestTrivia Response Start ===");
             System.out.println(response.toString());
+
             System.out.println("Status code: " + status_code);
             System.out.println("=== requestTrivia Response End ===");
 

@@ -1,3 +1,5 @@
+import HttpHandlers.APICode;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,7 +12,6 @@ import java.util.Map;
  * Connects to Java server that handle ariel-trivia mongodb requests
  */
 public class ServerConnector {
-
     private enum HttpMethod {
         GET("GET"), POST("POST");
         public final String name;
@@ -84,17 +85,16 @@ public class ServerConnector {
      * @return Status code that depends on the request
      * @throws IOException Error io in networking
      */
-    public static int POST(String hostname, int port, String route, Map<String, List<String>> param_data, Map<String, List<String>> form_data, OutputStream out) throws IOException {
-        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?";
+    public static int POST(String hostname, int port, String route, Map<String, List<String>> param_data, Map<String, List<String>> form_data, OutputStream out, APICode api_code) throws IOException {
+        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?api_code="+api_code.getApicode();
         if(param_data != null) {
             for (String param_key : param_data.keySet()) {
                 List<String> param_key_values = param_data.get(param_key);
                 for (String v : param_key_values) {
-                    urlbuf += param_key + "=" + v + "&";
+                    urlbuf += "&" + param_key + "=" + v;
                 }
             }
         }
-        urlbuf = urlbuf.substring(0, urlbuf.length()-1);
 
         URL url = new URL(urlbuf);
         HttpURLConnection connection = getDefaultConnection(url, HttpMethod.POST);
@@ -112,9 +112,20 @@ public class ServerConnector {
         BufferedReader reader = new BufferedReader(isr);
         OutputStreamWriter a = new OutputStreamWriter(out);
         String line;
+        List<String> lines = new ArrayList<>();
         while((line=reader.readLine()) != null) {
-            a.write(line);
+            lines.add(line);
         }
+
+        for(int i = 0; i < lines.size() - 1; i++) {
+            a.write(lines.get(i));
+            a.write('\n');
+        }
+
+        a.write(lines.get(lines.size()-1));
+
+
+
         a.flush();
         int code = connection.getResponseCode();
 
@@ -132,15 +143,14 @@ public class ServerConnector {
      * @return Status code that depends on the request
      * @throws IOException Error io in networking
      */
-    public static int GET(String hostname, int port, String route, Map<String, List<String>> param_data, OutputStream out) throws IOException {
-        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?";
+    public static int GET(String hostname, int port, String route, Map<String, List<String>> param_data, OutputStream out, APICode api_code) throws IOException {
+        String urlbuf = "http://"+hostname+":"+port+"/"+route+"?api_code="+api_code.getApicode();
         for(String param_key : param_data.keySet()) {
             List<String> param_key_values = param_data.get(param_key);
             for (String v : param_key_values) {
-                urlbuf += param_key + "=" + v + "&";
+                urlbuf += "&" + param_key + "=" + v;
             }
         }
-        urlbuf = urlbuf.substring(0, urlbuf.length()-1);
 
         URL url = new URL(urlbuf);
         HttpURLConnection connection = getDefaultConnection(url, HttpMethod.GET);
@@ -150,9 +160,20 @@ public class ServerConnector {
         BufferedReader reader = new BufferedReader(isr);
         OutputStreamWriter a = new OutputStreamWriter(out);
         String line;
+        List<String> lines = new ArrayList<>();
         while((line=reader.readLine()) != null) {
-            a.write(line);
+            lines.add(line);
         }
+
+        for(int i = 0; i < lines.size() - 1; i++) {
+            a.write(lines.get(i));
+            a.write('\n');
+        }
+
+        a.write(lines.get(lines.size()-1));
+
+
+
         a.flush();
         int code = connection.getResponseCode();
         return code;

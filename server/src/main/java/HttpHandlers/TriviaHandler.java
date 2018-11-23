@@ -5,6 +5,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.bson.Document;
@@ -156,16 +157,43 @@ public class TriviaHandler implements HttpHandler {
                 }
                 errbuf = "";
 
+                Bson labels_filter = null;
+                process_labels: {
+                    //db.trivias.find({tags: {$in: ["unix","maths"]} }).pretty()
+                    if(map.containsKey("label") == false) {
+                        break process_labels;
+                    }
+
+                    List<String> labels = map.get("label");
+                    labels_filter = Filters.in("tags",labels);
+                }
+                if(errbuf.length() != 0) {
+                    System.err.println("Processing difficulty Errors: \n" + errbuf);
+                }
+                errbuf = "";
+
                 Bson trivias_filter = null;
                 process_filters: {
-                    if(difficulty_filter != null && likes_filter != null) {
-                        trivias_filter = and(likes_filter, difficulty_filter);
+                    if(difficulty_filter != null && likes_filter != null && labels_filter != null) {
+                        trivias_filter = and(and(likes_filter, difficulty_filter), labels_filter);
                     } else if(difficulty_filter != null && likes_filter == null) {
-                        trivias_filter = difficulty_filter;
+                        if(labels_filter == null) {
+                            trivias_filter = difficulty_filter;
+                        } else {
+                            trivias_filter = and(difficulty_filter, labels_filter);
+                        }
                     } else if(difficulty_filter == null && likes_filter != null) {
-                        trivias_filter = likes_filter;
+                        if(labels_filter == null) {
+                            trivias_filter = likes_filter;
+                        } else {
+                            trivias_filter = and(likes_filter, labels_filter);
+                        }
                     } else {
-                        trivias_filter = null;
+                        if(labels_filter == null) {
+                            trivias_filter = null;
+                        } else {
+                            trivias_filter = labels_filter;
+                        }
                     }
                 }
 
@@ -187,7 +215,6 @@ public class TriviaHandler implements HttpHandler {
                 for(Document d2 : lst) {
                     response += d2.toJson() + "\n";
                 }
-
             } catch (RuntimeException e) {
                 e.printStackTrace();
                 Response.sendResponse(he, "Error processing query", rCode.errParsingQuery.getValue());

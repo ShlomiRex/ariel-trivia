@@ -52,8 +52,7 @@ public class SigninHandler implements HttpHandler {
 
 
         Map<String, List<String>> p = Query.parseBodyQuery(he.getRequestBody());
-
-
+        Map<String, List<String>> q = Query.parseParametersQuery(he.getRequestURI().getQuery());
         List<String> tmp;
 
         tmp = p.get("username");
