@@ -14,4 +14,10 @@ public class Comment {
     public String getMessage() {
         return message;
     }
+
+
+    @Override
+    public String toString() {
+        return "Comment[username="+username+",message="+message+"]";
+    }
 }

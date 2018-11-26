@@ -1,75 +1,152 @@
-
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Trivia {
-    private String question = "";
-    private final String[] answers = new String[4];
+    private ObjectId id;
+    private String creator_username;
+    private Question question;
     private final List<Comment> comments = new ArrayList<>();
-    private int correct_answer_index;
-    private Document d = null;
+    private Document d; //The document object of db
+
+    private Forum forum;
+
+    public static void main(String[] args) {
+        Trivia trivia = new Trivia();
+        System.out.println(trivia.toString());
+        System.out.println("\n\n\n\n");
+        System.out.println(trivia.toJson());
+    }
+
+    public Trivia() {
+        this(        Document.parse("{\n" +
+                "\t\"_id\" : ObjectId(\"5be9e1eeb5bb3f88c77eba18\"),\n" +
+                "\t\"creator_username\" : \"vgtvgy1\",\n" +
+                "\t\"tags\" : [\n" +
+                "\t\t\"easy question\",\n" +
+                "\t\t\"maths\",\n" +
+                "\t\t\"for kids\"\n" +
+                "\t],\n" +
+                "\t\"question\" : \"How much is 2+2?\",\n" +
+                "\t\"answers\" : [\n" +
+                "\t\t\"25\",\n" +
+                "\t\t\"4\",\n" +
+                "\t\t\"I don't know\",\n" +
+                "\t\t\"3.14\"\n" +
+                "\t],\n" +
+                "\t\"correct_answer_index\" : 1,\n" +
+                "\t\"difficulty_count\" : [\n" +
+                "\t\t5,\n" +
+                "\t\t0,\n" +
+                "\t\t2,\n" +
+                "\t\t0,\n" +
+                "\t\t2\n" +
+                "\t],\n" +
+                "\t\"difficulty\" : 2.3,\n" +
+                "\t\"likes\" : 3,\n" +
+                "\t\"comments\" : [\n" +
+                "\t\t{\n" +
+                "\t\t\t\"username\" : \"vgtvgy1\",\n" +
+                "\t\t\t\"message\" : \"I like this trivia question\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"username\" : \"abc\",\n" +
+                "\t\t\t\"message\" : \"Hey Shlomi, stop spamming!\"\n" +
+                "\t\t}\n" +
+                "\t]\n" +
+                "}\n"));
+    }
+
+    public Trivia(Document d) {
+        //id
+        this.id = (ObjectId) d.get("_id");
+        //creator username
+        this.creator_username = d.getString("creator_username");
+        //tags / labels
+        List<String> tags = (List<String>) d.get("tags");
+        //question
+        String question = d.getString("question");
+        //answers
+        List<String> answers = (List<String>) d.get("answers");
+        String[] answers_array = new String[Question.ANSWERS];
+        for(int i = 0; i < answers_array.length; i++) {
+            answers_array[i] = answers.get(i);
+        }
+        //answer index
+        int correct_answer_index = d.getInteger("correct_answer_index").intValue();
+        //difficulty count
+        List<Integer> difficulty_count = (List<Integer>) d.get("difficulty_count");
+        int[] difficulty_count_array = new int[Question.DIFF_COUNT];
+        for(int i = 0; i < difficulty_count_array.length; i++) {
+            difficulty_count_array[i] = difficulty_count.get(i).intValue();
+        }
+        //difficulty
+        double difficulty = d.getDouble("difficulty");
+        //likes
+        int likes = d.getInteger("likes").intValue();
+        //comments
+        List<Document> comments = (List<Document>) d.get("comments");
+        for (Document c : comments)
+            this.comments.add(new Comment(c.getString("username"), c.getString("message")));
+        //document
+        this.d = d;
+
+        this.forum = new Forum(this.id, this.comments);
+        this.question = new Question(tags, question, answers_array, correct_answer_index, difficulty_count_array, difficulty, likes);
+    }
+
 
     /**
-     * temporarly constructor
-     * @param difficulty
+     * Use this instead of toString its better :D
+     * @return
      */
-    public Trivia(int difficulty){
-        answers[0] = "no";
-        answers[1] = "mabe";
-        answers[2] = "yes";
-        answers[3] = "(=";
-        question = "will we succeed?";
-        comments.add(new Comment("arye", "hey!! it worrrrrx!!! (=\n(;"));
-        correct_answer_index = 2;
+    public String toJson() {
+        return d.toJson();
     }
-    public Trivia(Document d) {
+
+    public String getCreator_username() {
+        return creator_username;
+    }
+
+    public void setCreator_username(String creator_username) {
+        this.creator_username = creator_username;
+    }
+
+    public Document getD() {
+        return d;
+    }
+
+    public void setD(Document d) {
         this.d = d;
-        List<String> answers = (List<String>) d.get("answers");
-        for(int i = 0; i < 4; i++)
-            this.answers[i] = answers.get(i);
-
-        correct_answer_index = d.getInteger("correct_answer_index").intValue();
-
-        List<Document> comments = (List<Document>) d.get("comments");
-        for(Document c : comments)
-            this.comments.add(new Comment(c.getString("username"),c.getString("message")));
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String[] getAnswers() {
-        return answers;
     }
 
     public List<Comment> getComments() {
         return comments;
     }
 
-    /**
-     *
-     * @param answer_index
-     * @return True if the answer is correct. False is not.
-     */
-    public boolean answerQuestion(int answer_index) {
-        if(answer_index == correct_answer_index) {
-            return true;
-        }
-        else
-            return false;
+    public ObjectId getId() {
+        return id;
     }
 
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
-    @Override
-    public String toString() {
-        return "Trivia{" +
-                "answers=" + Arrays.toString(answers) +
-                ", comments=" + comments +
-                ", correct_answer_index=" + correct_answer_index +
-                ", d=" + d +
-                '}';
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }

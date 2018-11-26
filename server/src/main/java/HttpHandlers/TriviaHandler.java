@@ -221,14 +221,21 @@ public class TriviaHandler implements HttpHandler {
                 return;
             }
 
-
-
-
-
-
             Response.sendResponse(he, response, 200);
         } else {
             System.out.println("=== METHOD: POST ===");
+
+            //Validate cookie
+            if (Cookie.validateCookie(he, uri) == false) {
+                System.out.println("Validate cookie = false, terminating");
+                return;
+            }
+            String response = "";
+
+            String query = he.getRequestURI().getQuery();
+
+            String in = baos.toString();
+            System.out.println(in);
         }
     }
     /**
