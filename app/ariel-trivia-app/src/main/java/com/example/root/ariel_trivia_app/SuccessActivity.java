@@ -2,12 +2,11 @@ package com.example.root.ariel_trivia_app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-public class succeed extends Activity {
+public class SuccessActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +19,7 @@ public class succeed extends Activity {
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(succeed.this, trivia_question.class);
+                Intent i = new Intent(SuccessActivity.this, TriviaActivity.class);
                 i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
                 startActivity(i);
             }
@@ -28,7 +27,7 @@ public class succeed extends Activity {
         findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(succeed.this, commentActivity.class);
+                Intent i = new Intent(SuccessActivity.this, commentActivity.class);
                 i.putExtra("question", (int)getIntent().getExtras().get("question"));
                 startActivity(i);
             }
@@ -50,7 +49,7 @@ public class succeed extends Activity {
                 if(rated.myBool){
                     Toast.makeText(getApplicationContext(), "you rated already",Toast.LENGTH_LONG).show();
                 }else {
-                    Intent i = new Intent(succeed.this, rateActivity.class);
+                    Intent i = new Intent(SuccessActivity.this, RateActivity.class);
                     i.putExtra("question", (int) getIntent().getExtras().get("question"));
                     startActivity(i);
                 }

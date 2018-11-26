@@ -18,18 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".trivia_question" />
-        <activity android:name=".select_trivia" />
+        <activity android:name=".TriviaActivity" />
+        <activity android:name=".SelectTriviaActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".succeed" />
+        <activity android:name=".SuccessActivity" />
         <activity
             android:name=".commentActivity"
             android:label="@string/title_activity_comment" />
-        <activity android:name=".rateActivity"></activity>
+        <activity android:name=".RateActivity"></activity>
     </application>
 
 </manifest>

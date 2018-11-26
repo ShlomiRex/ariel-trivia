@@ -8,9 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-
-public class trivia_question extends Activity {
+public class TriviaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(0)){
-                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    Intent i = new Intent(TriviaActivity.this, SuccessActivity.class);
                     i.putExtra("questin", q);
                     i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
                     startActivity(i);                }
@@ -45,7 +43,7 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(1)){
-                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    Intent i = new Intent(TriviaActivity.this, SuccessActivity.class);
                     i.putExtra("questin", q);
                     i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
                     startActivity(i);                 }
@@ -58,7 +56,7 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(2)){
-                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    Intent i = new Intent(TriviaActivity.this, SuccessActivity.class);
                     i.putExtra("questin", q);
                     i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
                     startActivity(i);                 }
@@ -71,7 +69,7 @@ public class trivia_question extends Activity {
             @Override
             public void onClick(View v) {
                 if(q.answerQuestion(3)){
-                    Intent i = new Intent(trivia_question.this, succeed.class);
+                    Intent i = new Intent(TriviaActivity.this, SuccessActivity.class);
                     i.putExtra("questin", q);
                     i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
                     startActivity(i);                 }

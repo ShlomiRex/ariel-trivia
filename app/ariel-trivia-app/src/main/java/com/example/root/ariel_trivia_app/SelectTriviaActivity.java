@@ -2,19 +2,18 @@ package com.example.root.ariel_trivia_app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class rateActivity extends Activity {
+public class SelectTriviaActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rate);
+        setContentView(R.layout.activity_select_trivia);
         RadioGroup rg = (RadioGroup)findViewById(R.id.radioGroup);
         final RadioButton dif1 = (RadioButton)findViewById(R.id.dif1);
 
@@ -48,8 +47,9 @@ public class rateActivity extends Activity {
                 else {
                     difficulty = 5;
                 }
-                ((Trivia)getIntent().getExtras().get("question")).rate(difficulty);
-                finish();
+                Intent i = new Intent(SelectTriviaActivity.this, TriviaActivity.class);
+                i.putExtra("difficulty", difficulty);
+                startActivity(i);
             }
         });
     }

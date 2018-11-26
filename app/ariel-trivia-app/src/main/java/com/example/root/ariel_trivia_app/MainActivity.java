@@ -1,27 +1,22 @@
 package com.example.root.ariel_trivia_app;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.bson.Document;
-import org.json.JSONException;
-
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
+
+    private final String hostname = "localhost"; //Use proxy
+    private final int port = 80;
+    private final String username = "abc";
+    private final String password = "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +30,7 @@ public class MainActivity extends Activity {
         final EditText etxt_password = (EditText) findViewById(R.id.login_etxt_password);
 
 
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +40,9 @@ public class MainActivity extends Activity {
                         String username = etxt_username.getText().toString();
                         String password = etxt_password.getText().toString();
                         //TODO: Can  restrict password length, check email is valid and so on.
-                        return new Boolean(MyMongo.login_user(username, password));
+
+                        final APIRequests apiRequests = new APIRequests(hostname, port, username, password );
+                        return new Boolean(apiRequests.signin());
                     }
 
                     @Override
@@ -68,7 +66,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.guest).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, select_trivia.class);
+                Intent i = new Intent(MainActivity.this, SelectTriviaActivity.class);
                 startActivity(i);
             };});
     }
