@@ -30,4 +30,13 @@ public class Forum {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString()  {
+        String allForum = "";
+        for(Comment comment:comments){
+            allForum += "\n----------------\n" + comment;
+        }
+        return allForum;
+    }
 }

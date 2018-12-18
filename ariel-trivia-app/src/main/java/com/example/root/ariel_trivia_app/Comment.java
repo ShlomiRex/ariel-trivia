@@ -18,4 +18,9 @@ public class Comment implements Serializable {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString(){
+        return this.username + "\n\n" + this.message;
+    }
 }
