@@ -7,20 +7,18 @@ import android.view.View;
 import android.widget.Toast;
 
 public class SuccessActivity extends Activity {
-
+    public static final boolObject rated = new boolObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_succeed);
-        final boolObject rated = new boolObject();
-        //rated.myBool = false;
         final boolObject like = new boolObject();
-        //like.myBool = false;
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SuccessActivity.this, TriviaActivity.class);
                 i.putExtra("difficulty", (int)getIntent().getExtras().get("difficulty"));
+                finish();
                 startActivity(i);
             }
         });

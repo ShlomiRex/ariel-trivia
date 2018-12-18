@@ -158,4 +158,8 @@ public class Trivia extends Application {
     public void addLike(){
         //TODO
     }
+
+    public void rate(int difficulty){
+        //TODO
+    }
 }

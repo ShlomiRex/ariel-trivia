@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radioGroupRate"
         android:layout_width="189dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -32,39 +32,55 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
-            android:id="@+id/dif1"
+            android:id="@+id/rateDif1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1" />
 
         <RadioButton
-            android:id="@+id/dif2"
+            android:id="@+id/rateDif2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="2" />
 
         <RadioButton
-            android:id="@+id/dif3"
+            android:id="@+id/rateDif3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="3" />
 
         <RadioButton
-            android:id="@+id/dif4"
+            android:id="@+id/rateDif4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="4" />
 
         <RadioButton
-            android:id="@+id/dif5"
+            android:id="@+id/rateDif5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="5" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/selectRate"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="casual"
+        android:text="rate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.981" />
 
 </android.support.constraint.ConstraintLayout>

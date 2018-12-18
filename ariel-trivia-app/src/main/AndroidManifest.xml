@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TriviaActivity" />
+        <activity android:name=".TriviaActivity" android:noHistory="true"/>
         <activity android:name=".SelectTriviaActivity" />
 
         <meta-data
