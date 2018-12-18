@@ -164,6 +164,9 @@ public class APIRequests {
         uploadTrivia(trivia.toJson());
     }
 
+    public static void uploadTrivia(String question, String answer, String[] wrongAnswers){
+        //TODO
+    }
     /**
      * Uploads to database trivia object
      * @param json

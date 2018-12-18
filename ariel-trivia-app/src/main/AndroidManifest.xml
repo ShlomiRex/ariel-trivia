@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TriviaActivity" android:noHistory="true"/>
+        <activity
+            android:name=".TriviaActivity"
+            android:noHistory="true" />
         <activity android:name=".SelectTriviaActivity" />
 
         <meta-data
@@ -29,7 +31,11 @@
         <activity
             android:name=".commentActivity"
             android:label="@string/title_activity_comment" />
-        <activity android:name=".RateActivity"></activity>
+        <activity android:name=".RateActivity" />
+        <activity
+            android:name=".userOptionsActivity"
+            android:label="@string/title_activity_user_options" />
+        <activity android:name=".addTriviaQuestionActivity"></activity>
     </application>
 
 </manifest>

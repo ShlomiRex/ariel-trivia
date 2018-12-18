@@ -28,7 +28,9 @@ public class MainActivity extends Activity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO login
+                Intent i = new Intent(MainActivity.this, userOptionsActivity.class);
+                startActivity(i);
             }
         });
 
