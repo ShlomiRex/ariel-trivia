@@ -1,0 +1,4 @@
+#Sun Nov 18 16:49:58 IST 2018
+base.0=C\:\\Users\\aryes\\AndroidStudioProjects\\ariel-trivia\\app\\ariel-trivia-app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

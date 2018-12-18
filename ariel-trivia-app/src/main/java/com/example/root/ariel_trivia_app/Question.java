@@ -1,8 +1,9 @@
 package com.example.root.ariel_trivia_app;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Question {
+public class Question implements Serializable {
     public static final int ANSWERS = 4; //How much answers there are in 1 trivia
     public static final int DIFF_COUNT = 5; //Size of array of counts of difficulty
     private List<String> tags; // "labels"

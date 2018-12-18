@@ -1,12 +1,15 @@
 package com.example.root.ariel_trivia_app;
 
+import android.app.Application;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trivia {
+public class Trivia extends Application {
     private ObjectId id;
     private String creator_username;
     private Question question;
@@ -150,5 +153,9 @@ public class Trivia {
 
     public void setForum(Forum forum) {
         this.forum = forum;
+    }
+
+    public void addLike(){
+        //TODO
     }
 }
