@@ -162,4 +162,8 @@ public class Trivia extends Application {
     public void rate(int difficulty){
         //TODO
     }
+
+    public void addComment(String comment){
+        //TODO
+    }
 }

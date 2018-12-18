@@ -27,7 +27,6 @@ public class SelectTriviaActivity extends Activity {
 
         rg.check(dif1.getId());
 
-        Button button = (Button)findViewById(R.id.selectDif);
         findViewById(R.id.selectDif).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
