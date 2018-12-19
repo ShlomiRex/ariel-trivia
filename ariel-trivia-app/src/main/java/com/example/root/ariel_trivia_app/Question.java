@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Question implements Serializable {
-    public static final int ANSWERS = 4; //How much answers there are in 1 trivia
     public static final int DIFF_COUNT = 5; //Size of array of counts of difficulty
     private List<String> tags; // "labels"
     private String question;
-    private final String[] answers = new String[4];
+    private String[] answers;
     private int correct_answer_index;
     private int[] difficulty_count = new int[5]; //difficulty 1-5
     private double difficulty;
@@ -17,9 +16,7 @@ public class Question implements Serializable {
     public Question(List<String> tags, String question, String[] answers, int correct_answer_index, int[] difficulty_count, double difficulty, int likes) {
         this.tags = tags;
         this.question = question;
-        for(int i = 0; i < ANSWERS; i++) {
-            this.answers[i] = answers[i];
-        }
+        this.answers = answers;
         this.correct_answer_index = correct_answer_index;
         this.difficulty_count = difficulty_count;
         this.difficulty = difficulty;

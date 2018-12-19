@@ -12,6 +12,8 @@ public class Global {
     }
 
     public static class DB {
-        public static final String DB_PATH = "/db/app.db";
+        public static final String DB_FILE = "app.db";
     }
+
+
 }

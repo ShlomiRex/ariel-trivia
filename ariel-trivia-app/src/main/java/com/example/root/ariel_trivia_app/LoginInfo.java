@@ -1,6 +1,10 @@
 package com.example.root.ariel_trivia_app;
 
-public class LoginInfo {
+import org.dizitart.no2.Document;
+import org.dizitart.no2.mapper.Mappable;
+import org.dizitart.no2.mapper.NitriteMapper;
+
+public class LoginInfo implements Mappable {
     private String username, password_sha256;
     public LoginInfo(String username, String password_sha256) {
         this.username = username;
@@ -21,5 +25,20 @@ public class LoginInfo {
 
     public void setPassword_sha256(String password_sha256) {
         this.password_sha256 = password_sha256;
+    }
+
+    @Override
+    public Document write(NitriteMapper mapper) {
+        Document document = new Document();
+        document.put("username", username);
+        document.put("password", password_sha256);
+        return document;
+    }
+
+    @Override
+    public void read(NitriteMapper mapper, Document document) {
+        username = (String) document.get("username");
+        password_sha256 = (String) document.get("password");
+
     }
 }

@@ -1,21 +1,11 @@
 package com.example.root.ariel_trivia_app;
 
-import com.google.common.hash.Hashing;
-
 import org.dizitart.no2.Cursor;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.NitriteBuilder;
 import org.dizitart.no2.NitriteCollection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.dizitart.no2.filters.Filters.and;
 import static org.dizitart.no2.filters.Filters.eq;
@@ -31,7 +21,7 @@ public class APIRequests {
 
     public APIRequests(LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
-        db = Nitrite.builder().filePath(Global.DB.DB_PATH).openOrCreate();
+        db = Nitrite.builder().filePath(Global.DB.DB_FILE).openOrCreate();
     }
 //
 //    public static void main(String[] args) {
