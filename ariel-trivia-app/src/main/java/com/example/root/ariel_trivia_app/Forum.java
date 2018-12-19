@@ -23,4 +23,20 @@ public class Forum {
         }
         return allForum;
     }
+
+    public String getTrivia_id() {
+        return trivia_id;
+    }
+
+    public void setTrivia_id(String trivia_id) {
+        this.trivia_id = trivia_id;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

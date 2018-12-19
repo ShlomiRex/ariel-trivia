@@ -7,13 +7,13 @@ public class Question implements Serializable {
     public static final int DIFF_COUNT = 5; //Size of array of counts of difficulty
     private List<String> tags; // "labels"
     private String question;
-    private String[] answers;
+    private List<String> answers;
     private int correct_answer_index;
-    private int[] difficulty_count = new int[5]; //difficulty 1-5
+    private List<Integer> difficulty_count;
     private double difficulty;
     private int likes;
 
-    public Question(List<String> tags, String question, String[] answers, int correct_answer_index, int[] difficulty_count, double difficulty, int likes) {
+    public Question(List<String> tags, String question, List<String> answers, int correct_answer_index, List<Integer> difficulty_count, double difficulty, int likes) {
         this.tags = tags;
         this.question = question;
         this.answers = answers;
@@ -53,24 +53,12 @@ public class Question implements Serializable {
         this.question = question;
     }
 
-    public String[] getAnswers() {
-        return answers;
-    }
-
     public int getCorrect_answer_index() {
         return correct_answer_index;
     }
 
     public void setCorrect_answer_index(int correct_answer_index) {
         this.correct_answer_index = correct_answer_index;
-    }
-
-    public int[] getDifficulty_count() {
-        return difficulty_count;
-    }
-
-    public void setDifficulty_count(int[] difficulty_count) {
-        this.difficulty_count = difficulty_count;
     }
 
     public double getDifficulty() {
@@ -87,5 +75,21 @@ public class Question implements Serializable {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public List<Integer> getDifficulty_count() {
+        return difficulty_count;
+    }
+
+    public void setDifficulty_count(List<Integer> difficulty_count) {
+        this.difficulty_count = difficulty_count;
     }
 }

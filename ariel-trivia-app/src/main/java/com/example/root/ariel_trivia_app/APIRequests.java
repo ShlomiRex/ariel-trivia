@@ -151,7 +151,7 @@ public class APIRequests {
      * @param trivia
      */
     public void uploadTrivia(Trivia trivia) {
-        uploadTrivia(trivia.toJson());
+
     }
 
     public static void uploadTrivia(String question, String answer, String[] wrongAnswers){

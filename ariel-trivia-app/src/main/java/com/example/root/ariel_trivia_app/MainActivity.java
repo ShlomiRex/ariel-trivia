@@ -27,7 +27,6 @@ import java.io.InputStreamReader;
 public class MainActivity extends Activity {
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private final LoginInfo testLoginInfo = new LoginInfo("abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +56,13 @@ public class MainActivity extends Activity {
 
         try {
             initDB();
+            readTriviasFromDB(); //For testing
+            readUsersFromDB(); //For testing
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Failed to read assets", Toast.LENGTH_SHORT).show();
-            finish();
+            Log.e(TAG, e.toString());
+            System.exit(-1);
         }
-
-        readTriviasFromDB();
-        //readUsersFromDB();
     }
 
     private void initDB() throws IOException, JSONException {
@@ -74,10 +72,15 @@ public class MainActivity extends Activity {
         Nitrite db;
 
         if(firstTime) {
-            sharedPref.edit().putBoolean(Global.SharedPreferences.Keys.FIRST_TIME, true); //Changed first time flag
-            db = Nitrite.builder().filePath(getFilesDir().getPath() + "/" + Global.DB.DB_FILE).openOrCreate(); //init db
+            Log.d(TAG, "First Time :D");
+            SharedPreferences.Editor speditor = sharedPref.edit();
+            speditor.putBoolean(Global.SharedPreferences.Keys.FIRST_TIME, false); //Changed first time flag
+            speditor.commit();
 
-            //Truncate
+
+            db = Global.getDatabase(this);
+
+            //Truncate anyway
             for(String colName : db.listCollectionNames()) {
                 db.getCollection(colName).drop();
             }
@@ -108,9 +111,11 @@ public class MainActivity extends Activity {
                 triviasRepository.insert(t);
             }
 
+            db.commit();
+            db.compact();
             db.close();
         } else {
-
+            Log.d(TAG, "NOT First Time :(");
         }
 
 
@@ -120,12 +125,11 @@ public class MainActivity extends Activity {
      * Test read, output in logcat
      */
     private void readTriviasFromDB() {
-        String path = getFilesDir().getPath() + "/" + Global.DB.DB_FILE;
-        Nitrite db = Nitrite.builder().filePath(path).openOrCreate();
+        Nitrite db = Global.getDatabase(this);
         ObjectRepository<Trivia> repo = db.getRepository(Trivia.class);
         Cursor<Trivia> cursor = repo.find();
         for(Trivia t : cursor) {
-            Log.d(TAG, t.toJson());
+            Log.d(TAG, t.getQuestion().getQuestion());
         }
 
         db.close();
@@ -135,13 +139,14 @@ public class MainActivity extends Activity {
      * Test read, output in logcat
      */
     private void readUsersFromDB() {
-        String path = getFilesDir().getPath() + "/" + Global.DB.DB_FILE;
-        Nitrite db = Nitrite.builder().filePath(path).openOrCreate();
+        Nitrite db = Global.getDatabase(this);
         ObjectRepository<LoginInfo> repo = db.getRepository(LoginInfo.class);
         Cursor<LoginInfo> cursor = repo.find();
         for(LoginInfo l : cursor) {
             Log.d(TAG, "username:"+l.getUsername()+",password:"+l.getPassword_sha256());
         }
+
+        db.close();
     }
 
     private String readAssetsFile(String path) throws IOException {

@@ -14,18 +14,8 @@ public class Trivia extends Application implements Mappable {
     private String id;
     private String creator_username;
     private Question question;
-    private List<Comment> comments = new ArrayList<>();
-    private Document d; //First time used
-    private String json; //The document object of db
 
     private Forum forum;
-
-    public static void main(String[] args) {
-        Trivia trivia = new Trivia();
-        System.out.println(trivia.toString());
-        System.out.println("\n\n\n\n");
-        System.out.println(trivia.toJson());
-    }
 
     public Trivia() {
         this(        Document.parse("{\n" +
@@ -67,7 +57,6 @@ public class Trivia extends Application implements Mappable {
     }
 
     public Trivia(Document d) {
-        this.d = d;
         //id
         this.id = (String) d.get("_id");
         //creator username
@@ -96,33 +85,19 @@ public class Trivia extends Application implements Mappable {
         int likes = d.getInteger("likes").intValue();
         //comments
         List<Document> comments = (List<Document>) d.get("comments");
+        ArrayList<Comment> _comments = new ArrayList<>();
         for (Document c : comments)
-            this.comments.add(new Comment(c.getString("username"), c.getString("message")));
-        //document
-        this.json = d.toJson();
+            _comments.add(new Comment(c.getString("username"), c.getString("message")));
 
-        this.forum = new Forum(this.id, this.comments);
-        this.question = new Question(tags, question, answers_array, correct_answer_index, difficulty_count_array, difficulty, likes);
+        this.forum = new Forum(this.id, _comments);
+        this.question = new Question(tags, question, answers, correct_answer_index, difficulty_count, difficulty, likes);
     }
-
-    /**
-     * Use this instead of toString its better :D
-     * @return
-     */
-    public String toJson() {
-        return json;
-    }
-
     public String getCreator_username() {
         return creator_username;
     }
 
     public void setCreator_username(String creator_username) {
         this.creator_username = creator_username;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
     }
 
     public String getId() {
@@ -164,43 +139,37 @@ public class Trivia extends Application implements Mappable {
     @Override
     public org.dizitart.no2.Document write(NitriteMapper mapper) {
         org.dizitart.no2.Document nitd = new org.dizitart.no2.Document();
-        for(Map.Entry<String, Object> entry : d.entrySet()) {
-            nitd.put(entry.getKey(), entry.getValue());
-        }
+        nitd.put("creator_username", creator_username);
+        nitd.put("tags", question.getTags());
+        nitd.put("question", question.getQuestion());
+        nitd.put("answers", question.getAnswers());
+        nitd.put("correct_answer_index", question.getCorrect_answer_index());
+        nitd.put("difficulty_count", question.getDifficulty_count());
+        nitd.put("difficulty", question.getDifficulty());
+        nitd.put("likes", question.getLikes());
+        nitd.put("comments", forum.getComments());
         return nitd;
     }
 
     @Override
     public void read(NitriteMapper mapper, org.dizitart.no2.Document document) {
+        initFromDocument(document);
+    }
+
+    public void initFromDocument(org.dizitart.no2.Document document) {
+
         this.id = document.get("_id").toString();
         this.creator_username = (String) document.get("creator_username");
         String question_str = (String) document.get("question");
         ArrayList<String> tags = (ArrayList<String>) document.get("tags");
-        ArrayList<String> answers = (ArrayList<String>) document.get("answers");
-        Integer correct_answer_index = (Integer) document.get("correct_answer_index");
+        ArrayList<String> answers_arr = (ArrayList<String>) document.get("answers");
+        int correct_answer_index = (int) document.get("correct_answer_index");
         ArrayList<Integer> difficulty_count = (ArrayList<Integer>) document.get("difficulty_count");
-        Double difficulty = (Double) document.get("difficulty");
-        Integer likes = (Integer) document.get("likes");
-        ArrayList<Document> comments = (ArrayList<Document>) document.get("comments");
+        double difficulty = (double) document.get("difficulty");
+        int likes = (int) document.get("likes");
+        ArrayList<Comment> comments = (ArrayList<Comment>) document.get("comments");
 
-        int[] _difficulty_count = new int[difficulty_count.size()];
-        for(int i = 0; i < _difficulty_count.length; i++) {
-            _difficulty_count[i] = difficulty_count.get(i);
-        }
-
-        String[] _answers = Arrays.asList(answers.toArray()).toArray(new String[answers.size()]);
-        this.question = new Question(tags, question_str, _answers, correct_answer_index.intValue(), _difficulty_count, difficulty.doubleValue(), likes.intValue());
-        this.comments = new ArrayList<Comment>();
-        for(Document d : comments) {
-            this.comments.add(new Comment((String)d.get("username"), (String)d.get("message")));
-        }
-        this.d = null; //TODO: Change
-        List<Comment> _comments = new ArrayList<>();
-        for(Document d : comments) {
-            String username = (String) d.get("username");
-            String message = (String) d.get("message");
-            _comments.add(new Comment(username, message));
-        }
-        this.forum = new Forum(this.id, _comments);
+        this.question = new Question(tags, question_str, answers_arr, correct_answer_index, difficulty_count, difficulty, likes);
+        this.forum = new Forum(this.id,  comments);
     }
 }

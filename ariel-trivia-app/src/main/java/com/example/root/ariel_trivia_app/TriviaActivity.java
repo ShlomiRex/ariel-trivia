@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class TriviaActivity extends Activity {
     public static final Trivia q = new Trivia();//(int)getIntent().getExtras().get("difficulty"));
     @Override
@@ -21,11 +23,11 @@ public class TriviaActivity extends Activity {
         Button ans2 = (Button)findViewById(R.id.ans2);
         Button ans3 = (Button)findViewById(R.id.ans3);
         Button ans4 = (Button)findViewById(R.id.ans4);
-        String[] answers = q.getQuestion().getAnswers();
-        ans1.setText("a)  " + answers[0]);
-        ans2.setText("b)  " + answers[1]);
-        ans3.setText("c)  " + answers[2]);
-        ans4.setText("d)  " + answers[3]);
+        List<String> answers = q.getQuestion().getAnswers();
+        ans1.setText("a)  " + answers.get(0));
+        ans2.setText("b)  " + answers.get(1));
+        ans3.setText("c)  " + answers.get(2));
+        ans4.setText("d)  " + answers.get(3));
 
         findViewById(R.id.ans1).setOnClickListener(new View.OnClickListener() {
             @Override
