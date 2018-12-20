@@ -2,6 +2,7 @@ package com.example.root.ariel_trivia_app;
 
 import com.google.common.hash.Hashing;
 
+import org.bson.types.ObjectId;
 import org.dizitart.no2.Cursor;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteBuilder;
@@ -69,6 +70,17 @@ public class APIRequests {
         isSignedIn = true;
         return true;
 
+    }
+
+    public static boolean signin(String userName, String password) {
+        //TODO
+        return true;
+    }
+
+
+    public static ObjectId signUp(User user, String password){
+        //TODO
+        return null;
     }
 
     /**
