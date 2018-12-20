@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/chooseQuestion"
+        android:title="choose a question"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/byID"
+                android:title="by ID"
+                app:showAsAction="never"/>
+            <item android:id="@+id/nyRandom"
+                android:title="by random"
+                app:showAsAction="never"/>
+            <item android:id="@+id/byManualy"
+                android:title="choose manualy"
+                app:showAsAction="never"/>
+        </menu>
+        <item android:id="@+id/addquestion"
+            android:title="add a question]"
+            app:showAsAction="never"/>
+        <item android:id="@+id/logout"
+            android:title="log out"
+            app:showAsAction="never"/>
+    </item>
+</menu>
