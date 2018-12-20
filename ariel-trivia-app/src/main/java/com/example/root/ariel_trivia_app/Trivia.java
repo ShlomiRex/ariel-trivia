@@ -5,7 +5,6 @@ import android.app.Application;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +12,12 @@ public class Trivia extends Application {
     private ObjectId id;
     private String creator_username;
     private Question question;
-    private final List<Comment> comments = new ArrayList<>();
-    private Document d; //The document object of db
-
     private Forum forum;
+    private Document d; //The document object of db
+    Rate myRate;
+    int likes = 0;
+
+
 
     public static void main(String[] args) {
         Trivia trivia = new Trivia();
@@ -24,8 +25,25 @@ public class Trivia extends Application {
         System.out.println("\n\n\n\n");
         System.out.println(trivia.toJson());
     }
-
+    public Trivia( String question , String answer ,String[] wrongAnswers){
+        //TODO add creator name, add document
+        myRate = new Rate(this);
+        forum = new Forum(this);
+        int rightAnswer = (int) (Math.random()*4);
+        String[] answers = new String[4];
+        for (int i = 0,j = 0; i < 4; i++){
+            if(i == rightAnswer){
+                answers[i] = answer;
+            }
+            else{
+                answers[i] = wrongAnswers[j];
+                j ++;
+            }
+        }
+        this.question = new Question(question, rightAnswer, answers);
+    }
     public Trivia() {
+
         this(        Document.parse("{\n" +
                 "\t\"_id\" : ObjectId(\"5be9e1eeb5bb3f88c77eba18\"),\n" +
                 "\t\"creator_username\" : \"vgtvgy1\",\n" +
@@ -83,7 +101,7 @@ public class Trivia extends Application {
         int correct_answer_index = d.getInteger("correct_answer_index").intValue();
         //difficulty count
         List<Integer> difficulty_count = (List<Integer>) d.get("difficulty_count");
-        int[] difficulty_count_array = new int[Question.DIFF_COUNT];
+        int[] difficulty_count_array = new int[5];
         for(int i = 0; i < difficulty_count_array.length; i++) {
             difficulty_count_array[i] = difficulty_count.get(i).intValue();
         }
@@ -93,13 +111,19 @@ public class Trivia extends Application {
         int likes = d.getInteger("likes").intValue();
         //comments
         List<Document> comments = (List<Document>) d.get("comments");
+        List<Comment> thiscomments = new ArrayList<Comment>() ;
+        this.forum = new Forum(this.id, thiscomments);
         for (Document c : comments)
-            this.comments.add(new Comment(c.getString("username"), c.getString("message")));
+            thiscomments.add(new Comment(this.forum, c.getString("username"), c.getString("message")));
         //document
         this.d = d;
-
-        this.forum = new Forum(this.id, this.comments);
-        this.question = new Question(tags, question, answers_array, correct_answer_index, difficulty_count_array, difficulty, likes);
+        this.question = new Question(tags, question, answers_array, correct_answer_index);
+        int num0fVoters = 0;
+        for(int i=0;i<5;i++){
+            num0fVoters += difficulty_count_array[i];
+        }
+        myRate = new Rate(this, num0fVoters, difficulty);
+        this.likes = likes;
     }
 
 
@@ -128,7 +152,7 @@ public class Trivia extends Application {
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return this.forum.getComments();
     }
 
     public ObjectId getId() {
@@ -156,14 +180,13 @@ public class Trivia extends Application {
     }
 
     public void addLike(){
-        //TODO
+        likes ++;
+        //TODO add to database
     }
 
     public void rate(int difficulty){
-        //TODO
+        myRate.addRate(difficulty);
+        //TODO add to database
     }
 
-    public void addComment(String comment){
-        //TODO
-    }
 }

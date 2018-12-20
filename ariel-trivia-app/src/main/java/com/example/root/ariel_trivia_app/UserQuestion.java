@@ -16,14 +16,19 @@ public class UserQuestion {
     }
 
     public void answerd(){
+
         answerCorrect = true;
     }
 
     public void changeLike(){
+
         isLike = true;
+        question.addLike();
     }
 
     public void setRate(int _rate){
+
         rate = _rate;
+        question.rate(_rate);
     }
 }

@@ -172,13 +172,12 @@ public class APIRequests {
      * Uploads to database trivia object
      * @param trivia
      */
-    public void uploadTrivia(Trivia trivia) {
-        uploadTrivia(trivia.toJson());
+    public static void uploadTrivia(Trivia trivia) {
+        //uploadTrivia(trivia.toJson());
+        //TODO uploud to the database...
     }
 
-    public static void uploadTrivia(String question, String answer, String[] wrongAnswers){
-        //TODO
-    }
+
     /**
      * Uploads to database trivia object
      * @param json

@@ -5,27 +5,29 @@ import java.util.List;
 
 public class Question implements Serializable {
     public static final int ANSWERS = 4; //How much answers there are in 1 trivia
-    public static final int DIFF_COUNT = 5; //Size of array of counts of difficulty
     private List<String> tags; // "labels"
     private String question;
     private final String[] answers = new String[4];
     private int correct_answer_index;
-    private int[] difficulty_count = new int[5]; //difficulty 1-5
-    private double difficulty;
-    private int likes;
 
-    public Question(List<String> tags, String question, String[] answers, int correct_answer_index, int[] difficulty_count, double difficulty, int likes) {
+
+
+    public Question(List<String> tags, String question, String[] answers, int correct_answer_index) {
         this.tags = tags;
         this.question = question;
         for(int i = 0; i < ANSWERS; i++) {
             this.answers[i] = answers[i];
         }
         this.correct_answer_index = correct_answer_index;
-        this.difficulty_count = difficulty_count;
-        this.difficulty = difficulty;
-        this.likes = likes;
     }
 
+    public Question(String question, int correct_answer_index, String[] answers) {
+        this.question = question;
+        this.correct_answer_index = correct_answer_index;
+        for(int i = 0; i < ANSWERS; i++) {
+            this.answers[i] = answers[i];
+        }
+    }
 
     /**
      *
@@ -68,27 +70,5 @@ public class Question implements Serializable {
         this.correct_answer_index = correct_answer_index;
     }
 
-    public int[] getDifficulty_count() {
-        return difficulty_count;
-    }
 
-    public void setDifficulty_count(int[] difficulty_count) {
-        this.difficulty_count = difficulty_count;
-    }
-
-    public double getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(double difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
 }

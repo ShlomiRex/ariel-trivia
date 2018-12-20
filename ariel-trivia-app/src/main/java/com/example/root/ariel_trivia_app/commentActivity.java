@@ -21,7 +21,7 @@ public class commentActivity extends Activity {
             @Override
             public void onClick(View v) {
                 EditText edit = (EditText)findViewById(R.id.comment_place);
-                TriviaActivity.q.addComment(edit.getText().toString());
+                TriviaActivity.q.getForum().addComment(edit.getText().toString());
                 edit.setText("write your comment");
                 Toast.makeText(getApplicationContext(), "comment added",Toast.LENGTH_LONG).show();
             }

@@ -19,12 +19,14 @@ public class addTriviaQuestionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String question =  ((EditText) findViewById(R.id.myQuestion)).getText().toString();
+
                 String answer =  ((EditText) findViewById(R.id.correctAnswer)).getText().toString();
                 String[] wrongAnswers = new String[3];
                 wrongAnswers[0] =  ((EditText) findViewById(R.id.myFirstAnswer)).getText().toString();
                 wrongAnswers[1] =  ((EditText) findViewById(R.id.mySecondAnswer)).getText().toString();
                 wrongAnswers[2] =  ((EditText) findViewById(R.id.myThirdAnswer)).getText().toString();
-                APIRequests.uploadTrivia(question, answer, wrongAnswers);
+                Trivia newTrivia = new Trivia(question, answer, wrongAnswers);
+                APIRequests.uploadTrivia(newTrivia);
                 Intent i = new Intent(addTriviaQuestionActivity.this, addTriviaQuestionActivity.class);
                 finish();
                 startActivity(i);
