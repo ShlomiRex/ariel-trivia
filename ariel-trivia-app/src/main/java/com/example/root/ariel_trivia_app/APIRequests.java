@@ -1,8 +1,10 @@
 package com.example.root.ariel_trivia_app;
 
 import org.dizitart.no2.Cursor;
+import org.dizitart.no2.Document;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteCollection;
+import org.dizitart.no2.objects.ObjectRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,12 @@ public class APIRequests {
     private String cookie;
     private LoginInfo loginInfo;
     private Nitrite db;
-    private int port;
 
     private boolean isSignedIn =false;
 
-    public APIRequests(LoginInfo loginInfo) {
+    public APIRequests(Nitrite db, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
-        db = Nitrite.builder().filePath(Global.DB.DB_FILE).openOrCreate();
+        this.db = db;
     }
 //
 //    public static void main(String[] args) {
@@ -51,9 +52,9 @@ public class APIRequests {
      * @return True if success
      */
     public boolean signin() {
-        NitriteCollection nc = db.getCollection("users");
-        Cursor c = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256())));
-        if(c.size() == 0) {
+        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
+        Document doc = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256().toUpperCase()))).firstOrDefault();
+        if(doc == null) {
             return false;
         }
         isSignedIn = true;

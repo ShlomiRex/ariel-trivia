@@ -26,11 +26,13 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
     private final String TAG = MainActivity.class.getSimpleName();
-
+    private Nitrite db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        String path = getApplicationContext().getFilesDir().getPath() + "/" + Global.DB.DB_FILE;
+        db = Nitrite.builder().filePath(path).openOrCreate();
 
         final Button btn_login = (Button) findViewById(R.id.login_btn_login);
         final EditText etxt_username = (EditText) findViewById(R.id.login_etxt_username);
@@ -42,8 +44,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //TODO login
-                Intent i = new Intent(MainActivity.this, userOptionsActivity.class);
-                startActivity(i);
+                String username = etxt_username.getText().toString();
+                String password_plain = etxt_password.getText().toString();
+                String password_sha256 = Global.sha256(password_plain);
+                LoginInfo loginInfo = new LoginInfo(username, password_sha256);
+
+                Global.apiRequests = new APIRequests(db, loginInfo);
+                if(Global.apiRequests.signin() == true) {
+                    Intent i = new Intent(MainActivity.this, userOptionsActivity.class);
+                    startActivity(i);
+                    Global.apiRequests = null;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Usename / password incorrect!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -69,16 +82,12 @@ public class MainActivity extends Activity {
         Context context = getApplicationContext();
         SharedPreferences sharedPref = context.getSharedPreferences(Global.SharedPreferences.Files.GLOBAL, Context.MODE_PRIVATE);
         boolean firstTime = sharedPref.getBoolean(Global.SharedPreferences.Keys.FIRST_TIME, true);
-        Nitrite db;
 
         if(firstTime) {
             Log.d(TAG, "First Time :D");
             SharedPreferences.Editor speditor = sharedPref.edit();
             speditor.putBoolean(Global.SharedPreferences.Keys.FIRST_TIME, false); //Changed first time flag
             speditor.commit();
-
-
-            db = Global.getDatabase(this);
 
             //Truncate anyway
             for(String colName : db.listCollectionNames()) {
@@ -110,10 +119,6 @@ public class MainActivity extends Activity {
                 Trivia t = new Trivia(d);
                 triviasRepository.insert(t);
             }
-
-            db.commit();
-            db.compact();
-            db.close();
         } else {
             Log.d(TAG, "NOT First Time :(");
         }
@@ -125,28 +130,22 @@ public class MainActivity extends Activity {
      * Test read, output in logcat
      */
     private void readTriviasFromDB() {
-        Nitrite db = Global.getDatabase(this);
         ObjectRepository<Trivia> repo = db.getRepository(Trivia.class);
         Cursor<Trivia> cursor = repo.find();
         for(Trivia t : cursor) {
             Log.d(TAG, t.getQuestion().getQuestion());
         }
-
-        db.close();
     }
 
     /**
      * Test read, output in logcat
      */
     private void readUsersFromDB() {
-        Nitrite db = Global.getDatabase(this);
         ObjectRepository<LoginInfo> repo = db.getRepository(LoginInfo.class);
         Cursor<LoginInfo> cursor = repo.find();
         for(LoginInfo l : cursor) {
             Log.d(TAG, "username:"+l.getUsername()+",password:"+l.getPassword_sha256());
         }
-
-        db.close();
     }
 
     private String readAssetsFile(String path) throws IOException {
@@ -162,5 +161,11 @@ public class MainActivity extends Activity {
 
         in.close();
         return buf.toString();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();;
+        db.close();
     }
 }
