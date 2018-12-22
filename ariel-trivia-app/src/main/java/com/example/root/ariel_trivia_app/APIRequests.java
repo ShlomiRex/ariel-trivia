@@ -62,7 +62,6 @@ public class APIRequests {
         }
         Global.isSignedIn = true;
         return true;
-
     }
 
     /**

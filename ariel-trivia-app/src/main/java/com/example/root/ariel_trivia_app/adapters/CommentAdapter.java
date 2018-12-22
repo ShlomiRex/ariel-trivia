@@ -4,10 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.root.ariel_trivia_app.base.Comment;
@@ -27,7 +24,7 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
     }
 
     public CommentAdapter(List<Comment> data, Context context) {
-        super(context, R.layout.comment_row, data);
+        super(context, R.layout.adapter_comment, data);
         this.dataSet = data;
         this.mContext=context;
     }
@@ -40,7 +37,7 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 
         viewHolder = new ViewHolder();
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        convertView = inflater.inflate(R.layout.comment_row, parent, false);
+        convertView = inflater.inflate(R.layout.adapter_comment, parent, false);
         viewHolder.user = (TextView) convertView.findViewById(R.id.user);
         viewHolder.message = (TextView) convertView.findViewById(R.id.message);
         viewHolder.user.setText(comment.getUsername());

@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.root.ariel_trivia_app.adapters.CommentAdapter;
+import com.example.root.ariel_trivia_app.adapters.TriviaAdapter;
 import com.example.root.ariel_trivia_app.base.Trivia;
 
 import java.util.ArrayList;
@@ -26,9 +28,11 @@ public class SelectTriviaActivity extends Activity {
             trivia_questions.add(t.getQuestion().getQuestion());
         }
         final ListView listView = (ListView) findViewById(R.id.lst_trivias);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, trivia_questions);
+        ListView lst = (ListView) findViewById(R.id.lst_trivias);
+        TriviaAdapter adapter = new TriviaAdapter(trivias, getApplicationContext());
         listView.setAdapter(adapter);
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
