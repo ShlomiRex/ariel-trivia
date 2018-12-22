@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.root.ariel_trivia_app.base.LoginInfo;
+import com.example.root.ariel_trivia_app.base.Trivia;
+
 import org.bson.Document;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.Cursor;
@@ -30,20 +33,28 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        String path = getApplicationContext().getFilesDir().getPath() + "/" + Global.DB.DB_FILE;
+        setContentView(R.layout.activity_login);
+        String path = getApplicationContext().getFilesDir().getPath() + "/" + Global.DB_FILE;
         db = Nitrite.builder().filePath(path).openOrCreate();
-
+        //Set global database
+        Global.database = db;
         final Button btn_login = (Button) findViewById(R.id.login_btn_login);
         final EditText etxt_username = (EditText) findViewById(R.id.login_etxt_username);
         final EditText etxt_password = (EditText) findViewById(R.id.login_etxt_password);
 
+        final Button btn_register = findViewById(R.id.login_btn_register);
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO login
                 String username = etxt_username.getText().toString();
                 String password_plain = etxt_password.getText().toString();
                 String password_sha256 = Global.sha256(password_plain);
@@ -51,11 +62,11 @@ public class MainActivity extends Activity {
 
                 Global.apiRequests = new APIRequests(db, loginInfo);
                 if(Global.apiRequests.signin() == true) {
-                    Intent i = new Intent(MainActivity.this, userOptionsActivity.class);
+                    Intent i = new Intent(MainActivity.this, AfterLoginActivity.class);
                     startActivity(i);
-                    Global.apiRequests = null;
                 } else {
-                    Toast.makeText(getApplicationContext(), "Usename / password incorrect!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Username / password incorrect!", Toast.LENGTH_LONG).show();
+                    Global.apiRequests = null;
                 }
             }
         });
@@ -90,9 +101,9 @@ public class MainActivity extends Activity {
             speditor.commit();
 
             //Truncate anyway
-            for(String colName : db.listCollectionNames()) {
-                db.getCollection(colName).drop();
-            }
+//            for(String colName : db.listCollectionNames()) {
+//                db.getCollection(colName).drop();
+//            }
 
             //insert into db the datasets
             String json_trivias = readAssetsFile("db/trivias.json");

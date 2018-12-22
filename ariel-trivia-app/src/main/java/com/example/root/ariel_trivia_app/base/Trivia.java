@@ -1,16 +1,16 @@
-package com.example.root.ariel_trivia_app;
+package com.example.root.ariel_trivia_app.base;
 
 import android.app.Application;
 
 import org.bson.Document;
 import org.dizitart.no2.mapper.Mappable;
 import org.dizitart.no2.mapper.NitriteMapper;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-public class Trivia extends Application implements Mappable {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Trivia extends Application implements Mappable, Serializable {
     private String id;
     private String creator_username;
     private Question question;
@@ -19,7 +19,7 @@ public class Trivia extends Application implements Mappable {
 
     public Trivia() {
         this(        Document.parse("{\n" +
-                "\t\"_id\" : ObjectId(\"5be9e1eeb5bb3f88c77eba18\"),\n" +
+                "\t\"_id\" : \"5be9e1eeb5bb3f88c77eba18\",\n" +
                 "\t\"creator_username\" : \"vgtvgy1\",\n" +
                 "\t\"tags\" : [\n" +
                 "\t\t\"easy question\",\n" +
@@ -132,8 +132,8 @@ public class Trivia extends Application implements Mappable {
         //TODO
     }
 
-    public void addComment(String comment){
-        //TODO
+    public void addComment(Comment comment){
+        forum.getComments().add(comment);
     }
 
     @Override

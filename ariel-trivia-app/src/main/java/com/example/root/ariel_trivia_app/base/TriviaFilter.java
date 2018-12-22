@@ -1,4 +1,4 @@
-package com.example.root.ariel_trivia_app;
+package com.example.root.ariel_trivia_app.base;
 
 import java.util.List;
 

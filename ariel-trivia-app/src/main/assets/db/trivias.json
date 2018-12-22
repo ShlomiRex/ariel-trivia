@@ -85,5 +85,44 @@
     "difficulty": 4.2,
     "likes": 0,
     "comments": []
+  },
+  {
+    "creator_username": "Test Comments",
+    "tags": [],
+    "question": "Answer is B",
+    "answers": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_answer_index": 1,
+    "difficulty_count": [
+      0,
+      0,
+      7,
+      3,
+      12
+    ],
+    "difficulty": 4.2,
+    "likes": 0,
+    "comments": [
+      {
+        "username": "A",
+        "message": "First comment"
+      },
+      {
+        "username": "B",
+        "message": "Second comment"
+      },
+      {
+        "username": "C",
+        "message": "Third comment"
+      },
+      {
+        "username": "D",
+        "message": "Fourth comment"
+      }
+    ]
   }
 ]

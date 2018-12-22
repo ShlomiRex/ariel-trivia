@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 
-public class userOptionsActivity extends Activity {
+public class AfterLoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,14 +17,14 @@ public class userOptionsActivity extends Activity {
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(userOptionsActivity.this, SelectTriviaActivity.class);
+                Intent i = new Intent(AfterLoginActivity.this, SelectTriviaActivity.class);
                 startActivity(i);
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(userOptionsActivity.this, addTriviaQuestionActivity.class);
+                Intent i = new Intent(AfterLoginActivity.this, addTriviaQuestionActivity.class);
                 startActivity(i);
             }
         });

@@ -1,12 +1,9 @@
-package com.example.root.ariel_trivia_app;
+package com.example.root.ariel_trivia_app.base;
 
-import com.example.root.ariel_trivia_app.Comment;
-
-import org.bson.types.ObjectId;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class Forum {
+public class Forum implements Serializable {
     private String trivia_id;
     private List<Comment> comments;
 

@@ -1,4 +1,4 @@
-package com.example.root.ariel_trivia_app;
+package com.example.root.ariel_trivia_app.base;
 
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.Mappable;
@@ -8,7 +8,7 @@ public class LoginInfo implements Mappable {
     private String username, password_sha256;
     public LoginInfo(String username, String password_sha256) {
         this.username = username;
-        this.password_sha256 = password_sha256;
+        this.password_sha256 = password_sha256.toUpperCase();
     }
 
     public String getUsername() {
@@ -24,7 +24,14 @@ public class LoginInfo implements Mappable {
     }
 
     public void setPassword_sha256(String password_sha256) {
-        this.password_sha256 = password_sha256;
+        this.password_sha256 = password_sha256.toUpperCase();
+    }
+
+    public Document toDocument() {
+        Document d = new Document();
+        d.put("username", username);
+        d.put("password", password_sha256);
+        return d;
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.example.root.ariel_trivia_app;
 
-import org.dizitart.no2.Cursor;
+import com.example.root.ariel_trivia_app.base.Comment;
+import com.example.root.ariel_trivia_app.base.LoginInfo;
+import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.TriviaFilter;
+
 import org.dizitart.no2.Document;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteCollection;
+import org.dizitart.no2.WriteResult;
+import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.dizitart.no2.filters.Filters.and;
@@ -17,8 +22,6 @@ public class APIRequests {
     private String cookie;
     private LoginInfo loginInfo;
     private Nitrite db;
-
-    private boolean isSignedIn =false;
 
     public APIRequests(Nitrite db, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
@@ -57,7 +60,7 @@ public class APIRequests {
         if(doc == null) {
             return false;
         }
-        isSignedIn = true;
+        Global.isSignedIn = true;
         return true;
 
     }
@@ -94,8 +97,8 @@ public class APIRequests {
      * @return
      */
     public List<Trivia> requestTrivias(TriviaFilter filter) {
-        List<Trivia> result = new ArrayList<>();
-
+        //List<Trivia> result = new ArrayList<>();
+        return db.getRepository(Trivia.class).find().toList();
 //        try {
 //            Map<String, List<String>> param_data = new HashMap<>();
 //
@@ -143,8 +146,6 @@ public class APIRequests {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
-        return null;
     }
 
     /**
@@ -182,5 +183,30 @@ public class APIRequests {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    public void postComment(Trivia trivia, Comment comment) {
+        trivia.getForum().getComments().add(comment);
+        //db.getRepository()
+    }
+
+    /**
+     * Register.
+     * @param registerInfo
+     * @return True if success.
+     */
+    public static boolean register(Nitrite db, LoginInfo registerInfo) {
+        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
+        Document d = nc.find(eq("username", registerInfo.getUsername())).firstOrDefault();
+        if(d == null) {
+            WriteResult a = nc.insert(registerInfo.toDocument());
+            if(a.getAffectedCount() == 0) {
+                return false;
+            }
+            return true;
+        } else {
+            //Username already exists
+            return false;
+        }
     }
 }
