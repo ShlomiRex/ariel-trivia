@@ -29,13 +29,14 @@
 
         <activity android:name=".SuccessActivity" />
         <activity
-            android:name=".commentActivity"
+            android:name=".CommentActivity"
             android:label="@string/title_activity_comment" />
         <activity android:name=".RateActivity" />
         <activity
-            android:name=".userOptionsActivity"
+            android:name=".AfterLoginActivity"
             android:label="@string/title_activity_user_options" />
         <activity android:name=".addTriviaQuestionActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>
