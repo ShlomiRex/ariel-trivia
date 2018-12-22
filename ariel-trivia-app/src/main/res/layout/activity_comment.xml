@@ -5,6 +5,21 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="50dp">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comments_list"
+            android:layout_gravity="center"
+            android:focusable="false"
+            android:focusableInTouchMode="false"></ListView>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,30 +30,13 @@
             android:id="@+id/comment_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="write your comment"/>
+            android:hint="write your comment"/>
         <Button
             android:id="@+id/add_comment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add"/>
+            android:text="POST"/>
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/add">
-        <!--Scrollable content here-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/forum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </ScrollView>
 
 </RelativeLayout>

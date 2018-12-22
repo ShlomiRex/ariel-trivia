@@ -1,21 +1,18 @@
 package com.example.root.ariel_trivia_app;
 
-import com.google.common.hash.Hashing;
+import com.example.root.ariel_trivia_app.base.Comment;
+import com.example.root.ariel_trivia_app.base.LoginInfo;
+import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.TriviaFilter;
 
-import org.dizitart.no2.Cursor;
+import org.dizitart.no2.Document;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.NitriteBuilder;
 import org.dizitart.no2.NitriteCollection;
+import org.dizitart.no2.WriteResult;
+import org.dizitart.no2.objects.Cursor;
+import org.dizitart.no2.objects.ObjectRepository;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.dizitart.no2.filters.Filters.and;
 import static org.dizitart.no2.filters.Filters.eq;
@@ -25,13 +22,10 @@ public class APIRequests {
     private String cookie;
     private LoginInfo loginInfo;
     private Nitrite db;
-    private int port;
 
-    private boolean isSignedIn =false;
-
-    public APIRequests(LoginInfo loginInfo) {
+    public APIRequests(Nitrite db, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
-        db = Nitrite.builder().filePath(Global.DB.DB_PATH).openOrCreate();
+        this.db = db;
     }
 //
 //    public static void main(String[] args) {
@@ -61,14 +55,13 @@ public class APIRequests {
      * @return True if success
      */
     public boolean signin() {
-        NitriteCollection nc = db.getCollection("users");
-        Cursor c = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256())));
-        if(c.size() == 0) {
+        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
+        Document doc = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256().toUpperCase()))).firstOrDefault();
+        if(doc == null) {
             return false;
         }
-        isSignedIn = true;
+        Global.isSignedIn = true;
         return true;
-
     }
 
     /**
@@ -103,8 +96,8 @@ public class APIRequests {
      * @return
      */
     public List<Trivia> requestTrivias(TriviaFilter filter) {
-        List<Trivia> result = new ArrayList<>();
-
+        //List<Trivia> result = new ArrayList<>();
+        return db.getRepository(Trivia.class).find().toList();
 //        try {
 //            Map<String, List<String>> param_data = new HashMap<>();
 //
@@ -152,8 +145,6 @@ public class APIRequests {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
-        return null;
     }
 
     /**
@@ -161,7 +152,7 @@ public class APIRequests {
      * @param trivia
      */
     public void uploadTrivia(Trivia trivia) {
-        uploadTrivia(trivia.toJson());
+
     }
 
     public static void uploadTrivia(String question, String answer, String[] wrongAnswers){
@@ -191,5 +182,30 @@ public class APIRequests {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    public void postComment(Trivia trivia, Comment comment) {
+        trivia.getForum().getComments().add(comment);
+        //db.getRepository()
+    }
+
+    /**
+     * Register.
+     * @param registerInfo
+     * @return True if success.
+     */
+    public static boolean register(Nitrite db, LoginInfo registerInfo) {
+        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
+        Document d = nc.find(eq("username", registerInfo.getUsername())).firstOrDefault();
+        if(d == null) {
+            WriteResult a = nc.insert(registerInfo.toDocument());
+            if(a.getAffectedCount() == 0) {
+                return false;
+            }
+            return true;
+        } else {
+            //Username already exists
+            return false;
+        }
     }
 }
