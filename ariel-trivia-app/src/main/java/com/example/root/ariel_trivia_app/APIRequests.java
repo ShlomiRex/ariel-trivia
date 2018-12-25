@@ -8,6 +8,7 @@ import com.example.root.ariel_trivia_app.base.Trivia;
 import com.example.root.ariel_trivia_app.base.TriviaFilter;
 
 import org.dizitart.no2.Document;
+import org.dizitart.no2.FindOptions;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteCollection;
 import org.dizitart.no2.NitriteId;
@@ -106,21 +107,30 @@ public class APIRequests {
 //    }
 
     public List<Trivia> requestTrivias(TriviaFilter filter) {
+        return requestTrivias(filter, -1);
+    }
+
+    public List<Trivia> requestTrivias(TriviaFilter filter, int limit) {
         if(filter != null) {
-            Map<String, List<String>> param_data = new HashMap<>();
-
-            int difficulty = filter.getDifficulty();
-            TriviaFilter.Operator difficulty_o = filter.getDifficulty_o();
-
-            int likes = filter.getLikes();
-            TriviaFilter.Operator likes_o = filter.getLikes_o();
-
-            List<String> labels = filter.getLabels();
-            return db.getRepository(Trivia.class).find().toList(); //TODO: Change
+//            Map<String, List<String>> param_data = new HashMap<>();
+//
+//            int difficulty = filter.getDifficulty();
+//            TriviaFilter.Operator difficulty_o = filter.getDifficulty_o();
+//
+//            int likes = filter.getLikes();
+//            TriviaFilter.Operator likes_o = filter.getLikes_o();
+//
+//            List<String> labels = filter.getLabels();
+//            return db.getRepository(Trivia.class).find().toList(); //TODO: Change
         } else {
-            return db.getRepository(Trivia.class).find().toList();
+            if(limit < 0) {
+                return db.getRepository(Trivia.class).find().toList();
+            } else {
+                return db.getRepository(Trivia.class).find(FindOptions.limit(0, limit)).toList();
+            }
         }
 
+        return db.getRepository(Trivia.class).find(FindOptions.limit(0, limit)).toList();
     }
 
     /**

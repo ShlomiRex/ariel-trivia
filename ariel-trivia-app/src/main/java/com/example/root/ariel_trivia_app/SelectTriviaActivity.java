@@ -22,7 +22,7 @@ public class SelectTriviaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_trivia);
 
-        final List<Trivia> trivias = Global.apiRequests.requestTrivias(null);
+        final List<Trivia> trivias = Global.apiRequests.requestTrivias(null, 10);
         ArrayList<String> trivia_questions = new ArrayList<>();
         for(Trivia t : trivias) {
             trivia_questions.add(t.getQuestion().getQuestion());
