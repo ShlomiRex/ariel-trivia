@@ -18,9 +18,9 @@ public class SuccessActivity extends Activity {
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SuccessActivity.this, TriviaActivity.class);
-                i.putExtra("trivia", trivia);
-                startActivity(i);
+//                Intent i = new Intent(SuccessActivity.this, TriviaActivity.class);
+//                i.putExtra("trivia", trivia);
+//                startActivity(i);
                 finish();
             }
         });

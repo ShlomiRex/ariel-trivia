@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.root.ariel_trivia_app.base.MenuClick;
 
 public class HomeActivity extends Activity {
 
@@ -29,9 +32,9 @@ public class HomeActivity extends Activity {
         inflater.inflate(R.menu.unlogin_manu,menu);
         return true;
     }
-        @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {//item selected from menu
         final MenuClick m = (MenuClick) getIntent().getSerializableExtra("trivia");
-        return m.click(homeActivity.this,item);
+        return m.click(HomeActivity.this,item);
     }
 }
