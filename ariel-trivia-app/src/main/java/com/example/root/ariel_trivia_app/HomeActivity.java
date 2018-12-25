@@ -29,4 +29,9 @@ public class HomeActivity extends Activity {
         inflater.inflate(R.menu.unlogin_manu,menu);
         return true;
     }
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {//item selected from menu
+        final MenuClick m = (MenuClick) getIntent().getSerializableExtra("trivia");
+        return m.click(homeActivity.this,item);
+    }
 }
