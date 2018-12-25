@@ -11,13 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.root.ariel_trivia_app.adapters.TriviaAdapter;
 import com.example.root.ariel_trivia_app.base.LoginInfo;
 import com.example.root.ariel_trivia_app.base.Trivia;
 
 import org.bson.Document;
 import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.event.ChangeInfo;
+import org.dizitart.no2.event.ChangeListener;
 import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
+import org.dizitart.no2.util.Iterables;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +66,8 @@ public class MainActivity extends Activity {
 
                 Global.apiRequests = new APIRequests(db, loginInfo);
                 if(Global.apiRequests.signin() == true) {
+                    //Success login
+                    Global.username = loginInfo.getUsername();
                     Intent i = new Intent(MainActivity.this, AfterLoginActivity.class);
                     startActivity(i);
                 } else {

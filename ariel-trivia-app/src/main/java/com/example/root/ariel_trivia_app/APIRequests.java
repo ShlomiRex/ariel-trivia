@@ -1,5 +1,7 @@
 package com.example.root.ariel_trivia_app;
 
+import android.util.Log;
+
 import com.example.root.ariel_trivia_app.base.Comment;
 import com.example.root.ariel_trivia_app.base.LoginInfo;
 import com.example.root.ariel_trivia_app.base.Trivia;
@@ -8,11 +10,20 @@ import com.example.root.ariel_trivia_app.base.TriviaFilter;
 import org.dizitart.no2.Document;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteCollection;
+import org.dizitart.no2.NitriteId;
 import org.dizitart.no2.WriteResult;
 import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
+import org.dizitart.no2.objects.filters.ObjectFilters;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.dizitart.no2.filters.Filters.and;
 import static org.dizitart.no2.filters.Filters.eq;
@@ -22,10 +33,14 @@ public class APIRequests {
     private String cookie;
     private LoginInfo loginInfo;
     private Nitrite db;
-
+    public static final String TAG = APIRequests.class.getSimpleName();
     public APIRequests(Nitrite db, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
         this.db = db;
+    }
+
+    public List<Comment> getForum(Trivia t) {
+        return null;
     }
 //
 //    public static void main(String[] args) {
@@ -64,15 +79,15 @@ public class APIRequests {
         return true;
     }
 
-    /**
-     * Singup.
-     * @param hostname
-     * @param port
-     * @param username
-     * @param password The password in SHA256.
-     */
-    public static void signup(String hostname, int port, String username, String password) {
-
+//    /**
+//     * Singup.
+//     * @param hostname
+//     * @param port
+//     * @param username
+//     * @param password The password in SHA256.
+//     */
+//    public static void signup(String hostname, int port, String username, String password) {
+//
 //        Map<String, List<String>> form_data = new HashMap<>();
 //        form_data.put("username", Arrays.asList(username));
 //        form_data.put("password", Arrays.asList(password));
@@ -88,63 +103,24 @@ public class APIRequests {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-    }
+//    }
 
-    /**
-     * GET Method
-     * @param filter
-     * @return
-     */
     public List<Trivia> requestTrivias(TriviaFilter filter) {
-        //List<Trivia> result = new ArrayList<>();
-        return db.getRepository(Trivia.class).find().toList();
-//        try {
-//            Map<String, List<String>> param_data = new HashMap<>();
-//
-//            int difficulty = filter.getDifficulty();
-//            TriviaFilter.Operator difficulty_o = filter.getDifficulty_o();
-//
-//            int likes = filter.getLikes();
-//            TriviaFilter.Operator likes_o = filter.getLikes_o();
-//
-//            List<String> labels = filter.getLabels();
-//
-//
-//            param_data.put("username", Arrays.asList(username));
-//            param_data.put("cookie", Arrays.asList(cookie));
-//
-//            if(likes != -1 && likes_o != null) {
-//                param_data.put("likes", Arrays.asList(""+likes));
-//                param_data.put("likes_o", Arrays.asList(likes_o.name()));
-//            }
-//
-//
-//            if(difficulty != -1 && difficulty_o != null) {
-//                param_data.put("difficulty", Arrays.asList(""+difficulty));
-//                param_data.put("difficulty_o", Arrays.asList(difficulty_o.name()));
-//            }
-//
-//            if(labels != null) {
-//                List<String> lbl_values = new ArrayList<>();
-//                for(String lbl : labels) {
-//                    lbl_values.add(lbl);
-//                }
-//                param_data.put("label", lbl_values);
-//            }
-//
-//            OutputStream response = new ByteArrayOutputStream();
-//            int status_code = ServerConnector.GET(hostname, port, "trivias", param_data, response, APICode.getTrivias);
-//
-//            System.out.println("=== requestTrivia Response Start ===");
-//            System.out.println(response.toString());
-//
-//            System.out.println("Status code: " + status_code);
-//            System.out.println("=== requestTrivia Response End ===");
-//
-//            return result;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        if(filter != null) {
+            Map<String, List<String>> param_data = new HashMap<>();
+
+            int difficulty = filter.getDifficulty();
+            TriviaFilter.Operator difficulty_o = filter.getDifficulty_o();
+
+            int likes = filter.getLikes();
+            TriviaFilter.Operator likes_o = filter.getLikes_o();
+
+            List<String> labels = filter.getLabels();
+            return db.getRepository(Trivia.class).find().toList(); //TODO: Change
+        } else {
+            return db.getRepository(Trivia.class).find().toList();
+        }
+
     }
 
     /**
@@ -153,10 +129,6 @@ public class APIRequests {
      */
     public void uploadTrivia(Trivia trivia) {
 
-    }
-
-    public static void uploadTrivia(String question, String answer, String[] wrongAnswers){
-        //TODO
     }
     /**
      * Uploads to database trivia object
@@ -184,9 +156,17 @@ public class APIRequests {
 //        }
     }
 
+    //Adds comment to Trivia AND database.
     public void postComment(Trivia trivia, Comment comment) {
         trivia.getForum().getComments().add(comment);
-        //db.getRepository()
+//        ObjectRepository<Trivia> repo =  db.getRepository(Trivia.class); //TODO: How to filter Object repository? What is "field" of object?
+//        List<Trivia> trivias = repo.find().toList();
+//        for(Trivia t : trivias) {
+//            if(t.getId().equals(trivia.getId())) {
+//                t.addComment(comment);
+//                repo.update(t);
+//            }
+//        }
     }
 
     /**
@@ -207,5 +187,21 @@ public class APIRequests {
             //Username already exists
             return false;
         }
+    }
+
+    public Trivia getTrivia(String id) {
+        ObjectRepository<Trivia> repo = db.getRepository(Trivia.class);
+        List<Trivia> result = repo.find(ObjectFilters.eq("id", id)).toList();
+        if(result.size() < 1) {
+            return null;
+        }
+        return result.get(0);
+
+
+//        List<Trivia> trivias = repo.find(ObjectFilters.eq("_id", id)).toList();
+//        if(trivias.size() == 0 || trivias.size() > 1) {
+//            return null;
+//        }
+        //return trivias.get(0);
     }
 }

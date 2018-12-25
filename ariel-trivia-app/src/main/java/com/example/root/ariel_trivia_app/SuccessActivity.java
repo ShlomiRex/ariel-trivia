@@ -58,6 +58,3 @@ public class SuccessActivity extends Activity {
         });
     }
 }
-class boolObject{
-    boolean myBool = false;
-}

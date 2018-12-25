@@ -5,60 +5,23 @@ import android.app.Application;
 import org.bson.Document;
 import org.dizitart.no2.mapper.Mappable;
 import org.dizitart.no2.mapper.NitriteMapper;
+import org.dizitart.no2.objects.Id;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Trivia extends Application implements Mappable, Serializable {
+    @Id
     private String id;
     private String creator_username;
     private Question question;
 
     private Forum forum;
 
-    public Trivia() {
-        this(        Document.parse("{\n" +
-                "\t\"_id\" : \"5be9e1eeb5bb3f88c77eba18\",\n" +
-                "\t\"creator_username\" : \"vgtvgy1\",\n" +
-                "\t\"tags\" : [\n" +
-                "\t\t\"easy question\",\n" +
-                "\t\t\"maths\",\n" +
-                "\t\t\"for kids\"\n" +
-                "\t],\n" +
-                "\t\"question\" : \"How much is 2+2?\",\n" +
-                "\t\"answers\" : [\n" +
-                "\t\t\"25\",\n" +
-                "\t\t\"4\",\n" +
-                "\t\t\"I don't know\",\n" +
-                "\t\t\"3.14\"\n" +
-                "\t],\n" +
-                "\t\"correct_answer_index\" : 1,\n" +
-                "\t\"difficulty_count\" : [\n" +
-                "\t\t5,\n" +
-                "\t\t0,\n" +
-                "\t\t2,\n" +
-                "\t\t0,\n" +
-                "\t\t2\n" +
-                "\t],\n" +
-                "\t\"difficulty\" : 2.3,\n" +
-                "\t\"likes\" : 3,\n" +
-                "\t\"comments\" : [\n" +
-                "\t\t{\n" +
-                "\t\t\t\"username\" : \"vgtvgy1\",\n" +
-                "\t\t\t\"message\" : \"I like this trivia question\"\n" +
-                "\t\t},\n" +
-                "\t\t{\n" +
-                "\t\t\t\"username\" : \"abc\",\n" +
-                "\t\t\t\"message\" : \"Hey Shlomi, stop spamming!\"\n" +
-                "\t\t}\n" +
-                "\t]\n" +
-                "}\n"));
-    }
-
     public Trivia(Document d) {
         //id
-        this.id = (String) d.get("_id");
+        this.id = ""+System.currentTimeMillis();
         //creator username
         this.creator_username = d.getString("creator_username");
         //tags / labels
@@ -139,6 +102,7 @@ public class Trivia extends Application implements Mappable, Serializable {
     @Override
     public org.dizitart.no2.Document write(NitriteMapper mapper) {
         org.dizitart.no2.Document nitd = new org.dizitart.no2.Document();
+        nitd.put("id", id);
         nitd.put("creator_username", creator_username);
         nitd.put("tags", question.getTags());
         nitd.put("question", question.getQuestion());
@@ -153,12 +117,7 @@ public class Trivia extends Application implements Mappable, Serializable {
 
     @Override
     public void read(NitriteMapper mapper, org.dizitart.no2.Document document) {
-        initFromDocument(document);
-    }
-
-    public void initFromDocument(org.dizitart.no2.Document document) {
-
-        this.id = document.get("_id").toString();
+        this.id = document.get("id").toString();
         this.creator_username = (String) document.get("creator_username");
         String question_str = (String) document.get("question");
         ArrayList<String> tags = (ArrayList<String>) document.get("tags");

@@ -23,6 +23,7 @@ public class Global {
 
     public static final String DB_FILE = "app.db";
     public static boolean isSignedIn =false;
+    public static String username; //Not null when isSignIn = true and/or apiRequests initialized
     public static Nitrite database;
     public static String sha256(String data) {
         return Hashing.sha256().hashString(data, StandardCharsets.UTF_8).toString();
