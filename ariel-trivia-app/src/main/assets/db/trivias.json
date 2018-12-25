@@ -76,18 +76,18 @@
     ],
     "correct_answer_index": 3,
     "difficulty_count": [
+      4,
+      2,
+      1,
       0,
-      0,
-      7,
-      3,
-      12
+      0
     ],
-    "difficulty": 4.2,
+    "difficulty": 1.57142,
     "likes": 0,
     "comments": []
   },
   {
-    "creator_username": "Test Comments",
+    "creator_username": "vgtvgy1",
     "tags": [],
     "question": "Answer is B. What a stupid question.",
     "answers": [
@@ -98,30 +98,119 @@
     ],
     "correct_answer_index": 1,
     "difficulty_count": [
+      4,
+      1,
       0,
       0,
-      7,
-      3,
-      12
+      0
     ],
-    "difficulty": 4.2,
+    "difficulty": 1.2,
     "likes": 0,
     "comments": [
       {
-        "username": "A",
-        "message": "First comment"
+        "username": "arye",
+        "message": "I agree, it is stupid"
       },
       {
-        "username": "B",
-        "message": "Second comment"
+        "username": "ytshak",
+        "message": "ha ha ha"
+      }
+    ]
+  },
+  {
+    "creator_username": "arye",
+    "tags": ["math"],
+    "question": "2*8+3^7 = ",
+    "answers": [
+      "20",
+      "16",
+      "12.5",
+      "117"
+    ],
+    "correct_answer_index": 2,
+    "difficulty_count": [
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    "difficulty": 4.5,
+    "likes": 0,
+    "comments": [
+      {
+        "username": "Shlomi",
+        "message": "hey! no answer here is correct!!!"
       },
       {
-        "username": "C",
-        "message": "Third comment"
+        "username": "ytshak",
+        "message": "ya! you are right"
+      }
+    ]
+  },
+  {
+    "creator_username": "arye",
+    "tags": ["math"],
+    "question": "2^2 + 4*(3 + 4) = ",
+    "answers": [
+      "5",
+      "101",
+      "32",
+      "12"
+    ],
+    "correct_answer_index": 2,
+    "difficulty_count": [
+      0,
+      0,
+      3,
+      1,
+      2
+    ],
+    "difficulty": 3.83333,
+    "likes": 4,
+    "comments": [
+      {
+        "username": "abc",
+        "message": "I was right at the first try :)"
       },
       {
-        "username": "D",
-        "message": "Fourth comment"
+        "username": "Admin",
+        "message": "good job abc"
+      },
+      {
+        "username": "vgtvgy1",
+        "message": "what the excitement, it not hard question"
+      }
+    ]
+  },
+  {
+    "creator_username": "ytshak",
+    "tags": ["computer science"],
+    "question": "what is benefit of pithon more than java",
+    "answers": [
+      "it easier to code",
+      "it faster",
+      "android developers using it more",
+      "there are non, pithon is old and non usable"
+    ],
+    "correct_answer_index": 0,
+    "difficulty_count": [
+      0,
+      2,
+      0,
+      4,
+      0
+    ],
+    "difficulty": 3.33333,
+    "likes": 5,
+    "comments": [
+      {
+        "username": "arye",
+        "message": "I liked the queston"
+      },
+      {
+        "username": "vgtvgy1",
+        "message": "But I must point out that it is written in a shocking way"
       }
     ]
   }
