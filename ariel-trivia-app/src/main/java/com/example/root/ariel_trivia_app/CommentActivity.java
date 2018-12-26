@@ -45,7 +45,7 @@ public class CommentActivity extends Activity {
             @Override
             public void onClick(View v) {
                 EditText edit = (EditText)findViewById(R.id.comment_place);
-                String username = Global.username;
+                String username = Global.user.getUsername();
                 String message = edit.getText().toString();
                 Global.apiRequests.postComment(db_trivia, new Comment(username, message));
                 edit.setText("");

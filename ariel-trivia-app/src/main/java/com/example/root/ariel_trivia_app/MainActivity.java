@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.root.ariel_trivia_app.adapters.TriviaAdapter;
+import com.example.root.ariel_trivia_app.base.ApplicationUser;
 import com.example.root.ariel_trivia_app.base.LoginInfo;
 import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.User;
 
 import org.bson.Document;
 import org.dizitart.no2.Nitrite;
@@ -65,14 +67,16 @@ public class MainActivity extends Activity {
                 LoginInfo loginInfo = new LoginInfo(username, password_sha256);
 
                 Global.apiRequests = new APIRequests(db, loginInfo);
+                boolean isAdmin =  Global.apiRequests.isUserAdmin(username);
+                Global.user = new ApplicationUser(username, true, false, isAdmin);
                 if(Global.apiRequests.signin() == true) {
                     //Success login
-                    Global.username = loginInfo.getUsername();
                     Intent i = new Intent(MainActivity.this, AfterLoginActivity.class);
                     startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "Username / password incorrect!", Toast.LENGTH_LONG).show();
                     Global.apiRequests = null;
+                    Global.user = null;
                 }
             }
         });
@@ -86,8 +90,6 @@ public class MainActivity extends Activity {
 
         try {
             initDB();
-            readTriviasFromDB(); //For testing
-            readUsersFromDB(); //For testing
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, e.toString());
@@ -106,18 +108,13 @@ public class MainActivity extends Activity {
             speditor.putBoolean(Global.SharedPreferences.Keys.FIRST_TIME, false); //Changed first time flag
             speditor.commit();
 
-            //Truncate anyway
-//            for(String colName : db.listCollectionNames()) {
-//                db.getCollection(colName).drop();
-//            }
-
             //insert into db the datasets
             String json_trivias = readAssetsFile("db/trivias.json");
             String json_users = readAssetsFile("db/users.json");
             JSONArray jsonArray;
 
             ObjectRepository<Trivia> triviasRepository = db.getRepository(Trivia.class);;
-            ObjectRepository<LoginInfo> usersRepository = db.getRepository(LoginInfo.class);
+            ObjectRepository<User> usersRepository = db.getRepository(User.class);
 
 
             jsonArray = new JSONArray(json_users);
@@ -125,8 +122,10 @@ public class MainActivity extends Activity {
                 JSONObject jsonObject; jsonObject = jsonArray.getJSONObject(i);
                 String username = jsonObject.getString("username");
                 String password_sha256 = jsonObject.getString("password");
+                boolean isAdmin = jsonObject.getBoolean("isAdmin");
                 LoginInfo loginInfo = new LoginInfo(username, password_sha256);
-                usersRepository.insert(loginInfo);
+                User user = new User(loginInfo, isAdmin);
+                usersRepository.insert(user);
             }
 
             jsonArray = new JSONArray(json_trivias);
@@ -141,28 +140,6 @@ public class MainActivity extends Activity {
         }
 
 
-    }
-
-    /**
-     * Test read, output in logcat
-     */
-    private void readTriviasFromDB() {
-        ObjectRepository<Trivia> repo = db.getRepository(Trivia.class);
-        Cursor<Trivia> cursor = repo.find();
-        for(Trivia t : cursor) {
-            Log.d(TAG, t.getQuestion().getQuestion());
-        }
-    }
-
-    /**
-     * Test read, output in logcat
-     */
-    private void readUsersFromDB() {
-        ObjectRepository<LoginInfo> repo = db.getRepository(LoginInfo.class);
-        Cursor<LoginInfo> cursor = repo.find();
-        for(LoginInfo l : cursor) {
-            Log.d(TAG, "username:"+l.getUsername()+",password:"+l.getPassword_sha256());
-        }
     }
 
     private String readAssetsFile(String path) throws IOException {

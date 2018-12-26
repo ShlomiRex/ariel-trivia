@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.root.ariel_trivia_app.base.LoginInfo;
+import com.example.root.ariel_trivia_app.base.User;
 
 import org.dizitart.no2.Nitrite;
 
@@ -30,7 +31,8 @@ public class RegisterActivity extends Activity {
                 String password = etxt_password.getText().toString();
                 String password_sha256 = Global.sha256(password);
                 LoginInfo registerInfo = new LoginInfo(username, password_sha256);
-                boolean success = Global.apiRequests.register(db, registerInfo);
+                User userToRegister = new User(registerInfo, false);
+                boolean success = Global.apiRequests.register(db, userToRegister);
                 if(success) {
                     Toast.makeText(getApplicationContext(), "Success! \"" + username + "\" you can now login.", Toast.LENGTH_LONG).show();
                     finish();

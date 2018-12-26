@@ -6,6 +6,7 @@ import com.example.root.ariel_trivia_app.base.Comment;
 import com.example.root.ariel_trivia_app.base.LoginInfo;
 import com.example.root.ariel_trivia_app.base.Trivia;
 import com.example.root.ariel_trivia_app.base.TriviaFilter;
+import com.example.root.ariel_trivia_app.base.User;
 
 import org.dizitart.no2.Document;
 import org.dizitart.no2.FindOptions;
@@ -71,13 +72,26 @@ public class APIRequests {
      * @return True if success
      */
     public boolean signin() {
-        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
-        Document doc = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256().toUpperCase()))).firstOrDefault();
-        if(doc == null) {
+        List<User> users = db.getRepository(User.class).find(ObjectFilters.eq("username", loginInfo.getUsername())).toList();
+        if(users.size() > 1) {
+            Log.e(TAG, "double users with same username");
+            System.exit(1);
+        }
+        if(users.size() == 0) {
             return false;
         }
-        Global.isSignedIn = true;
-        return true;
+        if(users.get(0).getLoginInfo().getPassword_sha256().toUpperCase().equals(loginInfo.getPassword_sha256().toUpperCase())) {
+            return true;
+        } else {
+            return false;
+        }
+//        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
+//        Document doc = nc.find(and(eq("username", loginInfo.getUsername()), eq("password", loginInfo.getPassword_sha256().toUpperCase()))).firstOrDefault();
+//        if(doc == null) {
+//            return false;
+//        }
+//        Global.user.setSignedIn(true);
+//        return true;
     }
 
 //    /**
@@ -180,23 +194,34 @@ public class APIRequests {
     }
 
     /**
-     * Register.
-     * @param registerInfo
+     * Register
      * @return True if success.
      */
-    public static boolean register(Nitrite db, LoginInfo registerInfo) {
-        NitriteCollection nc = db.getRepository(LoginInfo.class).getDocumentCollection();
-        Document d = nc.find(eq("username", registerInfo.getUsername())).firstOrDefault();
-        if(d == null) {
-            WriteResult a = nc.insert(registerInfo.toDocument());
-            if(a.getAffectedCount() == 0) {
-                return false;
-            }
-            return true;
-        } else {
-            //Username already exists
+    public static boolean register(Nitrite db, User user) {
+        if(user == null)
+            return false;
+        ObjectRepository<User> repo = db.getRepository(User.class);
+        List<User> userList = repo.find(ObjectFilters.eq("username", user.getLoginInfo().getUsername())).toList();
+        if(userList.size() != 0) {
             return false;
         }
+        else {
+            repo.insert(user);
+            return true;
+        }
+//
+//        NitriteCollection nc = db.getRepository(User.class).getDocumentCollection();
+//        Document d = nc.find(eq("username", registerInfo.getUsername())).firstOrDefault();
+//        if(d == null) {
+//            WriteResult a = nc.insert(registerInfo.toDocument());
+//            if(a.getAffectedCount() == 0) {
+//                return false;
+//            }
+//            return true;
+//        } else {
+//            //Username already exists
+//            return false;
+//        }
     }
 
     public Trivia getTrivia(String id) {
@@ -213,5 +238,18 @@ public class APIRequests {
 //            return null;
 //        }
         //return trivias.get(0);
+    }
+
+    public boolean isUserAdmin(String username) {
+        ObjectRepository<User> users = db.getRepository(User.class);
+        List<User> res = users.find(ObjectFilters.eq("username", username)).toList();
+        if(res.size() > 1) {
+            Log.e(TAG, "Double users in database?!");
+            System.exit(1);
+        }
+        if(res.size() == 0) {
+            return false;
+        }
+        return res.get(0).isAdmin();
     }
 }
