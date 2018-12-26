@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AfterLoginActivity">
 
-    <Button
-        android:id="@+id/answer"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
-        android:text="answer question"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true">
+        <Button
+            android:id="@+id/userOptions_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="answer question" />
 
-    <Button
-        android:id="@+id/add_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="44dp"
-        android:text="add question"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/answer" />
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/userOptions_addQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add question" />
+    </LinearLayout>
+</RelativeLayout>

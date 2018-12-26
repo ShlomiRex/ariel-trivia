@@ -5,13 +5,13 @@
 
     <ImageView
         android:layout_width="20dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:src="@android:drawable/btn_star"
         android:id="@+id/trivia_star"/>
 
     <ImageView
         android:layout_width="20dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:src="@drawable/like"
         android:id="@+id/trivia_like"
         android:layout_toLeftOf="@id/trivia_likes"
@@ -19,7 +19,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_toRightOf="@id/trivia_star"
         android:id="@+id/trivia_difficulty"
         android:gravity="center"
@@ -31,22 +31,22 @@
         android:text="4.3"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/trivia_difficulty"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:textColor="#040404"
-        android:typeface="monospace"
-        android:textSize="15dip"
         android:id="@+id/trivia_question"
-        android:text="How much is 2+2?"/>
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_toRightOf="@id/trivia_difficulty"
+        android:gravity="center"
+        android:text="How much is 2+2?"
+        android:textColor="#040404"
+        android:textSize="15dip"
+        android:typeface="monospace" />
 
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:id="@+id/trivia_likes"
         android:layout_alignParentRight="true"
         android:gravity="center"

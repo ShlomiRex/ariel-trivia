@@ -1,75 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/green"
-    tools:context=".SuccessActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context=".SuccessActivity">
 
     <TextView
         android:id="@+id/successActivity_txt_successMessage"
-        android:layout_width="149dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="60dp"
-        android:text="You are correct!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/successActivity_btn_viewComments"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="266dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="11dp"
-        android:background="?android:attr/colorActivatedHighlight"
-        android:text="see comments"
-        app:layout_constraintBottom_toTopOf="@+id/successActivity_btn_rate"
-        app:layout_constraintEnd_toStartOf="@+id/successActivity_btn_nextQuestion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/successActivity_btn_nextQuestion"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="265dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="30dp"
-        android:background="@color/colorAccent"
-        android:text="next question"
-        app:layout_constraintBottom_toTopOf="@+id/successActivity_btn_like"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/successActivity_btn_viewComments"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/successActivity_btn_rate"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="71dp"
-        android:text="rate difficulty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/successActivity_btn_like"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/successActivity_btn_viewComments" />
-
-    <Button
-        android:id="@+id/successActivity_btn_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="89dp"
-        android:text="like"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/successActivity_btn_rate"
-        app:layout_constraintTop_toBottomOf="@+id/successActivity_btn_nextQuestion" />
-</android.support.constraint.ConstraintLayout>
+        android:text="You are correct!"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:useDefaultMargins="true"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <Button
+            android:id="@+id/successActivity_btn_viewComments"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_red_light"
+            android:text="see comments" />
+        <Button
+            android:id="@+id/successActivity_btn_like"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_blue_light"
+            android:text="like" />
+        <Button
+            android:id="@+id/successActivity_btn_nextQuestion"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_purple"
+            android:text="next question" />
+        <Button
+            android:id="@+id/successActivity_btn_rate"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@android:color/background_light"
+            android:text="rate difficulty" />
+    </GridLayout>
+</RelativeLayout>
