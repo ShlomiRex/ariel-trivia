@@ -12,8 +12,8 @@ public class AfterLoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
-        final Button answer = (Button) findViewById(R.id.answer);
-        final Button add = (Button) findViewById(R.id.add_question);
+        final Button answer = (Button) findViewById(R.id.userOptions_answer);
+        final Button add = (Button) findViewById(R.id.userOptions_addQuestion);
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

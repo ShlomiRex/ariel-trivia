@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.ariel_trivia_app.adapters.CommentAdapter;
@@ -34,15 +34,13 @@ public class CommentActivity extends Activity {
 
 
         final CommentAdapter adapter = new CommentAdapter(db_trivia.getForum().getComments(), getApplicationContext());
-
-        TextView userView = lst.findViewById(R.id.user);
-        TextView messageView = lst.findViewById(R.id.message);
         lst.setAdapter(adapter);
 
-        findViewById(R.id.add_comment_button).setOnClickListener(new View.OnClickListener() {
+        final Button btn_add_comment = findViewById(R.id.commentActivity_btn_addComment);
+        btn_add_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText edit = (EditText)findViewById(R.id.comment_place);
+                EditText edit = (EditText)findViewById(R.id.commentActivity_etxt_commentMessage);
                 String username = Global.user.getUsername();
                 String message = edit.getText().toString();
                 Global.apiRequests.postComment(db_trivia, new Comment(username, message));
@@ -51,5 +49,12 @@ public class CommentActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        EditText etxt_comment = findViewById(R.id.commentActivity_etxt_commentMessage);
+        if(Global.user.isGuest()) {
+            btn_add_comment.setEnabled(false);
+            etxt_comment.setEnabled(false);
+            etxt_comment.setHint("To comment you must log in");
+        }
     }
 }

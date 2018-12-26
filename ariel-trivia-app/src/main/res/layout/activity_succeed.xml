@@ -9,18 +9,18 @@
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/successActivity_txt_successMessage"
         android:layout_width="149dp"
         android:layout_height="47dp"
         android:layout_marginTop="60dp"
-        android:text="you are right!!!"
+        android:text="You are correct!"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/comment"
+        android:id="@+id/successActivity_btn_viewComments"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="57dp"
@@ -29,13 +29,13 @@
         android:layout_marginBottom="11dp"
         android:background="?android:attr/colorActivatedHighlight"
         android:text="see comments"
-        app:layout_constraintBottom_toTopOf="@+id/rate"
-        app:layout_constraintEnd_toStartOf="@+id/next"
+        app:layout_constraintBottom_toTopOf="@+id/successActivity_btn_rate"
+        app:layout_constraintEnd_toStartOf="@+id/successActivity_btn_nextQuestion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/next"
+        android:id="@+id/successActivity_btn_nextQuestion"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="265dp"
@@ -43,13 +43,13 @@
         android:layout_marginBottom="30dp"
         android:background="@color/colorAccent"
         android:text="next question"
-        app:layout_constraintBottom_toTopOf="@+id/like"
+        app:layout_constraintBottom_toTopOf="@+id/successActivity_btn_like"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/comment"
+        app:layout_constraintStart_toEndOf="@+id/successActivity_btn_viewComments"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/rate"
+        android:id="@+id/successActivity_btn_rate"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="57dp"
@@ -57,12 +57,12 @@
         android:layout_marginBottom="71dp"
         android:text="rate difficulty"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/like"
+        app:layout_constraintEnd_toStartOf="@+id/successActivity_btn_like"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment" />
+        app:layout_constraintTop_toBottomOf="@+id/successActivity_btn_viewComments" />
 
     <Button
-        android:id="@+id/like"
+        android:id="@+id/successActivity_btn_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="49dp"
@@ -70,6 +70,6 @@
         android:text="like"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rate"
-        app:layout_constraintTop_toBottomOf="@+id/next" />
+        app:layout_constraintStart_toEndOf="@+id/successActivity_btn_rate"
+        app:layout_constraintTop_toBottomOf="@+id/successActivity_btn_nextQuestion" />
 </android.support.constraint.ConstraintLayout>

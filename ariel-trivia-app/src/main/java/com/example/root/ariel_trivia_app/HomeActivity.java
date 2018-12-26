@@ -20,7 +20,7 @@ public class HomeActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.root.ariel_trivia_app.MainActivity;
+import com.example.root.ariel_trivia_app.LoginActivity;
 import com.example.root.ariel_trivia_app.R;
 import com.example.root.ariel_trivia_app.RegisterActivity;
 import com.example.root.ariel_trivia_app.SelectTriviaActivity;
@@ -18,7 +18,7 @@ public class MenuClick extends AppCompatActivity {
         Intent i;
         switch (item.getItemId()) {
             case R.id.login:
-                i = new Intent(packageContext, MainActivity.class);
+                i = new Intent(packageContext, LoginActivity.class);
                 break;
             case R.id.register:
                 i = new Intent(packageContext, RegisterActivity.class);

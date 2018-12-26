@@ -28,8 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MainActivity extends Activity {
-    private final String TAG = MainActivity.class.getSimpleName();
+public class LoginActivity extends Activity {
+    private final String TAG = LoginActivity.class.getSimpleName();
     private Nitrite db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,12 @@ public class MainActivity extends Activity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
             }
         });
+
+        final Button btn_guest = findViewById(R.id.guest);
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +67,7 @@ public class MainActivity extends Activity {
                 Global.user = new ApplicationUser(username);
                 if(Global.apiRequests.signin() == true) {
                     //Success login
-                    Intent i = new Intent(MainActivity.this, AfterLoginActivity.class);
+                    Intent i = new Intent(LoginActivity.this, AfterLoginActivity.class);
                     startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "Username / password incorrect!", Toast.LENGTH_LONG).show();
@@ -75,10 +77,12 @@ public class MainActivity extends Activity {
             }
         });
 
-        findViewById(R.id.guest).setOnClickListener(new View.OnClickListener() {
+        btn_guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, SelectTriviaActivity.class);
+                Global.apiRequests = new APIRequests(db, null);
+                Global.apiRequests.setGuest();
+                Intent i = new Intent(LoginActivity.this, SelectTriviaActivity.class);
                 startActivity(i);
             };});
 

@@ -1,7 +1,9 @@
 package com.example.root.ariel_trivia_app;
 
+import android.app.Application;
 import android.util.Log;
 
+import com.example.root.ariel_trivia_app.base.ApplicationUser;
 import com.example.root.ariel_trivia_app.base.data_models.trivia.Comment;
 import com.example.root.ariel_trivia_app.base.data_models.user.LoginInfo;
 import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
@@ -194,4 +196,13 @@ public class APIRequests {
         return true;
     }
 
+    public void setGuest() {
+        ApplicationUser user = new ApplicationUser(null);
+        user.setSignedIn(false);
+        user.setAdmin(false);
+        user.setGuest(true);
+        Global.user = user;
+        loginInfo = null;
+
+    }
 }
