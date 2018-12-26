@@ -62,6 +62,31 @@ public class Trivia extends Application implements Mappable, Serializable {
         this.metadata = new TriviaMetadata(whoLiked);
 
     }
+
+    public Trivia( String question , String answer ,String[] wrongAnswers){
+        this.id = ""+System.currentTimeMillis();
+        this.creator_username = Global.username;
+        this.forum = new Forum(this.id, new ArrayList<Comment>());
+        List<String> tags = new ArrayList<>();
+        int rightAnswer = (int) (Math.random()*4);
+        ArrayList<String> answers = new ArrayList<String>();
+        for (int i = 0,j = 0; i < 4; i++){
+            if(i == rightAnswer){
+                answers.add(answer);
+            }
+            else{
+                answers.add( wrongAnswers[j]);
+                j ++;
+            }
+        }
+        ArrayList<Integer> difficulty_count = new ArrayList<Integer>();
+        difficulty_count.add(0);
+        difficulty_count.add(0);
+        difficulty_count.add(0);
+        difficulty_count.add(0);
+        difficulty_count.add(0);
+        this.question = new Question(new ArrayList<String>(), question, answers, rightAnswer, difficulty_count,3, 0);
+    }
     public String getCreator_username() {
         return creator_username;
     }
