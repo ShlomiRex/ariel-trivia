@@ -12,6 +12,7 @@ import org.dizitart.no2.objects.Id;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Trivia extends Application implements Mappable, Serializable {
@@ -68,7 +69,7 @@ public class Trivia extends Application implements Mappable, Serializable {
         this.id = ""+System.currentTimeMillis();
         this.creator_username = Global.user.getUsername();
         this.forum = new Forum(this.id, new ArrayList<Comment>());
-        List<String> tags = new ArrayList<>();
+
         int rightAnswer = (int) (Math.random()*4);
         ArrayList<String> answers = new ArrayList<String>();
         for (int i = 0,j = 0; i < 4; i++){
@@ -86,7 +87,9 @@ public class Trivia extends Application implements Mappable, Serializable {
         difficulty_count.add(0);
         difficulty_count.add(0);
         difficulty_count.add(0);
-        this.question = new Question(new ArrayList<String>(), question, answers, rightAnswer, difficulty_count,3, 0);
+        this.question = new Question(new ArrayList<String>(), question, answers, rightAnswer, difficulty_count,0, 0);
+
+        this.metadata = new TriviaMetadata(new ArrayList<String>());
     }
     public String getCreator_username() {
         return creator_username;

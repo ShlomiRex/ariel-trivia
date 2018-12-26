@@ -35,7 +35,7 @@
         <activity
             android:name=".AfterLoginActivity"
             android:label="@string/title_activity_user_options" />
-        <activity android:name=".addTriviaQuestionActivity"></activity>
+        <activity android:name=".AddTriviaQuestionActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".MainActivity"></activity>
     </application>

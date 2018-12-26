@@ -123,32 +123,7 @@ public class APIRequests {
      * @param trivia
      */
     public void uploadTrivia(Trivia trivia) {
-
-    }
-    /**
-     * Uploads to database trivia object
-     * @param json
-     */
-    public void uploadTrivia(String json) {
-
-//        Map<String, List<String>> param_data = new HashMap<>();
-//        Map<String, List<String>> form_data = new HashMap<>();
-//
-//        param_data.put("username", Arrays.asList(username));
-//        param_data.put("cookie", Arrays.asList(cookie));
-//
-//        form_data.put("trivia", Arrays.asList(json));
-//
-//        OutputStream out = new ByteArrayOutputStream();
-//        try {
-//            int status_code = ServerConnector.POST(hostname, port, "trivias", param_data, form_data, out, APICode.uploadTrivia);
-//            System.out.println("=== uploadTrivia Response Start ===");
-//            System.out.println(out.toString());
-//            System.out.println("Status code: " + status_code);
-//            System.out.println("=== uploadTrivia Response End ===");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        triviaObjectRepository.insert(trivia);
     }
 
     //Adds comment to Trivia AND database.
