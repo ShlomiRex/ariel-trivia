@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
+
 
 public class addTriviaQuestionActivity extends Activity {
 

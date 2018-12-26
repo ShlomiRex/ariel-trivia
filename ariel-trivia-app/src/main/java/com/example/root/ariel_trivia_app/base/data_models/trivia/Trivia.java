@@ -2,6 +2,7 @@ package com.example.root.ariel_trivia_app.base.data_models.trivia;
 
 import android.app.Application;
 
+import com.example.root.ariel_trivia_app.Global;
 import com.example.root.ariel_trivia_app.base.data_models.metadata.TriviaMetadata;
 
 import org.bson.Document;
@@ -65,7 +66,7 @@ public class Trivia extends Application implements Mappable, Serializable {
 
     public Trivia( String question , String answer ,String[] wrongAnswers){
         this.id = ""+System.currentTimeMillis();
-        this.creator_username = Global.username;
+        this.creator_username = Global.user.getUsername();
         this.forum = new Forum(this.id, new ArrayList<Comment>());
         List<String> tags = new ArrayList<>();
         int rightAnswer = (int) (Math.random()*4);
