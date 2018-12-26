@@ -154,14 +154,7 @@ public class APIRequests {
     //Adds comment to Trivia AND database.
     public void postComment(Trivia trivia, Comment comment) {
         trivia.getForum().getComments().add(comment);
-//        ObjectRepository<Trivia> repo =  triviaObjectRepository; //TODO: How to filter Object repository? What is "field" of object?
-//        List<Trivia> trivias = repo.find().toList();
-//        for(Trivia t : trivias) {
-//            if(t.getId().equals(trivia.getId())) {
-//                t.addComment(comment);
-//                repo.update(t);
-//            }
-//        }
+        triviaObjectRepository.update(trivia);
     }
 
     /**
