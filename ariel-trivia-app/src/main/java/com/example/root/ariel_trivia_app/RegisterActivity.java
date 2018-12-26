@@ -1,15 +1,14 @@
 package com.example.root.ariel_trivia_app;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.root.ariel_trivia_app.base.LoginInfo;
-import com.example.root.ariel_trivia_app.base.User;
+import com.example.root.ariel_trivia_app.base.data_models.user.LoginInfo;
+import com.example.root.ariel_trivia_app.base.data_models.user.User;
 
 import org.dizitart.no2.Nitrite;
 

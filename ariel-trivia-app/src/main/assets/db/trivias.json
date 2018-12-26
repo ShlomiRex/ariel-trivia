@@ -23,6 +23,9 @@
     ],
     "difficulty": 2.3,
     "likes": 3,
+    "whoLiked": [
+      "vgtvgy1", "abc", "Shlomi"
+    ],
     "comments": [
       {
         "username": "vgtvgy1",
@@ -56,7 +59,10 @@
       12
     ],
     "difficulty": 4.2,
-    "likes": 3,
+    "likes": 1,
+    "whoLiked": [
+      "abc"
+    ],
     "comments": [
       {
         "username": "Shlomi",
@@ -84,6 +90,7 @@
     ],
     "difficulty": 1.57142,
     "likes": 0,
+    "whoLiked": [],
     "comments": []
   },
   {
@@ -105,7 +112,10 @@
       0
     ],
     "difficulty": 1.2,
-    "likes": 0,
+    "likes": 2,
+    "whoLiked": [
+      "arye","Shlomi"
+    ],
     "comments": [
       {
         "username": "arye",
@@ -137,6 +147,7 @@
     ],
     "difficulty": 4.5,
     "likes": 0,
+    "whoLiked": [],
     "comments": [
       {
         "username": "Shlomi",
@@ -168,6 +179,9 @@
     ],
     "difficulty": 3.83333,
     "likes": 4,
+    "whoLiked": [
+      "arye","Shlomi","abc","ytshak"
+    ],
     "comments": [
       {
         "username": "abc",
@@ -202,7 +216,8 @@
       0
     ],
     "difficulty": 3.33333,
-    "likes": 5,
+    "likes": 0,
+    "whoLiked": [],
     "comments": [
       {
         "username": "arye",

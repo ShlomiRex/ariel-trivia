@@ -1,10 +1,6 @@
 package com.example.root.ariel_trivia_app;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.example.root.ariel_trivia_app.base.ApplicationUser;
-import com.example.root.ariel_trivia_app.base.User;
 import com.google.common.hash.Hashing;
 
 import org.dizitart.no2.Nitrite;

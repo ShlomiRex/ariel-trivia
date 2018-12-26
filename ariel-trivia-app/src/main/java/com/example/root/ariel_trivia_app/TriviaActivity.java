@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 
 import java.util.List;
 

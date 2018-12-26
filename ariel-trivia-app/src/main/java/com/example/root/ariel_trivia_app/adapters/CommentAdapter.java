@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.root.ariel_trivia_app.base.Comment;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Comment;
 import com.example.root.ariel_trivia_app.R;
 
 import java.util.List;

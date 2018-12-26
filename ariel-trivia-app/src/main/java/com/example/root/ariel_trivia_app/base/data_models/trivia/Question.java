@@ -1,4 +1,4 @@
-package com.example.root.ariel_trivia_app.base;
+package com.example.root.ariel_trivia_app.base.data_models.trivia;
 
 import java.io.Serializable;
 import java.util.List;

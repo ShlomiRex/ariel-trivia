@@ -11,19 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.root.ariel_trivia_app.adapters.TriviaAdapter;
 import com.example.root.ariel_trivia_app.base.ApplicationUser;
-import com.example.root.ariel_trivia_app.base.LoginInfo;
-import com.example.root.ariel_trivia_app.base.Trivia;
-import com.example.root.ariel_trivia_app.base.User;
+import com.example.root.ariel_trivia_app.base.data_models.user.LoginInfo;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
+import com.example.root.ariel_trivia_app.base.data_models.user.User;
 
 import org.bson.Document;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.event.ChangeInfo;
-import org.dizitart.no2.event.ChangeListener;
-import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
-import org.dizitart.no2.util.Iterables;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,8 +62,7 @@ public class MainActivity extends Activity {
                 LoginInfo loginInfo = new LoginInfo(username, password_sha256);
 
                 Global.apiRequests = new APIRequests(db, loginInfo);
-                boolean isAdmin =  Global.apiRequests.isUserAdmin(username);
-                Global.user = new ApplicationUser(username, true, false, isAdmin);
+                Global.user = new ApplicationUser(username);
                 if(Global.apiRequests.signin() == true) {
                     //Success login
                     Intent i = new Intent(MainActivity.this, AfterLoginActivity.class);

@@ -6,11 +6,15 @@ public class ApplicationUser {
     private boolean isGuest;
     private boolean isAdmin;
 
-    public ApplicationUser(String username, boolean isSignedIn, boolean isGuest, boolean isAdmin) {
+    private ApplicationUser(String username, boolean isSignedIn, boolean isGuest, boolean isAdmin) {
         this.username = username;
         this.isSignedIn = isSignedIn;
         this.isGuest = isGuest;
         this.isAdmin = isAdmin;
+    }
+
+    public ApplicationUser(String username) {
+        this(username, false, false, false);
     }
 
     public String getUsername() {
@@ -35,5 +39,13 @@ public class ApplicationUser {
 
     public void setGuest(boolean guest) {
         isGuest = guest;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

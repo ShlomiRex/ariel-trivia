@@ -1,6 +1,8 @@
-package com.example.root.ariel_trivia_app.base;
+package com.example.root.ariel_trivia_app.base.data_models.trivia;
 
 import android.app.Application;
+
+import com.example.root.ariel_trivia_app.base.data_models.metadata.TriviaMetadata;
 
 import org.bson.Document;
 import org.dizitart.no2.mapper.Mappable;
@@ -16,6 +18,7 @@ public class Trivia extends Application implements Mappable, Serializable {
     private String id;
     private String creator_username;
     private Question question;
+    private TriviaMetadata metadata;
 
     private Forum forum;
 
@@ -54,6 +57,10 @@ public class Trivia extends Application implements Mappable, Serializable {
 
         this.forum = new Forum(this.id, _comments);
         this.question = new Question(tags, question, answers, correct_answer_index, difficulty_count, difficulty, likes);
+
+        List<String> whoLiked = (List<String>) d.get("whoLiked");
+        this.metadata = new TriviaMetadata(whoLiked);
+
     }
     public String getCreator_username() {
         return creator_username;
@@ -88,7 +95,7 @@ public class Trivia extends Application implements Mappable, Serializable {
     }
 
     public void addLike(){
-        //TODO
+        this.getQuestion().setLikes(this.getQuestion().getLikes() + 1);
     }
 
     public void rate(int difficulty){
@@ -111,6 +118,7 @@ public class Trivia extends Application implements Mappable, Serializable {
         nitd.put("difficulty_count", question.getDifficulty_count());
         nitd.put("difficulty", question.getDifficulty());
         nitd.put("likes", question.getLikes());
+        nitd.put("whoLiked", metadata.getWhoLiked());
         nitd.put("comments", forum.getComments());
         return nitd;
     }
@@ -126,9 +134,19 @@ public class Trivia extends Application implements Mappable, Serializable {
         ArrayList<Integer> difficulty_count = (ArrayList<Integer>) document.get("difficulty_count");
         double difficulty = (double) document.get("difficulty");
         int likes = (int) document.get("likes");
+        List<String> whoLiked = (List<String>) document.get("whoLiked");
+        this.metadata = new TriviaMetadata(whoLiked);
         ArrayList<Comment> comments = (ArrayList<Comment>) document.get("comments");
 
         this.question = new Question(tags, question_str, answers_arr, correct_answer_index, difficulty_count, difficulty, likes);
         this.forum = new Forum(this.id,  comments);
+    }
+
+    public TriviaMetadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(TriviaMetadata metadata) {
+        this.metadata = metadata;
     }
 }

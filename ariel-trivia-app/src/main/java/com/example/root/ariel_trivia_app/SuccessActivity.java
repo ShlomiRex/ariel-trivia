@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 
 public class SuccessActivity extends Activity {
     @Override
@@ -18,9 +18,6 @@ public class SuccessActivity extends Activity {
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(SuccessActivity.this, TriviaActivity.class);
-//                i.putExtra("trivia", trivia);
-//                startActivity(i);
                 finish();
             }
         });
@@ -35,13 +32,11 @@ public class SuccessActivity extends Activity {
         findViewById(R.id.like).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(like.myBool){
-//                    Toast.makeText(getApplicationContext(), "you pressed like already",Toast.LENGTH_LONG).show();
-//                }else {
-//                    TriviaActivity.q.addLike();
-//                    like.myBool = true;
-//                }
-                Toast.makeText(getApplicationContext(), "Not implimented yet", Toast.LENGTH_LONG).show();
+                boolean success = Global.apiRequests.likeTrivia(trivia);
+                if(success)
+                    Toast.makeText(getApplicationContext(), "Thank you for liking it!", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "You already liked this question!", Toast.LENGTH_LONG).show();
             }
         });
         findViewById(R.id.rate).setOnClickListener(new View.OnClickListener() {

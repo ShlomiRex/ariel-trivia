@@ -2,77 +2,40 @@ package com.example.root.ariel_trivia_app;
 
 import android.util.Log;
 
-import com.example.root.ariel_trivia_app.base.Comment;
-import com.example.root.ariel_trivia_app.base.LoginInfo;
-import com.example.root.ariel_trivia_app.base.Trivia;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Comment;
+import com.example.root.ariel_trivia_app.base.data_models.user.LoginInfo;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 import com.example.root.ariel_trivia_app.base.TriviaFilter;
-import com.example.root.ariel_trivia_app.base.User;
+import com.example.root.ariel_trivia_app.base.data_models.user.User;
 
-import org.dizitart.no2.Document;
 import org.dizitart.no2.FindOptions;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.NitriteCollection;
-import org.dizitart.no2.NitriteId;
-import org.dizitart.no2.WriteResult;
-import org.dizitart.no2.objects.Cursor;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.dizitart.no2.filters.Filters.and;
-import static org.dizitart.no2.filters.Filters.eq;
 
 public class APIRequests {
 
     private String cookie;
     private LoginInfo loginInfo;
     private Nitrite db;
+    private ObjectRepository<Trivia> triviaObjectRepository;
+    private ObjectRepository<User> userObjectRepository;
     public static final String TAG = APIRequests.class.getSimpleName();
     public APIRequests(Nitrite db, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
         this.db = db;
+        this.triviaObjectRepository = db.getRepository(Trivia.class);
+        this.userObjectRepository = db.getRepository(User.class);
     }
-
-    public List<Comment> getForum(Trivia t) {
-        return null;
-    }
-//
-//    public static void main(String[] args) {
-//        APIRequests apiRequests = new APIRequests("localhost", 80, "abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
-//        Trivia trivia = new Trivia();
-//        apiRequests.uploadTrivia(trivia);
-//    }
-//
-//    public static void Test2() {
-//        String pass_sha256 = Hashing.sha256().hashString("ShlomiABC", StandardCharsets.UTF_8).toString();
-//        APIRequests.signup("localhost", 80, "ShlomiABC", pass_sha256);
-//    }
-//
-//    //Works
-//    public static void Test1() {
-//        TriviaFilter filter = new TriviaFilter();
-//        filter.setDifficulty(4);
-//        filter.setDifficulty_o(TriviaFilter.Operator.gt);
-//        filter.setLabels(Arrays.asList("unix","maths"));
-//
-//        APIRequests apiRequests = new APIRequests("localhost", 80, "abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD");
-//        apiRequests.signin();
-//        apiRequests.requestTrivias(filter);
-//    }
 
     /**
      * @return True if success
+     * Sets Global.user
      */
     public boolean signin() {
-        List<User> users = db.getRepository(User.class).find(ObjectFilters.eq("username", loginInfo.getUsername())).toList();
+        List<User> users = userObjectRepository.find(ObjectFilters.eq("username", loginInfo.getUsername())).toList();
         if(users.size() > 1) {
             Log.e(TAG, "double users with same username");
             System.exit(1);
@@ -80,7 +43,15 @@ public class APIRequests {
         if(users.size() == 0) {
             return false;
         }
-        if(users.get(0).getLoginInfo().getPassword_sha256().toUpperCase().equals(loginInfo.getPassword_sha256().toUpperCase())) {
+        User user = users.get(0);
+        if(user.getLoginInfo().getPassword_sha256().toUpperCase().equals(loginInfo.getPassword_sha256().toUpperCase())) {
+                boolean isAdmin = user.isAdmin();
+                if(isAdmin)
+                    Global.user.setAdmin(true);
+                else
+                    Global.user.setAdmin(false);
+
+                Global.user.setSignedIn(true);
             return true;
         } else {
             return false;
@@ -135,16 +106,16 @@ public class APIRequests {
 //            TriviaFilter.Operator likes_o = filter.getLikes_o();
 //
 //            List<String> labels = filter.getLabels();
-//            return db.getRepository(Trivia.class).find().toList(); //TODO: Change
+//            return triviaObjectRepository.find().toList(); //TODO: Change
         } else {
             if(limit < 0) {
-                return db.getRepository(Trivia.class).find().toList();
+                return triviaObjectRepository.find().toList();
             } else {
-                return db.getRepository(Trivia.class).find(FindOptions.limit(0, limit)).toList();
+                return triviaObjectRepository.find(FindOptions.limit(0, limit)).toList();
             }
         }
 
-        return db.getRepository(Trivia.class).find(FindOptions.limit(0, limit)).toList();
+        return triviaObjectRepository.find(FindOptions.limit(0, limit)).toList();
     }
 
     /**
@@ -183,7 +154,7 @@ public class APIRequests {
     //Adds comment to Trivia AND database.
     public void postComment(Trivia trivia, Comment comment) {
         trivia.getForum().getComments().add(comment);
-//        ObjectRepository<Trivia> repo =  db.getRepository(Trivia.class); //TODO: How to filter Object repository? What is "field" of object?
+//        ObjectRepository<Trivia> repo =  triviaObjectRepository; //TODO: How to filter Object repository? What is "field" of object?
 //        List<Trivia> trivias = repo.find().toList();
 //        for(Trivia t : trivias) {
 //            if(t.getId().equals(trivia.getId())) {
@@ -210,7 +181,7 @@ public class APIRequests {
             return true;
         }
 //
-//        NitriteCollection nc = db.getRepository(User.class).getDocumentCollection();
+//        NitriteCollection nc = userObjectRepository.getDocumentCollection();
 //        Document d = nc.find(eq("username", registerInfo.getUsername())).firstOrDefault();
 //        if(d == null) {
 //            WriteResult a = nc.insert(registerInfo.toDocument());
@@ -225,7 +196,7 @@ public class APIRequests {
     }
 
     public Trivia getTrivia(String id) {
-        ObjectRepository<Trivia> repo = db.getRepository(Trivia.class);
+        ObjectRepository<Trivia> repo = triviaObjectRepository;
         List<Trivia> result = repo.find(ObjectFilters.eq("id", id)).toList();
         if(result.size() < 1) {
             return null;
@@ -240,16 +211,19 @@ public class APIRequests {
         //return trivias.get(0);
     }
 
-    public boolean isUserAdmin(String username) {
-        ObjectRepository<User> users = db.getRepository(User.class);
-        List<User> res = users.find(ObjectFilters.eq("username", username)).toList();
-        if(res.size() > 1) {
-            Log.e(TAG, "Double users in database?!");
-            System.exit(1);
-        }
-        if(res.size() == 0) {
+    /**
+     * Checks if ApplicationUser liked this trivia or not and if not, like it and update it in the database.
+     * @param trivia
+     * @return True if success. False if user already liked it
+     */
+    public boolean likeTrivia(Trivia trivia) {
+        if (trivia.getMetadata().getWhoLiked().contains(Global.user.getUsername())) {
             return false;
         }
-        return res.get(0).isAdmin();
+        trivia.addLike();
+        trivia.getMetadata().getWhoLiked().add(Global.user.getUsername());
+        triviaObjectRepository.update(trivia);
+        return true;
     }
+
 }

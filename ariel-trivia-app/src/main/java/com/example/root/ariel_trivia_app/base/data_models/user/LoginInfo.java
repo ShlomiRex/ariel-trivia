@@ -1,4 +1,4 @@
-package com.example.root.ariel_trivia_app.base;
+package com.example.root.ariel_trivia_app.base.data_models.user;
 
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.Mappable;

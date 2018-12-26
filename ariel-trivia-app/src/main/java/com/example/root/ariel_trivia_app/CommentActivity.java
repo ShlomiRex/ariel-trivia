@@ -10,10 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.ariel_trivia_app.adapters.CommentAdapter;
-import com.example.root.ariel_trivia_app.base.Comment;
-import com.example.root.ariel_trivia_app.base.Trivia;
-
-import java.util.List;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Comment;
+import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 
 public class CommentActivity extends Activity {
 
