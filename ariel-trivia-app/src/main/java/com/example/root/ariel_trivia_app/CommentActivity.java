@@ -45,7 +45,7 @@ public class CommentActivity extends Activity {
                 String message = edit.getText().toString();
                 Global.apiRequests.postComment(db_trivia, new Comment(username, message));
                 edit.setText("");
-                Toast.makeText(getApplicationContext(), "comment added",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.commentActivity_etxt_comment_added,Toast.LENGTH_LONG).show();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -54,7 +54,7 @@ public class CommentActivity extends Activity {
         if(Global.user.isGuest()) {
             btn_add_comment.setEnabled(false);
             etxt_comment.setEnabled(false);
-            etxt_comment.setHint("To comment you must log in");
+            etxt_comment.setHint(R.string.commentActivity_etxt_To_comment_you_must_log_in);
         }
     }
 }

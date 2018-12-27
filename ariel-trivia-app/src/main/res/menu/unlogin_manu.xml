@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/login"
-        android:title="log in"
+        android:title="@string/unloginActivity_etxt_log_in"
         app:showAsAction="never"/>
     <item android:id="@+id/register"
-        android:title="register"
+        android:title="@string/unloginActivity_etxt_register"
         app:showAsAction="never"/>
     <item android:id="@+id/chooseQuestion"
-        android:title="choose a question"
+        android:title="@string/unloginActivity_etxt_choose_a_question"
         app:showAsAction="never">
         <menu>
             <item android:id="@+id/byID"
-                android:title="by ID"
+                android:title="@string/unloginActivity_etxt_by_id"
                 app:showAsAction="never"/>
             <item android:id="@+id/nyRandom"
-                android:title="by random"
+                android:title="@string/unloginActivity_etxt_by_random"
                 app:showAsAction="never"/>
             <item android:id="@+id/byManualy"
-                android:title="choose manualy"
+                android:title="@string/unloginActivity_etxt_choose_manualy"
                 app:showAsAction="never"/>
         </menu>
     </item>
