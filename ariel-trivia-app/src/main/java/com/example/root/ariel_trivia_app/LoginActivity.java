@@ -70,7 +70,7 @@ public class LoginActivity extends Activity {
                     Intent i = new Intent(LoginActivity.this, AfterLoginActivity.class);
                     startActivity(i);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Username / password incorrect!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.loginActivity_etxt_incorrect_values, Toast.LENGTH_LONG).show();
                     Global.apiRequests = null;
                     Global.user = null;
                 }

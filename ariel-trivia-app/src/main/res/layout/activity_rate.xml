@@ -12,10 +12,10 @@
         android:layout_height="47dp"
         android:layout_marginTop="39dp"
         android:layout_marginBottom="34dp"
-        android:text="rate the question"
+        android:text="@string/rateActivity_etxt_rate_the_question"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupRate"
+        app:layout_constraintStart_toStartOf="@+id/radioGroupRate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
@@ -36,35 +36,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1" />
+            android:text="@string/rateActivity_etxt_1" />
 
         <RadioButton
             android:id="@+id/rateDif2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="2" />
+            android:text="@string/rateActivity_etxt_2" />
 
         <RadioButton
             android:id="@+id/rateDif3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="3" />
+            android:text="@string/rateActivity_etxt_3" />
 
         <RadioButton
             android:id="@+id/rateDif4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="4" />
+            android:text="@string/rateActivity_etxt_4" />
 
         <RadioButton
             android:id="@+id/rateDif5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="5" />
+            android:text="@string/rateActivity_etxt_5" />
     </RadioGroup>
 
     <Button
@@ -76,7 +76,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="casual"
-        android:text="rate"
+        android:text="@string/rateActivity_etxt_rate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

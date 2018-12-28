@@ -36,9 +36,9 @@ public class SuccessActivity extends Activity {
             public void onClick(View v) {
                 boolean success = Global.apiRequests.likeTrivia(trivia);
                 if(success)
-                    Toast.makeText(getApplicationContext(), "Thank you for liking it!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.succeedActivity_etxt_thank_for_like, Toast.LENGTH_LONG).show();
                 else
-                    Toast.makeText(getApplicationContext(), "You already liked this question!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.succeedActivity_etxt_already_liked, Toast.LENGTH_LONG).show();
             }
         });
         btn_rate.setOnClickListener(new View.OnClickListener() {

@@ -10,7 +10,7 @@
         android:id="@+id/addTrivia_etxt_question"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Question"
+        android:hint="@string/addTrivia_etxt_questionString"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/addTrivia_etxt_correctAnswer"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Correct answer"
+        android:hint="@string/addTrivia_etxt_correctAnswerString"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/addTrivia_etxt_question" />
 
@@ -26,7 +26,7 @@
         android:id="@+id/addTrivia_etxt_wrontAnswer1"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Wrong answer"
+        android:hint="@string/addTrivia_etxt_wrongAnswerString"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/addTrivia_etxt_correctAnswer" />
 
@@ -34,7 +34,7 @@
         android:id="@+id/addTrivia_etxt_wrontAnswer2"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Wrong answer"
+        android:hint="@string/addTrivia_etxt_wrongAnswerString"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/addTrivia_etxt_wrontAnswer1" />
 
@@ -42,7 +42,7 @@
         android:id="@+id/addTrivia_etxt_wrontAnswer3"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Wrong answer"
+        android:hint="@string/addTrivia_etxt_wrongAnswerString"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/addTrivia_etxt_wrontAnswer2" />
 
@@ -51,7 +51,7 @@
         android:id="@+id/addTrivia_btn_post"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Post"
+        android:text="@string/addTrivia_etxt_postString"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/addTrivia_etxt_wrontAnswer3"/>
 </RelativeLayout>

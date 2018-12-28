@@ -14,12 +14,12 @@
             android:id="@+id/userOptions_answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="answer question" />
+            android:text="@string/userOptionsActivity_etxt_answer_question" />
 
         <Button
             android:id="@+id/userOptions_addQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add question" />
+            android:text="@string/userOptionsActivity_etxt_add_question" />
     </LinearLayout>
 </RelativeLayout>

@@ -42,7 +42,7 @@ public class TriviaActivity extends Activity {
                     startActivity(i);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.triviaActivity_etxt_failed,Toast.LENGTH_SHORT).show();
                 }
             };
         });
@@ -55,7 +55,7 @@ public class TriviaActivity extends Activity {
                     startActivity(i);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.triviaActivity_etxt_failed,Toast.LENGTH_SHORT).show();
                 }
             };
         });
@@ -68,7 +68,7 @@ public class TriviaActivity extends Activity {
                     startActivity(i);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.triviaActivity_etxt_failed,Toast.LENGTH_SHORT).show();
                 }
             };
         });
@@ -81,7 +81,7 @@ public class TriviaActivity extends Activity {
                     startActivity(i);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "you failed!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.triviaActivity_etxt_failed,Toast.LENGTH_SHORT).show();
                 }
             };
         });

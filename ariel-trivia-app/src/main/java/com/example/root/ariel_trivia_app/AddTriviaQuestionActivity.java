@@ -28,7 +28,7 @@ public class AddTriviaQuestionActivity extends Activity {
                 wrongAnswers[1] =  ((EditText) findViewById(R.id.addTrivia_etxt_wrontAnswer2)).getText().toString();
                 wrongAnswers[2] =  ((EditText) findViewById(R.id.addTrivia_etxt_wrontAnswer3)).getText().toString();
                 Global.apiRequests.uploadTrivia(new Trivia(question, answer, wrongAnswers));
-                Toast.makeText(getApplicationContext(), "Upload successful! You can now view it.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.addTrivia_etxt_upload_succesfullString, Toast.LENGTH_LONG).show();
                 finish();
             }
         });

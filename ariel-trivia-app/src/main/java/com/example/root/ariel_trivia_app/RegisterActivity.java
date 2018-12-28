@@ -33,10 +33,10 @@ public class RegisterActivity extends Activity {
                 User userToRegister = new User(registerInfo, false);
                 boolean success = Global.apiRequests.register(db, userToRegister);
                 if(success) {
-                    Toast.makeText(getApplicationContext(), "Success! \"" + username + "\" you can now login.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.registerActivity_etxt_success + username + R.string.registerActivity_etxt_can_login, Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to register", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.registerActivity_etxt_register_failed, Toast.LENGTH_LONG).show();
                 }
             }
         });
