@@ -91,4 +91,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_user_options">userOptionsActivity</string>
+    <string name="notification_channel_name">ariel-trivia-app</string>
+    <string name="channel_description">This is a description</string>
+    <string name="channel_id">MyChannel</string>
 </resources>

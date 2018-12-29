@@ -24,7 +24,7 @@ public class AfterLoginActivity extends Activity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(AfterLoginActivity.this, AddTriviaQuestionActivity.class);
+                Intent i = new Intent(AfterLoginActivity.this, PostTriviaActivity.class);
                 startActivity(i);
             }
         });

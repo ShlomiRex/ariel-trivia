@@ -10,7 +10,7 @@ import com.example.root.ariel_trivia_app.R;
 import com.example.root.ariel_trivia_app.RegisterActivity;
 import com.example.root.ariel_trivia_app.SelectTriviaActivity;
 import com.example.root.ariel_trivia_app.SuccessActivity;
-import com.example.root.ariel_trivia_app.AddTriviaQuestionActivity;
+import com.example.root.ariel_trivia_app.PostTriviaActivity;
 
 public class MenuClick extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class MenuClick extends AppCompatActivity {
                 i = new Intent(packageContext, SelectTriviaActivity.class);
                 break;
             case R.id.addquestion:
-                i = new Intent(packageContext, AddTriviaQuestionActivity.class);
+                i = new Intent(packageContext, PostTriviaActivity.class);
                 break;
             case R.id.logout:
                 i = new Intent(packageContext, SuccessActivity.class);
