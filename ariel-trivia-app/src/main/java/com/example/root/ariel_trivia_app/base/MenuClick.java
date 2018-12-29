@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.root.ariel_trivia_app.AddTriviaQuestionActivity;
 import com.example.root.ariel_trivia_app.LoginActivity;
 import com.example.root.ariel_trivia_app.R;
 import com.example.root.ariel_trivia_app.RegisterActivity;
 import com.example.root.ariel_trivia_app.SelectTriviaActivity;
 import com.example.root.ariel_trivia_app.SuccessActivity;
-import com.example.root.ariel_trivia_app.PostTriviaActivity;
 
 public class MenuClick extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class MenuClick extends AppCompatActivity {
                 i = new Intent(packageContext, SelectTriviaActivity.class);
                 break;
             case R.id.addquestion:
-                i = new Intent(packageContext, PostTriviaActivity.class);
+                i = new Intent(packageContext, AddTriviaQuestionActivity.class);
                 break;
             case R.id.logout:
                 i = new Intent(packageContext, SuccessActivity.class);

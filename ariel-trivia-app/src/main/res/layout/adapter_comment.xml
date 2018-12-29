@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Marshmallow"
+        android:text="@string/addapterCommentActivity_etxt_marshmallow"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black" />
 
@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user"
         android:layout_marginTop="5dp"
-        android:text="Android 6.0"
+        android:text="@string/addapterCommentActivity_etxt_android_6_0"
         android:textColor="@android:color/black" />
 </RelativeLayout>

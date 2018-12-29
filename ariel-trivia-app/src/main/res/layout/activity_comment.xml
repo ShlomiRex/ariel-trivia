@@ -29,12 +29,12 @@
             android:id="@+id/commentActivity_etxt_commentMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="write your comment"/>
+            android:hint="@string/commentActivity_etxt_write_your_comment"/>
         <Button
             android:id="@+id/commentActivity_btn_addComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="POST"/>
+            android:text="@string/commentActivity_etxt_post"/>
     </LinearLayout>
 
 
