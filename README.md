@@ -1,6 +1,6 @@
 # ariel-trivia
 
-![](github_images/trivia_icon.png "Description goes here" =250x250)
+<img src="github_images/trivia_icon.png" width="200" height="200"/>
 ![alt text](github_images/home.png)
 ![alt text](github_images/questions.png)
 ![alt text](github_images/question.png)
