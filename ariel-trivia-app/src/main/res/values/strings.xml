@@ -60,4 +60,7 @@
     <string name="addapterTriviaActivity_etxt__4_3">4.3</string>
     <string name="addapterTriviaActivity_etxt_how_much_is_2_2">How much is 2+2?</string>
     <string name="addapterTriviaActivity_etxt__4321">4321</string>
+    <string name="notification_channel_name">ariel-trivia-app</string>
+    <string name="channel_description">This is a description</string>
+    <string name="channel_id">MyChannel</string>
 </resources>
