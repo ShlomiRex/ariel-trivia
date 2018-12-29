@@ -1,11 +1,11 @@
 # ariel-trivia
 
 <img src="github_images/trivia_icon.png" width="200" height="200"/>
-![alt text](github_images/home.png)
-![alt text](github_images/questions.png)
-![alt text](github_images/question.png)
-![alt text](github_images/success.png)
-![alt text](github_images/post_trivia.png)
+<img src="github_images/home.png" width="100" height="200"/>
+<img src="github_images/questions.png" width="100" height="200"/>
+<img src="github_images/question.png" width="100" height="200"/>
+<img src="github_images/success.png" width="100" height="200"/>
+<img src="github_images/post_trivia.png" width="100" height="200"/>
 
 
 
