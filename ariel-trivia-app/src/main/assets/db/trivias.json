@@ -26,6 +26,9 @@
     "whoLiked": [
       "vgtvgy1", "abc", "Shlomi"
     ],
+    "whoRated": [
+      "vgtvgy1", "abc"
+    ],
     "comments": [
       {
         "username": "vgtvgy1",
@@ -63,6 +66,9 @@
     "whoLiked": [
       "abc"
     ],
+    "whoRated": [
+
+    ],
     "comments": [
       {
         "username": "Shlomi",
@@ -91,6 +97,9 @@
     "difficulty": 1.57142,
     "likes": 0,
     "whoLiked": [],
+    "whoRated": [
+
+    ],
     "comments": []
   },
   {
@@ -115,6 +124,9 @@
     "likes": 2,
     "whoLiked": [
       "arye","Shlomi"
+    ],
+    "whoRated": [
+
     ],
     "comments": [
       {
@@ -148,6 +160,9 @@
     "difficulty": 4.5,
     "likes": 0,
     "whoLiked": [],
+    "whoRated": [
+
+    ],
     "comments": [
       {
         "username": "Shlomi",
@@ -181,6 +196,9 @@
     "likes": 4,
     "whoLiked": [
       "arye","Shlomi","abc","ytshak"
+    ],
+    "whoRated": [
+
     ],
     "comments": [
       {
@@ -218,6 +236,9 @@
     "difficulty": 3.33333,
     "likes": 0,
     "whoLiked": [],
+    "whoRated": [
+
+    ],
     "comments": [
       {
         "username": "arye",

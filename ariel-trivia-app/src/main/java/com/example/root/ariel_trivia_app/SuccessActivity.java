@@ -10,13 +10,15 @@ import android.widget.Toast;
 import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 
 public class SuccessActivity extends Activity {
+    private static int RATE = 1;
+    private Button btn_rate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_succeed);
         final Trivia trivia = (Trivia) getIntent().getSerializableExtra("trivia");
         final Button btn_like = findViewById(R.id.successActivity_btn_like);
-        final Button btn_rate = findViewById(R.id.successActivity_btn_rate);
+        btn_rate = findViewById(R.id.successActivity_btn_rate);
         findViewById(R.id.successActivity_btn_nextQuestion).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,8 +37,10 @@ public class SuccessActivity extends Activity {
             @Override
             public void onClick(View v) {
                 boolean success = Global.apiRequests.likeTrivia(trivia);
-                if(success)
+                if(success) {
                     Toast.makeText(getApplicationContext(), R.string.succeedActivity_etxt_thank_for_like, Toast.LENGTH_LONG).show();
+                    btn_like.setEnabled(false);
+                }
                 else
                     Toast.makeText(getApplicationContext(), R.string.succeedActivity_etxt_already_liked, Toast.LENGTH_LONG).show();
             }
@@ -44,19 +48,36 @@ public class SuccessActivity extends Activity {
         btn_rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(rated.myBool){
-//                    Toast.makeText(getApplicationContext(), "you rated already",Toast.LENGTH_LONG).show();
-//                }else {
-//                    Intent i = new Intent(SuccessActivity.this, RateActivity.class);
-//                    startActivity(i);
-//                }
-                Toast.makeText(getApplicationContext(), "Not implimented yet", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(SuccessActivity.this, RateActivity.class);
+                i.putExtra("trivia", trivia);
+                startActivityForResult(i, RATE);
+
             }
         });
 
         if(Global.user.isGuest()) {
             btn_like.setEnabled(false);
             btn_rate.setEnabled(false);
+        }
+
+        if(trivia.getMetadata().getWhoLiked().contains(Global.user.getUsername())) {
+            btn_like.setEnabled(false);
+        }
+
+        if(trivia.getMetadata().getWhoRated().contains(Global.user.getUsername())) {
+            btn_rate.setEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RATE) {
+            if(resultCode == RESULT_OK) {
+                btn_rate.setEnabled(false);
+            } else {
+
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.root.ariel_trivia_app.R;
 import com.example.root.ariel_trivia_app.base.data_models.trivia.Trivia;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class TriviaAdapter extends ArrayAdapter<Trivia> {
@@ -42,9 +43,15 @@ public class TriviaAdapter extends ArrayAdapter<Trivia> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         convertView = inflater.inflate(R.layout.adapter_trivia, parent, false);
         viewHolder.difficulty = (TextView) convertView.findViewById(R.id.trivia_difficulty);
+
+        double diff = trivia.getQuestion().getDifficulty();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(1);
+
+        viewHolder.difficulty.setText(df.format(diff));
+
         viewHolder.likes = (TextView) convertView.findViewById(R.id.trivia_likes);
         viewHolder.question = (TextView) convertView.findViewById(R.id.trivia_question);
-        viewHolder.difficulty.setText(trivia.getQuestion().getDifficulty()+"");
         viewHolder.likes.setText(trivia.getQuestion().getLikes()+"");
         viewHolder.question.setText(trivia.getQuestion().getQuestion());
 

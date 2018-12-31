@@ -205,4 +205,20 @@ public class APIRequests {
         loginInfo = null;
 
     }
+
+    /**
+     * Rate trivia.
+     * @param trivia
+     * @param difficulty
+     * @return True if successful. False if user already rated.
+     */
+    public boolean rateTrivia(Trivia trivia, int difficulty) {
+        if (trivia.getMetadata().getWhoRated().contains(Global.user.getUsername())) {
+            return false;
+        }
+        trivia.rate(difficulty);
+        trivia.getMetadata().getWhoRated().add(Global.user.getUsername());
+        triviaObjectRepository.update(trivia);
+        return true;
+    }
 }

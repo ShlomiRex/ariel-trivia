@@ -20,13 +20,12 @@
     <string name="loginActivity_etxt_register">Register</string>
     <string name="loginActivity_etxt_enter_as_guest">enter as guest</string>
     <string name="loginActivity_etxt_incorrect_values">Username / password incorrect!</string>
-    <string name="rateActivity_etxt_rate_the_question">rate the question</string>
+    <string name="rateActivity_txt_title">Rate</string>
     <string name="rateActivity_etxt_1">1</string>
     <string name="rateActivity_etxt_2">2</string>
     <string name="rateActivity_etxt_3">3</string>
     <string name="rateActivity_etxt_4">4</string>
     <string name="rateActivity_etxt_5">5</string>
-    <string name="rateActivity_etxt_rate">rate</string>
     <string name="registerActivity_etxt_username">Username</string>
     <string name="registerActivity_etxt_password">Password</string>
     <string name="registerActivity_etxt_register">Register</string>

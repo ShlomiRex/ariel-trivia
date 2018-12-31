@@ -61,7 +61,8 @@ public class Trivia extends Application implements Mappable, Serializable {
         this.question = new Question(tags, question, answers, correct_answer_index, difficulty_count, difficulty, likes);
 
         List<String> whoLiked = (List<String>) d.get("whoLiked");
-        this.metadata = new TriviaMetadata(whoLiked);
+        List<String> whoRated = (List<String>) d.get("whoRated");
+        this.metadata = new TriviaMetadata(whoLiked, whoRated);
 
     }
 
@@ -89,7 +90,7 @@ public class Trivia extends Application implements Mappable, Serializable {
         difficulty_count.add(0);
         this.question = new Question(new ArrayList<String>(), question, answers, rightAnswer, difficulty_count,0, 0);
 
-        this.metadata = new TriviaMetadata(new ArrayList<String>());
+        this.metadata = new TriviaMetadata(new ArrayList<String>(), new ArrayList<String>());
     }
     public String getCreator_username() {
         return creator_username;
@@ -127,8 +128,31 @@ public class Trivia extends Application implements Mappable, Serializable {
         this.getQuestion().setLikes(this.getQuestion().getLikes() + 1);
     }
 
+    /**
+     * Calculates average difficulty by adding 1 rating
+     * @param difficulty
+     */
     public void rate(int difficulty){
-        //TODO
+        if(difficulty > 5 || difficulty < 1) {
+            //do nothing
+            return;
+        }
+
+        List<Integer> dif_count = this.getQuestion().getDifficulty_count();
+        dif_count.set(difficulty-1, dif_count.get(difficulty-1)+1);
+
+
+        double new_diff = 0;
+
+        for(int i = 0; i < dif_count.size(); i++) {
+            new_diff += dif_count.get(i) * (i+1);
+        }
+        int totalRatings = 0;
+        for(int i = 0; i < dif_count.size(); i++)
+            totalRatings += dif_count.get(i);
+        new_diff /= totalRatings;
+        this.getQuestion().setDifficulty(new_diff);
+
     }
 
     public void addComment(Comment comment){
@@ -148,6 +172,7 @@ public class Trivia extends Application implements Mappable, Serializable {
         nitd.put("difficulty", question.getDifficulty());
         nitd.put("likes", question.getLikes());
         nitd.put("whoLiked", metadata.getWhoLiked());
+        nitd.put("whoRated", metadata.getWhoRated());
         nitd.put("comments", forum.getComments());
         return nitd;
     }
@@ -164,7 +189,8 @@ public class Trivia extends Application implements Mappable, Serializable {
         double difficulty = (double) document.get("difficulty");
         int likes = (int) document.get("likes");
         List<String> whoLiked = (List<String>) document.get("whoLiked");
-        this.metadata = new TriviaMetadata(whoLiked);
+        List<String> whoRated = (List<String>) document.get("whoRated");
+        this.metadata = new TriviaMetadata(whoLiked, whoRated);
         ArrayList<Comment> comments = (ArrayList<Comment>) document.get("comments");
 
         this.question = new Question(tags, question_str, answers_arr, correct_answer_index, difficulty_count, difficulty, likes);
